@@ -2,17 +2,22 @@ package com.preonboarding.moviereview.presentation.ui.home
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.viewModels
 import com.preonboarding.moviereview.R
 import com.preonboarding.moviereview.databinding.FragmentHomeBinding
 import com.preonboarding.moviereview.presentation.common.base.BaseFragment
 import com.preonboarding.moviereview.presentation.common.util.NavigationUtil.navigate
 import com.preonboarding.moviereview.presentation.common.util.NavigationUtil.navigateUp
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
+    private val homeViewModel: HomeViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initListener()
+        homeViewModel.searchDailyBoxOfficeList()
     }
 
     private fun initListener() {

@@ -17,21 +17,13 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Converter
 import retrofit2.Retrofit
 import java.util.concurrent.TimeUnit
+import javax.inject.Named
+import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
-
-//    private object OmdbInfo {
-//        const val OMDB_BASE_URL = "http://www.omdbapi.com/"
-//        const val OMDB_API_KEY = "cfc38158"
-//    }
-//
-//    private object KobisInfo {
-//        const val KOBIS_BASE_URL = "http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json"
-//        const val KPBIS_API_KEY = "03d04ad2be0150a76a8293861648773c"
-//    }
 
     private val json = Json {
         isLenient = true
@@ -77,8 +69,11 @@ object NetworkModule {
     // KOBIS RETROFIT
     @Provides
     @Singleton
-    fun providesKobisRetrofit(okHttpClient: OkHttpClient, converterFactory: Converter.Factory): Retrofit =
-        Retrofit.Builder()
+    @RetrofitKobis
+    fun providesKobisRetrofit(
+        okHttpClient: OkHttpClient,
+        converterFactory: Converter.Factory
+    ): Retrofit = Retrofit.Builder()
             .baseUrl(KOBIS_BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(converterFactory)
@@ -87,8 +82,11 @@ object NetworkModule {
     // OMDB RETROFIT
     @Provides
     @Singleton
-    fun providesOMDbRetrofit(okHttpClient: OkHttpClient, converterFactory: Converter.Factory): Retrofit =
-        Retrofit.Builder()
+    @RetrofitOmdb
+    fun providesOMDbRetrofit(
+        okHttpClient: OkHttpClient,
+        converterFactory: Converter.Factory
+    ): Retrofit = Retrofit.Builder()
             .baseUrl(OMDB_BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(converterFactory)
@@ -97,12 +95,22 @@ object NetworkModule {
     // KOBIS API
     @Provides
     @Singleton
-    fun providesKobisApi(retrofit: Retrofit): KobisMovieApi
+    @RetrofitKobis
+    fun providesKobisApi(@RetrofitKobis retrofit: Retrofit): KobisMovieApi
             = retrofit.create(KobisMovieApi::class.java)
 
     // OMDB API
     @Provides
     @Singleton
-    fun providesOMDbApi(retrofit: Retrofit): OmdbMovieApi
+    @RetrofitOmdb
+    fun providesOMDbApi(@RetrofitOmdb retrofit: Retrofit): OmdbMovieApi
             = retrofit.create(OmdbMovieApi::class.java)
 }
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class RetrofitKobis
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class RetrofitOmdb
