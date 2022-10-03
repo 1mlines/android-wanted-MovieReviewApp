@@ -3,6 +3,8 @@ package com.preonboarding.moviereview.di
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.preonboarding.moviereview.data.api.KobisMovieApi
 import com.preonboarding.moviereview.data.api.OmdbMovieApi
+import com.preonboarding.moviereview.presentation.common.const.KOBIS_BASE_URL
+import com.preonboarding.moviereview.presentation.common.const.OMDB_BASE_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,15 +23,15 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
-    private object OmdbInfo {
-        const val OMDB_BASE_URL = "http://www.omdbapi.com/"
-        const val OMDB_API_KEY = "your_api_key"
-    }
-
-    private object KobisInfo {
-        const val KOBIS_BASE_URL = "http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json"
-        const val KPBIS_API_KEY = "your_api_key"
-    }
+//    private object OmdbInfo {
+//        const val OMDB_BASE_URL = "http://www.omdbapi.com/"
+//        const val OMDB_API_KEY = "cfc38158"
+//    }
+//
+//    private object KobisInfo {
+//        const val KOBIS_BASE_URL = "http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json"
+//        const val KPBIS_API_KEY = "03d04ad2be0150a76a8293861648773c"
+//    }
 
     private val json = Json {
         isLenient = true
@@ -77,7 +79,7 @@ object NetworkModule {
     @Singleton
     fun providesKobisRetrofit(okHttpClient: OkHttpClient, converterFactory: Converter.Factory): Retrofit =
         Retrofit.Builder()
-            .baseUrl(KobisInfo.KOBIS_BASE_URL)
+            .baseUrl(KOBIS_BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(converterFactory)
             .build()
@@ -87,7 +89,7 @@ object NetworkModule {
     @Singleton
     fun providesOMDbRetrofit(okHttpClient: OkHttpClient, converterFactory: Converter.Factory): Retrofit =
         Retrofit.Builder()
-            .baseUrl(OmdbInfo.OMDB_BASE_URL)
+            .baseUrl(OMDB_BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(converterFactory)
             .build()
