@@ -5,6 +5,8 @@ import com.preonboarding.moviereview.data.api.KobisMovieApi
 import com.preonboarding.moviereview.data.api.OmdbMovieApi
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import kotlinx.serialization.json.Json
 import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaType
@@ -16,7 +18,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
-@Singleton
+@InstallIn(SingletonComponent::class)
 object NetworkModule {
 
     private object OmdbInfo {
