@@ -2,7 +2,7 @@ package com.preonboarding.moviereview.di
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.preonboarding.moviereview.data.api.KobisMovieApi
-import com.preonboarding.moviereview.data.api.OMDbMovieApi
+import com.preonboarding.moviereview.data.api.OmdbMovieApi
 import dagger.Module
 import dagger.Provides
 import kotlinx.serialization.json.Json
@@ -19,7 +19,7 @@ import javax.inject.Singleton
 @Singleton
 object NetworkModule {
 
-    private object OMDbInfo {
+    private object OmdbInfo {
         const val OMDB_BASE_URL = "http://www.omdbapi.com/"
         const val OMDB_API_KEY = "your_api_key"
     }
@@ -85,7 +85,7 @@ object NetworkModule {
     @Singleton
     fun providesOMDbRetrofit(okHttpClient: OkHttpClient, converterFactory: Converter.Factory): Retrofit =
         Retrofit.Builder()
-            .baseUrl(OMDbInfo.OMDB_BASE_URL)
+            .baseUrl(OmdbInfo.OMDB_BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(converterFactory)
             .build()
@@ -99,6 +99,6 @@ object NetworkModule {
     // OMDB API
     @Provides
     @Singleton
-    fun providesOMDbApi(retrofit: Retrofit): OMDbMovieApi
-            = retrofit.create(OMDbMovieApi::class.java)
+    fun providesOMDbApi(retrofit: Retrofit): OmdbMovieApi
+            = retrofit.create(OmdbMovieApi::class.java)
 }
