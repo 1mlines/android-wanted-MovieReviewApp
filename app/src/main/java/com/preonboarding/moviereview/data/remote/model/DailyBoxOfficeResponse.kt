@@ -9,7 +9,7 @@ data class DailyBoxOfficeResponse(
 
 @Serializable
 data class BoxOfficeResult(
-    val boxOfficeType: String,
+    val boxofficeType: String,
     val showRange: String,
     val dailyBoxOfficeList: List<BoxOfficeMovie>
 )

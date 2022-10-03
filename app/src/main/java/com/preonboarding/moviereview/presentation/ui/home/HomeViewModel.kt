@@ -18,7 +18,7 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             remoteRepository.searchDailyBoxOfficeList(
                 key = KOBIS_API_KEY,
-                targetDt = "20221003"
+                targetDt = "20120101"
             )
                 .collect {
                     Timber.tag(TAG).e(it.toString())
