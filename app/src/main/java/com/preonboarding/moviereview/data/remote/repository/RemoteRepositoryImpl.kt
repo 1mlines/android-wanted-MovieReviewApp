@@ -3,6 +3,7 @@ package com.preonboarding.moviereview.data.remote.repository
 import com.preonboarding.moviereview.data.api.KobisMovieApi
 import com.preonboarding.moviereview.data.api.OmdbMovieApi
 import com.preonboarding.moviereview.data.remote.model.DailyBoxOfficeResponse
+import com.preonboarding.moviereview.data.remote.model.MovieInfoResponse
 import com.preonboarding.moviereview.di.RetrofitKobis
 import com.preonboarding.moviereview.di.RetrofitOmdb
 import com.preonboarding.moviereview.domain.repository.remote.RemoteRepository
@@ -25,5 +26,14 @@ class RemoteRepositoryImpl @Inject constructor(
         flow {
             emit(kobisMovieApi.searchDailyBoxOfficeList(key = key, targetDt = targetDt))
         }
+
+    override suspend fun searchMovieInfo(
+        key: String,
+        movieCd: String
+    ): Flow<MovieInfoResponse> =
+        flow {
+            emit(kobisMovieApi.searchMovieInfo(key= key, movieCd = movieCd))
+        }
+
 
 }
