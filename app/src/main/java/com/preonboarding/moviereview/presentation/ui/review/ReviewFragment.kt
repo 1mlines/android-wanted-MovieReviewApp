@@ -15,4 +15,7 @@ class ReviewFragment : BaseFragment<FragmentReviewBinding>(R.layout.fragment_rev
         super.onViewCreated(view, savedInstanceState)
     }
 
+    companion object {
+        private const val TAG = "ReviewFragment"
+    }
 }
