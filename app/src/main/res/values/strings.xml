@@ -3,4 +3,6 @@
 
     <!-- home -->
     <string name="home_header_title_text">Wanted Movie</string>
+    <string name="search">검색</string>
+    <string name="share_content">공유하기</string>
 </resources>

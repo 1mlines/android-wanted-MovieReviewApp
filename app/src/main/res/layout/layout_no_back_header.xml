@@ -16,6 +16,8 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/navy700"
+            app:menu="@menu/menu_toolbar_search"
+            app:titleTextAppearance="@style/Headline24"
             app:title="@string/home_header_title_text"
             app:titleTextColor="@color/white" />
 
