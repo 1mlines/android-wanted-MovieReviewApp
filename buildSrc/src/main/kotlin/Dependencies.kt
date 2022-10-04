@@ -3,7 +3,7 @@ object AndroidX {
     const val APP_COMPAT = "androidx.appcompat:appcompat:${Versions.APP_COMPAT}"
 }
 
-object Kotlin{
+object Kotlin {
     //    const val KOTLIN_STDLIB = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.KOTLIN_VERSION}"
 }
 
@@ -43,7 +43,7 @@ object OkHttp {
 }
 
 object Coroutines {
-//    const val COROUTINES_ANDROID = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.COROUTINE}"
+    //    const val COROUTINES_ANDROID = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.COROUTINE}"
     const val COROUTINES_CORE = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.COROUTINE}"
 //    const val COROUTINES_PLAY_SERVICES = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:${Versions.COROUTINE_PLAY_SERVICES}"
 }
@@ -80,4 +80,8 @@ object Timber {
 object Glide {
     const val GLIDE = "com.github.bumptech.glide:glide:${Versions.GLIDE}"
     const val GLIDE_COMPILER = "com.github.bumptech.glide:compiler:${Versions.GLIDE}"
+}
+
+object Serialization {
+    const val SERIALIZATION = "org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.SERIALIZATION}"
 }

@@ -52,4 +52,7 @@ object Versions {
     //glide
     const val GLIDE = "4.13.0"
 
+    //serialization
+    const val SERIALIZATION = "1.3.2"
+
 }
