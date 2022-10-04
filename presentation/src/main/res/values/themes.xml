@@ -1,0 +1,6 @@
+<resources>
+
+    <style name="Theme.AndroidwantedMovieReviewApp.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.AndroidwantedMovieReviewApp.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+</resources>
