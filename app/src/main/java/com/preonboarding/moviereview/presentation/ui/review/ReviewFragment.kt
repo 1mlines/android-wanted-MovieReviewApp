@@ -5,7 +5,7 @@ import android.view.View
 import com.preonboarding.moviereview.R
 import com.preonboarding.moviereview.databinding.FragmentReviewBinding
 import com.preonboarding.moviereview.presentation.common.base.BaseFragment
-import com.preonboarding.moviereview.presentation.common.util.NavigationUtil.navigateUp
+import com.preonboarding.moviereview.presentation.common.extension.navigateUp
 
 class ReviewFragment : BaseFragment<FragmentReviewBinding>(R.layout.fragment_review) {
 

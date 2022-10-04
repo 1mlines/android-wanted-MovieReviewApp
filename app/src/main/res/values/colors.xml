@@ -7,15 +7,18 @@
     <color name="teal_700">#FF018786</color>
 
     <!-- gray -->
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="grey">#A0A0A0</color>
 
     <!-- dark background -->
-    <color name="background">#0F1B2B</color>
-    <color name="light_background">#2B3543</color>
+    <color name="navy700">#0F1B2B</color>
+    <color name="navy200">#2B3543</color>
 
     <!-- highlight -->
-    <color name="red_1">#D9251D</color>
-    <color name="yellow_1">#F8C42F</color>
+    <color name="red">#D9251D</color>
+    <color name="yellow">#F8C42F</color>
+    <color name="blue200">#1F8CE6</color>
+    <color name="blue400">#0057FF</color>
 
 </resources>

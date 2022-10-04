@@ -6,8 +6,8 @@ import androidx.fragment.app.viewModels
 import com.preonboarding.moviereview.R
 import com.preonboarding.moviereview.databinding.FragmentHomeBinding
 import com.preonboarding.moviereview.presentation.common.base.BaseFragment
-import com.preonboarding.moviereview.presentation.common.util.NavigationUtil.navigate
-import com.preonboarding.moviereview.presentation.common.util.NavigationUtil.navigateUp
+import com.preonboarding.moviereview.presentation.common.extension.navigate
+import com.preonboarding.moviereview.presentation.common.extension.navigateUp
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

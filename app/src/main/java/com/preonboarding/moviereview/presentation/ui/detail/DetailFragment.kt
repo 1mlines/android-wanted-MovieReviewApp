@@ -5,8 +5,8 @@ import android.view.View
 import com.preonboarding.moviereview.R
 import com.preonboarding.moviereview.databinding.FragmentDetailBinding
 import com.preonboarding.moviereview.presentation.common.base.BaseFragment
-import com.preonboarding.moviereview.presentation.common.util.NavigationUtil.navigate
-import com.preonboarding.moviereview.presentation.common.util.NavigationUtil.navigateUp
+import com.preonboarding.moviereview.presentation.common.extension.navigate
+import com.preonboarding.moviereview.presentation.common.extension.navigateUp
 
 class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_detail) {
 
