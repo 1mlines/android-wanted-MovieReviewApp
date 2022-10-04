@@ -13,4 +13,7 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "android-wanted-MovieReviewApp"
-include ':app'
+include (":app")
+include (":presentation")
+include (":data")
+include (":domain")
