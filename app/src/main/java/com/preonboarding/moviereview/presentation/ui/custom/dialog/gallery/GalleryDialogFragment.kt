@@ -23,7 +23,7 @@ class GalleryDialogFragment : DialogFragment() {
     private lateinit var mImageClickListener: MyImageClickListener
 
     interface MyImageClickListener {
-        fun onImageClick(imgUri: Uri)
+        fun onImageClick(image: GalleryImage)
     }
 
     fun setMyImageClickListener(okBtnClickListener: MyImageClickListener) {
@@ -57,18 +57,26 @@ class GalleryDialogFragment : DialogFragment() {
         binding.tbGalleryHeader.setNavigationOnClickListener {
             dialog?.dismiss()
         }
-
     }
 
     private fun initRecyclerView() {
-        galleryAdapter = GalleryAdapter( onClick = { chooseGalleryImage(imgUri = it.imgUri) } )
+        galleryAdapter = GalleryAdapter( onClick = { chooseGalleryImage(image = it) } )
         binding.rvGallery.adapter = galleryAdapter
         galleryAdapter.submitList(imageList)
     }
 
-    private fun chooseGalleryImage(imgUri: Uri) {
-        mImageClickListener.onImageClick(imgUri = imgUri)
-        dialog?.dismiss()
+    private fun chooseGalleryImage(image: GalleryImage) {
+        when(image.type) {
+
+            ItemType.IMAGE -> {
+                Timber.tag(TAG).e("카메라 촬영!")
+            }
+
+            ItemType.CAMERA -> {
+                mImageClickListener.onImageClick(image)
+                dialog?.dismiss()
+            }
+        }
     }
 
     private fun getAllImages() {

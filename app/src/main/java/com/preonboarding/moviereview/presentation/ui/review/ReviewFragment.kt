@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.preonboarding.moviereview.R
 import com.preonboarding.moviereview.databinding.FragmentReviewBinding
+import com.preonboarding.moviereview.domain.model.GalleryImage
 import com.preonboarding.moviereview.presentation.common.base.BaseFragment
 import com.preonboarding.moviereview.presentation.common.extension.navigateUp
 import com.preonboarding.moviereview.presentation.ui.custom.dialog.gallery.GalleryDialogFragment
@@ -93,8 +94,8 @@ class ReviewFragment : BaseFragment<FragmentReviewBinding>(R.layout.fragment_rev
             "GalleryDialog"
         )
         galleryDialogFragment.setMyImageClickListener(object: GalleryDialogFragment.MyImageClickListener {
-            override fun onImageClick(imgUri: Uri) {
-                reviewViewModel.reviewImageUri.value = imgUri
+            override fun onImageClick(image: GalleryImage) {
+                reviewViewModel.reviewImageUri.value = image.imgUri
             }
         })
     }
