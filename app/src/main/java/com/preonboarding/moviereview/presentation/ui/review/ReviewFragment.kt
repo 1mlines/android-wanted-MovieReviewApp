@@ -10,13 +10,19 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.preonboarding.moviereview.R
+import com.preonboarding.moviereview.data.remote.model.Review
 import com.preonboarding.moviereview.databinding.FragmentReviewBinding
 import com.preonboarding.moviereview.presentation.common.base.BaseFragment
+import com.preonboarding.moviereview.presentation.common.const.FIRE_BASE_URL
 import com.preonboarding.moviereview.presentation.common.extension.navigateUp
 import com.preonboarding.moviereview.presentation.ui.custom.dialog.gallery.GalleryDialogFragment
 
 class ReviewFragment : BaseFragment<FragmentReviewBinding>(R.layout.fragment_review) {
+
+    private lateinit var database: DatabaseReference
     private val PERMISSIONS_GALLERY_CODE = 100
     private val PERMISSIONS_CAMERA_CODE = 101
     private var REQUIRED_PERMISSIONS = arrayOf<String>(
@@ -25,7 +31,7 @@ class ReviewFragment : BaseFragment<FragmentReviewBinding>(R.layout.fragment_rev
 
     private val reviewViewModel: ReviewViewModel by viewModels()
 
-    fun requestPermission(){
+    fun requestPermission() {
         val permissionCheck = ContextCompat.checkSelfPermission(
             requireContext(),
             Manifest.permission.READ_EXTERNAL_STORAGE
@@ -36,15 +42,15 @@ class ReviewFragment : BaseFragment<FragmentReviewBinding>(R.layout.fragment_rev
             //설명이 필요한지
             if (ActivityCompat.shouldShowRequestPermissionRationale(
                     requireActivity(),
-                    Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                    Manifest.permission.READ_EXTERNAL_STORAGE)
+            ) {
 
                 //설명 필요 (사용자가 요청을 거부한 적이 있음)
                 ActivityCompat.requestPermissions(requireActivity(),
                     REQUIRED_PERMISSIONS,
                     PERMISSIONS_GALLERY_CODE
                 )
-            }
-            else {
+            } else {
 
                 //설명 필요하지 않음
                 ActivityCompat.requestPermissions(requireActivity(),
@@ -52,8 +58,7 @@ class ReviewFragment : BaseFragment<FragmentReviewBinding>(R.layout.fragment_rev
                     PERMISSIONS_GALLERY_CODE
                 )
             }
-        }
-        else{
+        } else {
             // 권한 이미 허용됨
             showGalleryDialog()
         }
@@ -63,17 +68,16 @@ class ReviewFragment : BaseFragment<FragmentReviewBinding>(R.layout.fragment_rev
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
-        grantResults: IntArray
+        grantResults: IntArray,
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        when(requestCode) {
+        when (requestCode) {
             PERMISSIONS_GALLERY_CODE -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // 권한 허용 되었으면
                     // 갤러리 오픈
                     showGalleryDialog()
-                }
-                else {
+                } else {
                     // 권한 거부 되었으면
                     Snackbar.make(
                         requireActivity().findViewById(android.R.id.content),
@@ -92,25 +96,68 @@ class ReviewFragment : BaseFragment<FragmentReviewBinding>(R.layout.fragment_rev
             childFragmentManager,
             "GalleryDialog"
         )
-        galleryDialogFragment.setMyImageClickListener(object: GalleryDialogFragment.MyImageClickListener {
+        galleryDialogFragment.setMyImageClickListener(object :
+            GalleryDialogFragment.MyImageClickListener {
             override fun onImageClick(imgUri: Uri) {
                 reviewViewModel.reviewImageUri.value = imgUri
             }
         })
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        database = FirebaseDatabase.getInstance().reference
+
         initListener()
         bindingVm()
     }
 
     private fun initListener() {
+
         binding.layoutHeaderReview.tbHeader.setNavigationOnClickListener {
             navigateUp()
         }
+        binding.apply {
+            btSaveReview.setOnClickListener {
+                val nickname = editNickNameReview.text.toString()
+                val content = editContentReview.text.toString()
+                val password = editPasswordReview.text.toString()
+                val check = editCheckReview.text.toString()
+                //val imageUrl = ivReviewImage
 
+                if(nickname==""||content==""||password==""){
+                    Snackbar.make(
+                        requireActivity().findViewById(android.R.id.content),
+                        getString(R.string.review_null_snack_bar_text),
+                        Snackbar.LENGTH_SHORT)
+                        .show()
+                }
+                else if(password!=check){
+                    Snackbar.make(
+                        requireActivity().findViewById(android.R.id.content),
+                        getString(R.string.review_password_snack_bar_text),
+                        Snackbar.LENGTH_SHORT)
+                        .show()
+                }
+                else{
+                    //child에서 detail에서 넘어올때 영화id를 같이 넘겨주세요
+                    val ref = database.database.getReferenceFromUrl(FIRE_BASE_URL).child("1").push()
+                    ref.setValue(Review(
+                        content = content,
+                        imageUrl = "https://user-images.githubusercontent.com/20774764/152873936-c633b7fb-52f9-4f6b-9cba-895f9e6712ed.jpg",
+                        nickName = nickname,
+                        password = password.toInt(),
+                        star = ratingReview.rating
+                    ))
+                    Snackbar.make(
+                        requireActivity().findViewById(android.R.id.content),
+                        getString(R.string.review_sucess_snack_bar_text),
+                        Snackbar.LENGTH_SHORT)
+                        .show()
+                    navigateUp()
+                }
+            }
+        }
         binding.ivReviewImage.setOnClickListener {
             requestPermission()
         }
