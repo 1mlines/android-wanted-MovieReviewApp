@@ -1,26 +1,20 @@
 package com.preonboarding.moviereview.presentation.ui.review
 
 import android.Manifest
-import android.app.Activity
-import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.view.View
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.ActivityResultRegistry
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.LifecycleOwner
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.preonboarding.moviereview.R
 import com.preonboarding.moviereview.databinding.FragmentReviewBinding
 import com.preonboarding.moviereview.presentation.common.base.BaseFragment
 import com.preonboarding.moviereview.presentation.common.extension.navigateUp
-import com.preonboarding.moviereview.presentation.ui.custom.dialog.GalleryDialogFragment
-import timber.log.Timber
+import com.preonboarding.moviereview.presentation.ui.custom.dialog.gallery.GalleryDialogFragment
 
 class ReviewFragment : BaseFragment<FragmentReviewBinding>(R.layout.fragment_review) {
     private val PERMISSIONS_GALLERY_CODE = 100
@@ -28,6 +22,8 @@ class ReviewFragment : BaseFragment<FragmentReviewBinding>(R.layout.fragment_rev
     private var REQUIRED_PERMISSIONS = arrayOf<String>(
         Manifest.permission.READ_EXTERNAL_STORAGE,
     )
+
+    private val reviewViewModel: ReviewViewModel by viewModels()
 
     fun requestPermission(){
         val permissionCheck = ContextCompat.checkSelfPermission(
@@ -91,16 +87,23 @@ class ReviewFragment : BaseFragment<FragmentReviewBinding>(R.layout.fragment_rev
     }
 
     private fun showGalleryDialog() {
-        GalleryDialogFragment().show(
+        val galleryDialogFragment = GalleryDialogFragment()
+        galleryDialogFragment.show(
             childFragmentManager,
             "GalleryDialog"
         )
+        galleryDialogFragment.setMyImageClickListener(object: GalleryDialogFragment.MyImageClickListener {
+            override fun onImageClick(imgUri: Uri) {
+                reviewViewModel.reviewImageUri.value = imgUri
+            }
+        })
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initListener()
+        bindingVm()
     }
 
     private fun initListener() {
@@ -108,8 +111,18 @@ class ReviewFragment : BaseFragment<FragmentReviewBinding>(R.layout.fragment_rev
             navigateUp()
         }
 
-        binding.ivReview.setOnClickListener {
+        binding.ivReviewImage.setOnClickListener {
             requestPermission()
+        }
+    }
+
+    private fun bindingVm() {
+        binding.vm = reviewViewModel
+
+        lifecycleScope.launchWhenResumed {
+            reviewViewModel.reviewImageUri.collect {
+                binding.isReviewImageEmpty = it == Uri.EMPTY
+            }
         }
     }
 

@@ -1,4 +1,4 @@
-package com.preonboarding.moviereview.presentation.ui.custom.dialog
+package com.preonboarding.moviereview.presentation.ui.custom.dialog.gallery
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

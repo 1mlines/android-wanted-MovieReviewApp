@@ -1,4 +1,4 @@
-package com.preonboarding.moviereview.presentation.ui.custom.dialog
+package com.preonboarding.moviereview.presentation.ui.custom.dialog.gallery
 
 import android.content.ContentUris
 import android.net.Uri
@@ -18,6 +18,16 @@ class GalleryDialogFragment : DialogFragment() {
     private lateinit var binding: FragmentGalleryDialogBinding
     private lateinit var galleryAdapter: GalleryAdapter
     private val imageList = mutableListOf<GalleryImage>()
+
+    private lateinit var mImageClickListener: MyImageClickListener
+
+    interface MyImageClickListener {
+        fun onImageClick(imgUri: Uri)
+    }
+
+    fun setMyImageClickListener(okBtnClickListener: MyImageClickListener) {
+        mImageClickListener = okBtnClickListener
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +56,7 @@ class GalleryDialogFragment : DialogFragment() {
         binding.tbGalleryHeader.setNavigationOnClickListener {
             dialog?.dismiss()
         }
+
     }
 
     private fun initRecyclerView() {
@@ -55,7 +66,8 @@ class GalleryDialogFragment : DialogFragment() {
     }
 
     private fun chooseGalleryImage(imgUri: Uri) {
-        Timber.tag(TAG).e(imgUri.toString())
+        mImageClickListener.onImageClick(imgUri = imgUri)
+        dialog?.dismiss()
     }
 
     private fun getAllImages() {

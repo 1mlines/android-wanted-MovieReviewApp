@@ -4,7 +4,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="android.view.View" />
 
+        <variable
+            name="isReviewImageEmpty"
+            type="Boolean" />
+
+        <variable
+            name="vm"
+            type="com.preonboarding.moviereview.presentation.ui.review.ReviewViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -18,13 +26,33 @@
             android:layout_height="wrap_content"
             layout="@layout/layout_back_header" />
 
-        <ImageView
-            android:id="@+id/iv_review"
-            android:background="@color/navy200"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_review_image"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            android:layout_marginTop="@dimen/margin_background_default"
+            android:layout_marginHorizontal="@dimen/margin_background_default"
+            app:cardCornerRadius="@dimen/radius_background_default"
+            app:layout_constraintTop_toBottomOf="@id/layout_header_review">
+
+            <ImageView
+                android:id="@+id/iv_review_image"
+                android:background="@drawable/bg_navy200_round_10"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                bindReviewImage="@{vm.reviewImageUri}"
+                android:contentDescription="@string/image_content_desc_text" />
+
+            <ImageView
+                android:id="@+id/btn_review_image_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_add_48"
+                android:layout_gravity="center"
+                android:visibility="@{isReviewImageEmpty ? View.VISIBLE : View.INVISIBLE}"
+                android:contentDescription="@string/image_add_btn_content_desc_text" />
+
+        </androidx.cardview.widget.CardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/navy700"
-        tools:context=".presentation.ui.custom.dialog.GalleryDialogFragment">
+        tools:context=".presentation.ui.custom.dialog.gallery.GalleryDialogFragment">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/abl_gallery_header"
