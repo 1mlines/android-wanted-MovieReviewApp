@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">android-wanted-MovieReviewApp</string>
+    <string name="kobis_api_key">d78dfcf081301ea1719d6d8d36756527</string>
+    <string name="omdb_api_key">fa8d1585</string>
 </resources>
