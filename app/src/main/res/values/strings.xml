@@ -20,11 +20,16 @@
     <string name="password">암호</string>
     <string name="check">암호 재확인</string>
     <string name="save">Save</string>
+    <string name="rating">평점</string>
 
     <!-- gallery -->
     <string name="gallery_dialog_done_text">완료</string>
     <string name="gallery_dialog_title_text">최근 항목</string>
     <string name="image_content_desc_text">이미지입니다.</string>
     <string name="image_add_btn_content_desc_text">이미지 추가 버튼입니다.</string>
+    <string name="review_null_snack_bar_text">모든 값을 채워주세요</string>
+    <string name="review_password_snack_bar_text">비밀번호가 다릅니다.</string>
+    <string name="review_sucess_snack_bar_text">리뷰가 작성되었습니다.</string>
+
 
 </resources>
