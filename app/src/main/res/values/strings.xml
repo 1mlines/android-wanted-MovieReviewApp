@@ -5,4 +5,8 @@
     <string name="home_header_title_text">Wanted Movie</string>
     <string name="search">검색</string>
     <string name="share_content">공유하기</string>
+    <string name="production_year">제작 연도</string>
+    <string name="open_date">개봉일</string>
+    <string name="genre">장르</string>
+    <string name="show_detail">상세보기</string>
 </resources>
