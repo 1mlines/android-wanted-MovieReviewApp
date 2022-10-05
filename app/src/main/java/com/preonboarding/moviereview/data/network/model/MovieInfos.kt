@@ -3,7 +3,7 @@ package com.preonboarding.moviereview.data.network.model
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class MovieInfoResponse(
+data class MovieInfos(
     val movieInfoResult: MovieInfoResult
 )
 

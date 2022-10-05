@@ -3,8 +3,8 @@ package com.preonboarding.moviereview.data.network.model
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class DailyBoxOfficeResponse(
-    val dailyBoxOfficeResult: DailyBoxOfficeResult
+data class DailyBoxOffices(
+    val dailyBoxOfficeResult: DailyBoxOfficeResult?
 )
 
 @Serializable
