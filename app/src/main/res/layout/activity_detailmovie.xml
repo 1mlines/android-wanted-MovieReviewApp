@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.detailmovie.DetailMovieActivity">
+
+    <ImageView
+        android:id="@+id/imageview_detailmovie_poster"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_launcher_background"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintlayout_detailmovie_boxoffice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_detailmovie_gray700"
+        android:padding="5dp"
+        app:layout_constraintStart_toEndOf="@+id/imageview_detailmovie_poster"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/textview_detailmovie_rank"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1위"
+            android:textColor="@color/white"
+            android:textSize="12dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textview_detailmovie_rankInten"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="(↑3)"
+            android:textColor="@color/white"
+            android:textSize="12dp"
+            app:layout_constraintStart_toEndOf="@+id/textview_detailmovie_rank"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textview_detailmovie_rankoldandnew"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:text="NEW"
+            android:textColor="@color/gray500"
+            android:textSize="10dp"
+            app:layout_constraintStart_toEndOf="@+id/textview_detailmovie_rankInten"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/textview_detailmovie_movienm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="인생은 아름다워"
+        android:textColor="@color/black"
+        android:textSize="24dp"
+        app:layout_constraintStart_toEndOf="@+id/imageview_detailmovie_poster"
+        app:layout_constraintTop_toBottomOf="@+id/constraintlayout_detailmovie_boxoffice" />
+
+    <ImageView
+        android:id="@+id/imageview_detailmovie_watchgradenm"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_detailmovie_all"
+        app:layout_constraintBottom_toTopOf="@+id/textview_detailmovie_genreandtime"
+        app:layout_constraintStart_toEndOf="@+id/textview_detailmovie_movienm"
+        app:layout_constraintTop_toBottomOf="@id/constraintlayout_detailmovie_boxoffice"
+        app:layout_constraintVertical_bias="0.5" />
+
+    <TextView
+        android:id="@+id/textview_detailmovie_genreandtime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="액션/스릴러 | 125분"
+        app:layout_constraintStart_toEndOf="@+id/imageview_detailmovie_poster"
+        app:layout_constraintTop_toBottomOf="@+id/textview_detailmovie_movienm" />
+
+    <TextView
+        android:id="@+id/textview_detailmovie_dates"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2022년 제작 | 2022.10.05 개봉"
+        app:layout_constraintStart_toEndOf="@+id/imageview_detailmovie_poster"
+        app:layout_constraintTop_toBottomOf="@+id/textview_detailmovie_genreandtime" />
+
+    <RatingBar
+        android:id="@+id/ratingbar_detailmovie"
+        style="@style/Widget.AppCompat.RatingBar.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:max="5"
+        android:progressTint="@color/teal_700"
+        android:rating="4.0"
+        app:layout_constraintStart_toEndOf="@+id/imageview_detailmovie_poster"
+        app:layout_constraintTop_toBottomOf="@+id/textview_detailmovie_dates" />
+
+    <TextView
+        android:id="@+id/textview_detailmovie_rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="8.0"
+        app:layout_constraintStart_toEndOf="@+id/ratingbar_detailmovie"
+        app:layout_constraintTop_toBottomOf="@+id/textview_detailmovie_dates" />
+
+    <TextView
+        android:id="@+id/textview_detailmovie_audicnt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="관객수 500,000명"
+        app:layout_constraintStart_toEndOf="@+id/textview_detailmovie_rating"
+        app:layout_constraintTop_toBottomOf="@+id/textview_detailmovie_dates" />
+
+    <View
+        android:id="@+id/view_detailmovie_hr1"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/gray500"
+        app:layout_constraintTop_toBottomOf="@+id/imageview_detailmovie_poster" />
+
+    <TextView
+        android:id="@+id/textview_detailmovie_directors"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="감독진"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_detailmovie_hr1" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview_detailmovie_directors"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        tools:listitem="@layout/item_detailmovie_peoplename"
+        app:layout_constraintTop_toBottomOf="@+id/textview_detailmovie_directors" />
+
+    <TextView
+        android:id="@+id/textview_detailmovie_actors"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="출연진"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerview_detailmovie_directors" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview_detailmovie_actors"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        tools:listitem="@layout/item_detailmovie_peoplename"
+        app:layout_constraintTop_toBottomOf="@+id/textview_detailmovie_actors" />
+
+    <View
+        android:id="@+id/view_detailmovie_hr2"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/gray500"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerview_detailmovie_actors" />
+
+    <TextView
+        android:id="@+id/textview_detailmovie_reviews"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="리뷰"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_detailmovie_hr2" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview_detailmovie_reviews"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:listitem="@layout/item_detailmovie_review"
+        app:layout_constraintTop_toBottomOf="@+id/textview_detailmovie_reviews" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

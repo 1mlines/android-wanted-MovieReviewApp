@@ -14,15 +14,15 @@ data class MovieInfoResult(
 
 @Serializable
 data class MovieInfo (
-    val movieCd: String,
-    val movieNm: String,
-    val prdtYear: String,
-    val showTm: String,
-    val openDt: String,
-    val genreNm: String,
-    val directors: Directors,
-    val actors: Actors,
-    val watchGradeNm: String
+    val movieCd: String, //고유번호
+    val movieNm: String, //영화명
+    val prdtYear: String, //제작연도
+    val showTm: String, //상영시간
+    val openDt: String, //개봉일? 개봉연도?
+    val genreNm: String, //장르
+    val directors: Directors, //감독진
+    val actors: Actors, //출연진
+    val watchGradeNm: String //관람등급
 )
 
 @Serializable
