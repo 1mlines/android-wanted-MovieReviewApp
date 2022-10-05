@@ -5,11 +5,12 @@ import com.preonboarding.moviereview.data.network.KobisMovieApi
 import com.preonboarding.moviereview.data.network.OmdbMovieApi
 import com.preonboarding.moviereview.data.network.state.DailyBoxOfficesState
 import com.preonboarding.moviereview.data.network.state.MovieInfosState
+import com.preonboarding.moviereview.data.network.state.PosterInfoState
 import javax.inject.Inject
 
 class RemoteDataSource @Inject constructor(
-    private val kobisMovieApi: KobisMovieApi
-//    private val omdbMovieApi: OmdbMovieApi
+    private val kobisMovieApi: KobisMovieApi,
+    private val omdbMovieApi: OmdbMovieApi
 ){
     suspend fun getDailyBoxOfficeList(key: String, targetDt: String): DailyBoxOfficesState {
         return runCatching {
@@ -20,7 +21,6 @@ class RemoteDataSource @Inject constructor(
                 )
             )
         }.getOrElse {
-            Log.d("fail", DailyBoxOfficesState.Failure(it).toString())
             DailyBoxOfficesState.Failure(
                 throwable = it
             )
@@ -28,7 +28,7 @@ class RemoteDataSource @Inject constructor(
     }
 
     suspend fun getMoviesInfo(key: String, movieCd: String): MovieInfosState {
-        return kotlin.runCatching {
+        return runCatching {
             MovieInfosState.Success(
                 movieInfos = kobisMovieApi.getMovieInfo(
                     key = key,
@@ -37,6 +37,21 @@ class RemoteDataSource @Inject constructor(
             )
         }.getOrElse {
             MovieInfosState.Failure(
+                throwable = it
+            )
+        }
+    }
+
+    suspend fun getPosterInfo(title: String, key: String): PosterInfoState {
+        return runCatching {
+            PosterInfoState.Success(
+                posterInfo = omdbMovieApi.getMoviePoster(
+                    title = title,
+                    key = key
+                )
+            )
+        }.getOrElse {
+            PosterInfoState.Failure(
                 throwable = it
             )
         }

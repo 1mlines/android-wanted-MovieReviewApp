@@ -16,7 +16,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
     private const val kobis_base_url = "http://www.kobis.or.kr/kobisopenapi/webservice/rest/"
-    private const val omdb_base_url = "http://www.omdbapi.com/"
+    private const val omdb_base_url = "https://www.omdbapi.com/"
 
     @Singleton
     @Provides

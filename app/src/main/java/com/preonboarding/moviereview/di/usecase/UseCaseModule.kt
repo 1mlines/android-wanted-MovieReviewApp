@@ -2,8 +2,10 @@ package com.preonboarding.moviereview.di.usecase
 
 import com.preonboarding.moviereview.data.usecase.DailyBoxOfficeUseCaseImpl
 import com.preonboarding.moviereview.data.usecase.MovieInfosUseCaseImpl
+import com.preonboarding.moviereview.data.usecase.PosterInfoUseCaseImpl
 import com.preonboarding.moviereview.domain.usecase.DailyBoxOfficeUseCase
 import com.preonboarding.moviereview.domain.usecase.MovieInfosUseCase
+import com.preonboarding.moviereview.domain.usecase.PosterInfoUseCase
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -20,4 +22,8 @@ abstract class UseCaseModule {
     @Binds
     @ViewModelScoped
     abstract fun bindMovieInfosUseCase(movieInfosUseCase: MovieInfosUseCaseImpl): MovieInfosUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun bindPosterInfoUseCase(posterInfoUseCase: PosterInfoUseCaseImpl): PosterInfoUseCase
 }

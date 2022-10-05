@@ -1,9 +1,11 @@
 package com.preonboarding.moviereview.data.repository
 
-import com.preonboarding.moviereview.data.network.model.DailyBoxOffices
-import com.preonboarding.moviereview.data.network.model.MovieInfos
+import com.preonboarding.moviereview.data.network.model.kobis.DailyBoxOffices
+import com.preonboarding.moviereview.data.network.model.kobis.MovieInfos
+import com.preonboarding.moviereview.data.network.model.omdb.PosterInfo
 import com.preonboarding.moviereview.data.network.state.DailyBoxOfficesState
 import com.preonboarding.moviereview.data.network.state.MovieInfosState
+import com.preonboarding.moviereview.data.network.state.PosterInfoState
 import com.preonboarding.moviereview.domain.repository.RemoteRepository
 import javax.inject.Inject
 
@@ -36,4 +38,14 @@ class RemoteRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getPosterInfo(title: String, key: String): PosterInfo? {
+        return when(val state = remoteDataSource.getPosterInfo(title, key)) {
+            is PosterInfoState.Success -> {
+                state.posterInfo
+            }
+            is PosterInfoState.Failure -> {
+                null
+            }
+        }
+    }
 }

@@ -14,5 +14,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         viewModel.getDailyBox(getString(R.string.kobis_api_key), "20120101")
+        viewModel.getPosterInfo("frozen", getString(R.string.omdb_api_key))
     }
 }

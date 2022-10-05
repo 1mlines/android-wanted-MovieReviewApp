@@ -1,4 +1,4 @@
-package com.preonboarding.moviereview.data.network.model
+package com.preonboarding.moviereview.data.network.model.kobis
 
 import kotlinx.serialization.Serializable
 

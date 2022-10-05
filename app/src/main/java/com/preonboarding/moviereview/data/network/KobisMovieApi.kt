@@ -1,7 +1,7 @@
 package com.preonboarding.moviereview.data.network
 
-import com.preonboarding.moviereview.data.network.model.DailyBoxOffices
-import com.preonboarding.moviereview.data.network.model.MovieInfos
+import com.preonboarding.moviereview.data.network.model.kobis.DailyBoxOffices
+import com.preonboarding.moviereview.data.network.model.kobis.MovieInfos
 import retrofit2.http.GET
 import retrofit2.http.Query
 
