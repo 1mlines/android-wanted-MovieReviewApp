@@ -1,5 +1,6 @@
 package com.preonboarding.moviereview.data.repository
 
+import android.util.Log
 import com.preonboarding.moviereview.data.network.KobisMovieApi
 import com.preonboarding.moviereview.data.network.OmdbMovieApi
 import com.preonboarding.moviereview.data.network.state.DailyBoxOfficesState
@@ -7,8 +8,8 @@ import com.preonboarding.moviereview.data.network.state.MovieInfosState
 import javax.inject.Inject
 
 class RemoteDataSource @Inject constructor(
-    private val kobisMovieApi: KobisMovieApi,
-    private val omdbMovieApi: OmdbMovieApi
+    private val kobisMovieApi: KobisMovieApi
+//    private val omdbMovieApi: OmdbMovieApi
 ){
     suspend fun getDailyBoxOfficeList(key: String, targetDt: String): DailyBoxOfficesState {
         return runCatching {
@@ -19,6 +20,7 @@ class RemoteDataSource @Inject constructor(
                 )
             )
         }.getOrElse {
+            Log.d("fail", DailyBoxOfficesState.Failure(it).toString())
             DailyBoxOfficesState.Failure(
                 throwable = it
             )

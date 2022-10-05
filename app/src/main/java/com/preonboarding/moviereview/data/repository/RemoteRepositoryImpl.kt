@@ -1,6 +1,5 @@
 package com.preonboarding.moviereview.data.repository
 
-import com.preonboarding.moviereview.data.network.model.DailyBoxOfficeResult
 import com.preonboarding.moviereview.data.network.model.DailyBoxOffices
 import com.preonboarding.moviereview.data.network.model.MovieInfos
 import com.preonboarding.moviereview.data.network.state.DailyBoxOfficesState

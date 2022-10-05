@@ -63,15 +63,13 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    @KobisQualifier
-    fun provideKobisMovieApi(retrofit: Retrofit): KobisMovieApi {
+    fun provideKobisMovieApi(@KobisQualifier retrofit: Retrofit): KobisMovieApi {
         return retrofit.create(KobisMovieApi::class.java)
     }
 
     @Singleton
     @Provides
-    @OmdbQualifier
-    fun provideOmdbMovieApi(retrofit: Retrofit): OmdbMovieApi {
+    fun provideOmdbMovieApi(@KobisQualifier retrofit: Retrofit): OmdbMovieApi {
         return retrofit.create(OmdbMovieApi::class.java)
     }
 }

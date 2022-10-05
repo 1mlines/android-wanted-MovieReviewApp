@@ -4,11 +4,11 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class DailyBoxOffices(
-    val dailyBoxOfficeResult: DailyBoxOfficeResult?
+    val boxOfficeResult: BoxOfficeResult?
 )
 
 @Serializable
-data class DailyBoxOfficeResult(
+data class BoxOfficeResult(
     val boxOfficeType: String,
     val showRange: String,
     val dailyBoxOfficeList: List<DailyBoxOffice>
