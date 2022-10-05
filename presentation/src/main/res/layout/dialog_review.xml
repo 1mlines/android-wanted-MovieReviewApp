@@ -20,13 +20,13 @@
                 android:id="@+id/btn_review_ok"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="15dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="12dp"
                 android:background="@color/white"
                 android:gravity="center"
                 android:paddingHorizontal="10dp"
                 android:paddingVertical="5dp"
-                android:text="@string/write_review"
+                android:text="@string/check"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 

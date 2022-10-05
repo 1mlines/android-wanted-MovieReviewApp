@@ -6,9 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import com.preonboarding.presentation.R
 import com.preonboarding.presentation.common.base.BaseDialogFragment
-import com.preonboarding.presentation.databinding.DialogReviewBinding
+import com.preonboarding.presentation.databinding.DialogReviewValidataionBinding
 
-class ReviewDialog : BaseDialogFragment<DialogReviewBinding>(R.layout.dialog_review) {
+class ReviewValidationDialog :
+    BaseDialogFragment<DialogReviewValidataionBinding>(R.layout.dialog_review_validataion) {
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -18,4 +19,5 @@ class ReviewDialog : BaseDialogFragment<DialogReviewBinding>(R.layout.dialog_rev
         val binding = super.onCreateView(inflater, container, savedInstanceState)
         return binding
     }
+
 }
