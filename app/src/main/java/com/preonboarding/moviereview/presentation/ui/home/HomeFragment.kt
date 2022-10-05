@@ -20,7 +20,11 @@ import kotlinx.coroutines.launch
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private val homeViewModel: HomeViewModel by viewModels()
     private val pagingAdapter: HomePagingAdapter by lazy {
-        HomePagingAdapter()
+        HomePagingAdapter(
+            itemClickListener = {
+                goToDetail()
+            }
+        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
