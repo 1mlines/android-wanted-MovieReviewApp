@@ -20,13 +20,23 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         homeViewModel.searchDailyBoxOfficeList()
     }
 
-    private fun initListener() {
-        binding.btnHome.setOnClickListener {
+    private fun initListener() = with(binding) {
+        btnHome.setOnClickListener {
             goToDetail()
         }
 
-        binding.layoutHeaderHome.tbHeader.setNavigationOnClickListener {
+        layoutHeaderHome.tbHeader.setNavigationOnClickListener {
             navigateUp()
+        }
+
+        layoutHeaderHome.tbHeader.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.menu_search -> {
+                    navigate(R.id.action_home_to_search)
+                    true
+                }
+                else -> false
+            }
         }
     }
 
