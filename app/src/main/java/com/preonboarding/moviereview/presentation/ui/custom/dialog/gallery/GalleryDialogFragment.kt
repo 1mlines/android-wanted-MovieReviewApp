@@ -12,6 +12,7 @@ import androidx.fragment.app.DialogFragment
 import com.preonboarding.moviereview.R
 import com.preonboarding.moviereview.databinding.FragmentGalleryDialogBinding
 import com.preonboarding.moviereview.domain.model.GalleryImage
+import com.preonboarding.moviereview.domain.model.ItemType
 import timber.log.Timber
 
 class GalleryDialogFragment : DialogFragment() {
@@ -108,11 +109,13 @@ class GalleryDialogFragment : DialogFragment() {
                     name = name,
                     filePath = filepath,
                     date = date,
-                    imgUri = uri
+                    imgUri = uri,
+                    type = ItemType.IMAGE
                 ))
             }
             cursor.close()
         }
+        imageList.add(0, GalleryImage.cameraItem())
     }
 
     private companion object {
