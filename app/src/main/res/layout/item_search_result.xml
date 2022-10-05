@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/navy700"
+    android:paddingStart="8dp"
+    android:paddingTop="16dp"
+    android:paddingEnd="8dp"
+    android:paddingBottom="16dp">
+
+
+    <TextView
+        android:id="@+id/tv_title_kr"
+        style="@style/Body18"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        app:layout_constraintEnd_toStartOf="@id/tv_detail"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="브라운 슈가" />
+
+    <TextView
+        android:id="@+id/tv_detail"
+        style="@style/Body14.Grey"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/show_detail"
+        app:layout_constraintEnd_toStartOf="@id/iv_detail"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/show_detail"
+        android:padding="4dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_arrow_right_24"
+        app:layout_constraintBottom_toBottomOf="@id/tv_detail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_detail" />
+
+    <TextView
+        android:id="@+id/tv_title_en"
+        style="@style/Body18.Grey"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_title_kr"
+        tools:text="Brown Sugar" />
+
+    <TextView
+        android:id="@+id/tv_production_title"
+        style="@style/Body14.Grey"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:minWidth="100dp"
+        android:text="@string/production_year"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_title_en" />
+
+    <TextView
+        android:id="@+id/tv_production_year"
+        style="@style/Body14.Grey"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_production_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tv_production_title"
+        app:layout_constraintTop_toTopOf="@id/tv_production_title"
+        tools:text="2022" />
+
+    <TextView
+        android:id="@+id/tv_open_title"
+        style="@style/Body14.Grey"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:minWidth="100dp"
+        android:text="@string/open_date"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_production_title" />
+
+    <TextView
+        android:id="@+id/tv_open_date"
+        style="@style/Body14.Grey"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_open_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tv_open_title"
+        app:layout_constraintTop_toTopOf="@id/tv_open_title"
+        tools:text="2022.10.13" />
+
+    <TextView
+        android:id="@+id/tv_genre_title"
+        style="@style/Body14.Grey"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:minWidth="100dp"
+        android:text="@string/genre"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_open_title" />
+
+    <TextView
+        android:id="@+id/tv_genre"
+        style="@style/Body14.Grey"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_genre_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tv_genre_title"
+        app:layout_constraintTop_toTopOf="@id/tv_genre_title"
+        tools:text="스릴러, 호러" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

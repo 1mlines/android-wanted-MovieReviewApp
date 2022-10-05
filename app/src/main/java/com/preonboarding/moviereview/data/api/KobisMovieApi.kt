@@ -1,5 +1,23 @@
 package com.preonboarding.moviereview.data.api
 
+import com.preonboarding.moviereview.data.remote.model.DailyBoxOfficeResponse
+import com.preonboarding.moviereview.data.remote.model.MovieInfoResponse
+import retrofit2.http.GET
+import retrofit2.http.Query
+
 interface KobisMovieApi {
-    // custom
+
+    // 일별 박스오피스
+    @GET("boxoffice/searchDailyBoxOfficeList.json")
+    suspend fun searchDailyBoxOfficeList(
+        @Query("key") key: String,
+        @Query("targetDt") targetDt: String
+    ): DailyBoxOfficeResponse
+
+    // 상세정보
+    @GET("movie/searchMovieInfo.json")
+    suspend fun searchMovieInfo(
+        @Query("key") key: String,
+        @Query("targetDt") movieCd: String
+    ): MovieInfoResponse
 }

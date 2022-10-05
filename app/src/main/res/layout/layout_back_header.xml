@@ -10,15 +10,18 @@
         android:id="@+id/abl_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/tb_header"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/background"
-            app:navigationIcon="@drawable/ic_back"
+            android:background="@color/navy700"
+            app:contentInsetStartWithNavigation="0dp"
+            app:menu="@menu/menu_toolbar_share"
+            app:navigationIcon="@drawable/ic_back_24"
             app:title="@string/home_header_title_text"
-            app:titleTextColor="@color/white"
-            app:contentInsetStart="0dp">
-        </com.google.android.material.appbar.MaterialToolbar>
+            app:titleTextAppearance="@style/Headline24"
+            app:titleTextColor="@color/white" />
+
     </com.google.android.material.appbar.AppBarLayout>
 </layout>
