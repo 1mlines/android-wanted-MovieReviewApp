@@ -19,10 +19,20 @@ data class MovieInfo (
     val prdtYear: String,
     val showTm: String,
     val openDt: String,
-    val genreNm: String,
+    val genres: Genres,
     val directors: Directors,
     val actors: Actors,
     val watchGradeNm: String
+)
+
+@Serializable
+data class Genres(
+    val genre: List<Genre>
+)
+
+@Serializable
+data class Genre(
+    val genreNm: String
 )
 
 @Serializable
