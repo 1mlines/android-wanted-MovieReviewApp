@@ -18,74 +18,7 @@ import com.preonboarding.moviereview.presentation.common.extension.navigateUp
 import com.preonboarding.moviereview.presentation.ui.custom.dialog.gallery.GalleryDialogFragment
 
 class ReviewFragment : BaseFragment<FragmentReviewBinding>(R.layout.fragment_review) {
-    private val PERMISSIONS_GALLERY_CODE = 100
-    private val PERMISSIONS_CAMERA_CODE = 101
-    private var REQUIRED_PERMISSIONS = arrayOf<String>(
-        Manifest.permission.READ_EXTERNAL_STORAGE,
-    )
-
     private val reviewViewModel: ReviewViewModel by viewModels()
-
-    fun requestPermission(){
-        val permissionCheck = ContextCompat.checkSelfPermission(
-            requireContext(),
-            Manifest.permission.READ_EXTERNAL_STORAGE
-        )
-
-        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-
-            //설명이 필요한지
-            if (ActivityCompat.shouldShowRequestPermissionRationale(
-                    requireActivity(),
-                    Manifest.permission.READ_EXTERNAL_STORAGE)) {
-
-                //설명 필요 (사용자가 요청을 거부한 적이 있음)
-                ActivityCompat.requestPermissions(requireActivity(),
-                    REQUIRED_PERMISSIONS,
-                    PERMISSIONS_GALLERY_CODE
-                )
-            }
-            else {
-
-                //설명 필요하지 않음
-                ActivityCompat.requestPermissions(requireActivity(),
-                    REQUIRED_PERMISSIONS,
-                    PERMISSIONS_GALLERY_CODE
-                )
-            }
-        }
-        else{
-            // 권한 이미 허용됨
-            showGalleryDialog()
-        }
-    }
-
-    // 사용자가 권한 요청 시 호출되는 메소드
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        when(requestCode) {
-            PERMISSIONS_GALLERY_CODE -> {
-                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // 권한 허용 되었으면
-                    // 갤러리 오픈
-                    showGalleryDialog()
-                }
-                else {
-                    // 권한 거부 되었으면
-                    Snackbar.make(
-                        requireActivity().findViewById(android.R.id.content),
-                        "갤러리 접근 권한 거부됨",
-                        Snackbar.LENGTH_SHORT
-                    ).show()
-                }
-                return
-            }
-        }
-    }
 
     private fun showGalleryDialog() {
         val galleryDialogFragment = GalleryDialogFragment()
@@ -113,7 +46,16 @@ class ReviewFragment : BaseFragment<FragmentReviewBinding>(R.layout.fragment_rev
         }
 
         binding.ivReviewImage.setOnClickListener {
-            requestPermission()
+            if(requestGalleryPermission()) {
+                showGalleryDialog()
+            }
+            else {
+                Snackbar.make(
+                    requireActivity().findViewById(android.R.id.content),
+                    "갤러리 접근 권한 거부됨",
+                    Snackbar.LENGTH_SHORT
+                ).show()
+            }
         }
     }
 
@@ -127,7 +69,67 @@ class ReviewFragment : BaseFragment<FragmentReviewBinding>(R.layout.fragment_rev
         }
     }
 
+
+    private fun requestGalleryPermission(): Boolean {
+        for (permission in REQUIRED_PERMISSIONS) {
+            if (ContextCompat.checkSelfPermission(requireContext(), permission)
+                != PackageManager.PERMISSION_GRANTED
+            ) {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(
+                        requireActivity(),
+                        permission)) {
+
+                    //설명 필요 (사용자가 요청을 거부한 적이 있음)
+                    ActivityCompat.requestPermissions(requireActivity(),
+                        REQUIRED_PERMISSIONS,
+                        PERMISSIONS_GALLERY_CODE
+                    )
+                }
+                else {
+                    //설명 필요하지 않음
+                    ActivityCompat.requestPermissions(requireActivity(),
+                        REQUIRED_PERMISSIONS,
+                        PERMISSIONS_GALLERY_CODE
+                    )
+                }
+                return false
+            }
+        }
+
+        return true
+    }
+
+    // 사용자가 권한 요청 시 호출되는 메소드
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when(requestCode) {
+            PERMISSIONS_GALLERY_CODE -> {
+                for(grant in grantResults) {
+                    if (grant != PackageManager.PERMISSION_GRANTED) {
+                        Snackbar.make(
+                            requireActivity().findViewById(android.R.id.content),
+                            "갤러리 접근 권한 거부됨",
+                            Snackbar.LENGTH_SHORT
+                        ).show()
+                        return
+                    }
+                }
+
+                showGalleryDialog()
+            }
+        }
+    }
+
     companion object {
         private const val TAG = "ReviewFragment"
+        private const val PERMISSIONS_GALLERY_CODE = 100
+        private val REQUIRED_PERMISSIONS = arrayOf<String>(
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        )
     }
 }

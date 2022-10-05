@@ -12,6 +12,7 @@ data class GalleryImage(
 ) {
     companion object {
         fun cameraItem() = GalleryImage(0, "", "", "", Uri.EMPTY, ItemType.CAMERA)
+        fun emptyItem() = GalleryImage(0, "", "", "", Uri.EMPTY, ItemType.IMAGE)
     }
 }
 
