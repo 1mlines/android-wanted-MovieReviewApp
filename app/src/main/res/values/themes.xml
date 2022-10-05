@@ -13,4 +13,13 @@
         <item name="android:statusBarColor">@color/navy700</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <!-- Gallery Dialog -->
+    <style name="GalleryDialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:statusBarColor">@color/navy700</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
 </resources>
