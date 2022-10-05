@@ -2,6 +2,8 @@ package com.preonboarding.moviereview.di
 
 import com.preonboarding.moviereview.data.remote.repository.RemoteRepositoryImpl
 import com.preonboarding.moviereview.domain.repository.remote.RemoteRepository
+import com.preonboarding.moviereview.presentation.ui.home.source.GetMovieRepository
+import com.preonboarding.moviereview.presentation.ui.home.source.GetMovieRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -16,4 +18,10 @@ abstract class RepositoryModule {
     abstract fun bindsRemoteRepository(
         remoteRepositoryImpl: RemoteRepositoryImpl
     ): RemoteRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindsGetMovieRepository(
+        getMovieRepositoryImpl: GetMovieRepositoryImpl
+    ): GetMovieRepository
 }
