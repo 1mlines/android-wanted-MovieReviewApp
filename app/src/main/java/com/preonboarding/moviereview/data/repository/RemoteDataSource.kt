@@ -51,6 +51,7 @@ class RemoteDataSource @Inject constructor(
                 )
             )
         }.getOrElse {
+            Log.d("poster fail", PosterInfoState.Failure(it).toString())
             PosterInfoState.Failure(
                 throwable = it
             )

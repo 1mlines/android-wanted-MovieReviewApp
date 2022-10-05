@@ -5,9 +5,9 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface OmdbMovieApi {
-    @GET("?")
+    @GET("http://www.omdbapi.com/")
     suspend fun getMoviePoster(
-        @Query("t") title: String,
-        @Query("apikey") key: String
+        @Query("apikey") key: String,
+        @Query("t") title: String
     ): PosterInfo
 }

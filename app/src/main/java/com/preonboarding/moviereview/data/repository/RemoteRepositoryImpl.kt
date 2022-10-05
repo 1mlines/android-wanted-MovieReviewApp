@@ -22,7 +22,7 @@ class RemoteRepositoryImpl @Inject constructor(
             }
 
             is DailyBoxOfficesState.Failure -> {
-                null // todo
+                null
             }
         }
     }
@@ -33,7 +33,7 @@ class RemoteRepositoryImpl @Inject constructor(
                 state.movieInfos
             }
             is MovieInfosState.Failure -> {
-                null // todo
+                null
             }
         }
     }
