@@ -21,26 +21,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initListener()
-        database = FirebaseDatabase.getInstance().reference
-        // 무비 id 가져와야한다.
-        val ref = database.database.getReferenceFromUrl("$FIRE_BASE_URL")
-        ref.child("1").addValueEventListener(
-            object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    if(dataSnapshot.value==null){
-                        //리뷰가 없을때
-                    }
-                    else{
-                        detailViewModel.searchReviewMovieList()
-                        //리뷰가 있을때
-                    }
-                }
 
-                override fun onCancelled(databaseError: DatabaseError) {
-                    println("The read failed: " + databaseError.code)
-                }
-            }
-        )
 
     }
 
@@ -49,9 +30,34 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
             goToReview()
         }
 
+        findReview()//
+
         binding.layoutHeaderDetail.tbHeader.setNavigationOnClickListener {
             navigateUp()
         }
+    }
+
+    private fun findReview(){
+        database = FirebaseDatabase.getInstance().reference
+        val ref = database.database.getReferenceFromUrl(FIRE_BASE_URL)
+        // child 안에 무비 id 가져와야한다.
+        ref.child("1").addValueEventListener(
+            object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    if(dataSnapshot.value==null){//리뷰가 없을때
+
+                    }
+                    else{                        //리뷰가 있을때
+                        detailViewModel.searchReviewMovieList()//리뷰 가져오기
+
+                    }
+                }
+
+                override fun onCancelled(databaseError: DatabaseError) {
+                    println("The read failed: " + databaseError.code)
+                }
+            }
+        )
     }
 
     private fun goToReview() {

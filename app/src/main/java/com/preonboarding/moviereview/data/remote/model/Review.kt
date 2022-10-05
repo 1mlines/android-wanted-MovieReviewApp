@@ -8,5 +8,5 @@ data class Review(
     val imageUrl: String,
     val nickName: String,
     val password: Int,
-    val star: Double,
+    val star: Float,
 )

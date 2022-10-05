@@ -107,32 +107,59 @@ class ReviewFragment : BaseFragment<FragmentReviewBinding>(R.layout.fragment_rev
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         database = FirebaseDatabase.getInstance().reference
-        //detail에서 넘어올때 영화id를 같이 넘겨주세요
+
         initListener()
         bindingVm()
     }
 
     private fun initListener() {
-        val ref = database.database.getReferenceFromUrl("$FIRE_BASE_URL").child("1").push()
 
         binding.layoutHeaderReview.tbHeader.setNavigationOnClickListener {
             navigateUp()
         }
         binding.apply {
-
             btSaveReview.setOnClickListener {
-                ref.setValue(Review(
-                    content = "아자차",
-                    imageUrl = "https://user-images.githubusercontent.com/20774764/152873936-c633b7fb-52f9-4f6b-9cba-895f9e6712ed.jpg",
-                    nickName = "현섭이",
-                    password = 8888,
-                    star = 3.5
-                ))
-            }
+                val nickname = editNickNameReview.text.toString()
+                val content = editContentReview.text.toString()
+                val password = editPasswordReview.text.toString()
+                val check = editCheckReview.text.toString()
+                //val imageUrl = ivReviewImage
 
-            binding.ivReviewImage.setOnClickListener {
-                requestPermission()
+                if(nickname==""||content==""||password==""){
+                    Snackbar.make(
+                        requireActivity().findViewById(android.R.id.content),
+                        getString(R.string.review_null_snack_bar_text),
+                        Snackbar.LENGTH_SHORT)
+                        .show()
+                }
+                else if(password!=check){
+                    Snackbar.make(
+                        requireActivity().findViewById(android.R.id.content),
+                        getString(R.string.review_password_snack_bar_text),
+                        Snackbar.LENGTH_SHORT)
+                        .show()
+                }
+                else{
+                    //child에서 detail에서 넘어올때 영화id를 같이 넘겨주세요
+                    val ref = database.database.getReferenceFromUrl(FIRE_BASE_URL).child("1").push()
+                    ref.setValue(Review(
+                        content = content,
+                        imageUrl = "https://user-images.githubusercontent.com/20774764/152873936-c633b7fb-52f9-4f6b-9cba-895f9e6712ed.jpg",
+                        nickName = nickname,
+                        password = password.toInt(),
+                        star = ratingReview.rating
+                    ))
+                    Snackbar.make(
+                        requireActivity().findViewById(android.R.id.content),
+                        getString(R.string.review_sucess_snack_bar_text),
+                        Snackbar.LENGTH_SHORT)
+                        .show()
+                    navigateUp()
+                }
             }
+        }
+        binding.ivReviewImage.setOnClickListener {
+            requestPermission()
         }
     }
 
