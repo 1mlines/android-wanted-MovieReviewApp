@@ -19,10 +19,21 @@
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
+                android:layout_height="wrap_content"
                 android:background="@color/navy700"
-                app:navigationIcon="@drawable/ic_back_24"
-                app:menu="@menu/menu_toolbar_searchview"/>
+                app:contentInsetStartWithNavigation="0dp"
+                app:navigationIcon="@drawable/ic_back_24">
+
+                <com.preonboarding.moviereview.presentation.ui.CustomSearchView
+                    android:id="@+id/sv_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:background="@drawable/bg_navy200_round_10"
+                    app:searchIcon="@drawable/ic_search_24"
+                    app:closeIcon="@drawable/ic_close_24" />
+
+            </com.google.android.material.appbar.MaterialToolbar>
         </com.google.android.material.appbar.AppBarLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
