@@ -9,5 +9,5 @@ interface FireBaseApi {
     @GET("{movieId}.json")
     suspend fun searchReviewInfo(
         @Path("movieId") movieId: Int,
-    ): List<Review>
+    ): Map<String, Review>
 }

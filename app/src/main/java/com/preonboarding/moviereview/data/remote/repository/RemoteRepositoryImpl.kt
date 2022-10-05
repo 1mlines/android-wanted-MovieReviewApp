@@ -40,7 +40,7 @@ class RemoteRepositoryImpl @Inject constructor(
 
     override suspend fun searchReviewInfo(
         movieId: Int,
-    ): Flow<List<Review>> =
+    ): Flow<Map<String, Review>> =
         flow {
             emit(fireBaseApi.searchReviewInfo(movieId))
         }

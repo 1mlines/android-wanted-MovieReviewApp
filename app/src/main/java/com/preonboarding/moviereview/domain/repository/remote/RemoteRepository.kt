@@ -19,5 +19,5 @@ interface RemoteRepository {
 
     suspend fun searchReviewInfo(
         movieId: Int,
-    ): Flow<List<Review>>
+    ): Flow<Map<String, Review>>
 }
