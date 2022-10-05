@@ -24,7 +24,7 @@
                 app:contentInsetStartWithNavigation="0dp"
                 app:navigationIcon="@drawable/ic_back_24">
 
-                <com.preonboarding.moviereview.presentation.ui.CustomSearchView
+                <com.preonboarding.moviereview.presentation.common.customview.CustomSearchView
                     android:id="@+id/sv_search"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

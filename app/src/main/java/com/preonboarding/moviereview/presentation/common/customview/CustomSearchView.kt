@@ -1,4 +1,4 @@
-package com.preonboarding.moviereview.presentation.ui
+package com.preonboarding.moviereview.presentation.common.customview
 
 import android.content.Context
 import android.util.AttributeSet
