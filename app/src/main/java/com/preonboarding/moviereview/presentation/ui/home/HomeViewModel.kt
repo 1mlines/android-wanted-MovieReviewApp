@@ -23,15 +23,15 @@ class HomeViewModel @Inject constructor(
                 .collect { dailyBoxofficeRes ->
                     Timber.tag(TAG).e(dailyBoxofficeRes.toString())
 
-//                    dailyBoxofficeRes.boxOfficeResult.dailyBoxOfficeList.map { movie ->
-//                        remoteRepository.searchMovieInfo(
-//                            key = KOBIS_API_KEY,
-//                            movieCd = movie.movieCd
-//                        )
-//                            .collect { movieInfoRes ->
-//                                Timber.tag(TAG).e(movieInfoRes.toString())
-//                            }
-//                    }
+                    dailyBoxofficeRes.boxOfficeResult.dailyBoxOfficeList.map { movie ->
+                        remoteRepository.searchMovieInfo(
+                            key = KOBIS_API_KEY,
+                            movieCd = movie.movieCd
+                        )
+                            .collect { movieInfoRes ->
+                                Timber.tag(TAG).e(movieInfoRes.toString())
+                            }
+                    }
 
                 }
         }
