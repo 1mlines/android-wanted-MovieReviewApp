@@ -9,4 +9,10 @@
     <string name="open_date">개봉일</string>
     <string name="genre">장르</string>
     <string name="show_detail">상세보기</string>
+    <string name="nick_name">닉네임</string>
+    <string name="review">리뷰</string>
+    <string name="image">이미지</string>
+    <string name="password">암호</string>
+    <string name="check">암호 재확인</string>
+    <string name="save">Save</string>
 </resources>
