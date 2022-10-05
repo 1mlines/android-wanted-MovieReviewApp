@@ -42,7 +42,7 @@ class GalleryAdapter(
     companion object {
         private val diffCallback = object : DiffUtil.ItemCallback<GalleryImage>() {
             override fun areItemsTheSame(oldItem: GalleryImage, newItem: GalleryImage): Boolean =
-                oldItem.imgUri == newItem.imgUri
+                oldItem.id == newItem.id
 
             override fun areContentsTheSame(oldItem: GalleryImage, newItem: GalleryImage): Boolean =
                 oldItem == newItem

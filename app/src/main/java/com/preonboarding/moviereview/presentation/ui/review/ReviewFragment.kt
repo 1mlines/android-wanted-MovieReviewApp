@@ -19,6 +19,7 @@ import com.preonboarding.moviereview.R
 import com.preonboarding.moviereview.databinding.FragmentReviewBinding
 import com.preonboarding.moviereview.presentation.common.base.BaseFragment
 import com.preonboarding.moviereview.presentation.common.extension.navigateUp
+import com.preonboarding.moviereview.presentation.ui.custom.dialog.GalleryDialogFragment
 import timber.log.Timber
 
 class ReviewFragment : BaseFragment<FragmentReviewBinding>(R.layout.fragment_review) {
@@ -27,7 +28,6 @@ class ReviewFragment : BaseFragment<FragmentReviewBinding>(R.layout.fragment_rev
     private var REQUIRED_PERMISSIONS = arrayOf<String>(
         Manifest.permission.READ_EXTERNAL_STORAGE,
     )
-
 
     fun requestPermission(){
         val permissionCheck = ContextCompat.checkSelfPermission(
@@ -59,7 +59,7 @@ class ReviewFragment : BaseFragment<FragmentReviewBinding>(R.layout.fragment_rev
         }
         else{
             // 권한 이미 허용됨
-            getAllImages()
+            showGalleryDialog()
         }
     }
 
@@ -74,8 +74,8 @@ class ReviewFragment : BaseFragment<FragmentReviewBinding>(R.layout.fragment_rev
             PERMISSIONS_GALLERY_CODE -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // 권한 허용 되었으면
-                    // 갤러리 이미지 가져오기
-                    getAllImages()
+                    // 갤러리 오픈
+                    showGalleryDialog()
                 }
                 else {
                     // 권한 거부 되었으면
@@ -90,8 +90,11 @@ class ReviewFragment : BaseFragment<FragmentReviewBinding>(R.layout.fragment_rev
         }
     }
 
-    private fun getAllImages() {
-
+    private fun showGalleryDialog() {
+        GalleryDialogFragment().show(
+            childFragmentManager,
+            "GalleryDialog"
+        )
     }
 
 
@@ -103,6 +106,10 @@ class ReviewFragment : BaseFragment<FragmentReviewBinding>(R.layout.fragment_rev
     private fun initListener() {
         binding.layoutHeaderReview.tbHeader.setNavigationOnClickListener {
             navigateUp()
+        }
+
+        binding.ivReview.setOnClickListener {
+            requestPermission()
         }
     }
 
