@@ -26,9 +26,8 @@
         tools:layout="@layout/fragment_detail">
         <argument
             android:name="homeData"
-            app:argType="string"
-            app:nullable="true"
-            android:defaultValue="@null"/>
+            app:argType="com.preonboarding.moviereview.data.remote.model.BoxOfficeMovie"
+            app:nullable="false" />
         <action
             android:id="@+id/action_detail_to_review"
             app:destination="@id/reviewFragment">
