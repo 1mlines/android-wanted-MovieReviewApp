@@ -1,5 +1,6 @@
 package com.preonboarding.moviereview.presentation.main
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -57,13 +58,22 @@ class MainActivity : ComponentActivity() {
                     ) { index, boxOffice ->
                         when (index) {
                             data.lastIndex -> {
-                                BoxOfficeItem(boxOffice = boxOffice) {}
+                                BoxOfficeItem(boxOffice = boxOffice) {
+                                    val intent = Intent()
+                                    startActivity(intent)
+                                }
                             }
                             0 -> {
-                                BoxOfficeItem(modifier = Modifier.padding(top = 10.dp, bottom = 10.dp), boxOffice = boxOffice) {}
+                                BoxOfficeItem(modifier = Modifier.padding(top = 10.dp, bottom = 10.dp), boxOffice = boxOffice) {
+                                    val intent = Intent()
+                                    startActivity(intent)
+                                }
                             }
                             else -> {
-                                BoxOfficeItem(modifier = Modifier.padding(bottom = 10.dp), boxOffice = boxOffice) {}
+                                BoxOfficeItem(modifier = Modifier.padding(bottom = 10.dp), boxOffice = boxOffice) {
+                                    val intent = Intent()
+                                    startActivity(intent)
+                                }
                             }
                         }
                     }
