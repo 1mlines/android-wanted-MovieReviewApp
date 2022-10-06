@@ -74,55 +74,6 @@
 
 ---
 
-일간 박스 오피스에 대한 정보를 담고 있는 페이지입니다. 현재 순위, 전날과 비교했을 때 순위의 변동 여부, 누적 관계 수, 개봉한 날짜 등을 확인할 수 있습니다. 
-
-```kotlin
-private fun observeGetMovieList() {
-    viewLifecycleOwner.lifecycleScope.launch {
-        viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-            homeViewModel.checkHomeState.collectLatest { state ->
-                when(state) {
-                    is HomeState.Loading -> {
-                        binding.rvList.isVisible = false
-                        binding.progressBar.isVisible = true
-                    }
-                    is HomeState.Failure -> {
-                        binding.rvList.isVisible = false
-                        binding.progressBar.isVisible = false
-                    }
-                    is HomeState.Success -> {
-                        binding.rvList.isVisible = true
-                        binding.progressBar.isVisible = false
-                        val data = state.data
-                        val boxOfficeResult = data.boxOfficeResult
-                        val dailyBoxOfficeList = boxOfficeResult.dailyBoxOfficeList
-                        homeAdapter.submitList(dailyBoxOfficeList)
-                    }
-                    is HomeState.Empty -> {
-
-                    }
-                }
-            }
-        }
-    }
-}
-```
-stateFlow : 상태 관리를 용이하게 할 수 있게 되었습니다. 화면이 나오지 않는 경우 progressBar를 사용해서 로딩 중인 것을 알 수 있게끔 구현하였습니다. 
-
-```kotlin
-private val DIFF_COMPARATOR = object : DiffUtil.ItemCallback<BoxOfficeMovie>(){
-
-            override fun areItemsTheSame(oldItem: BoxOfficeMovie, newItem: BoxOfficeMovie): Boolean {
-                return oldItem.movieNm == newItem.movieNm
-            }
-
-            override fun areContentsTheSame(oldItem: BoxOfficeMovie, newItem: BoxOfficeMovie): Boolean {
-                return oldItem == newItem
-            }
-        }
-```
-listAdapter : DiffUtil 이라는 유틸리티 클래스를 사용해서 리스트 간의 차이를 비교한 후, 변경된 아이템만 UI에 업데이트 해줄 수 있습니다. 
-
 ### 3. 두번째 화면 - 이서윤
 
 ---
@@ -257,7 +208,204 @@ push()를 통해 시간에 따른 임이의 string값을 인덱스로 준다.
 
 
 ### 5. 영화 검색, 피그마 UI 디자인 - 이재성
+* 영화 제목 query에 대한 Instant Search를 위해 Flow debounce API 활용
+* 검색 결과 페이징을 통한 무한 스크롤 구현
 
+<br>
+
+* TODO
+  * 검색 결과 UiState 처리 
+  * 영화 검색 결과 상세정보 연동 작업 (순위를 띄울 수 없기 때문에 별도 상세 페이지 추가 예정)
+  * UI 수정 작업
+  
+#### Instant Search
+``` kotlin
+// ViewExtension.kt
+fun SearchView.getQueryTextChangeStateFlow(): StateFlow<String> {
+    val query = MutableStateFlow("")
+
+    this.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        override fun onQueryTextSubmit(query: String): Boolean {
+            return true
+        }
+
+        override fun onQueryTextChange(newText: String): Boolean {
+            query.value = newText
+            return true
+        }
+    })
+
+    return query
+}
+```
+``` kotlin
+// SearchFragment.kt
+private fun observeSearchStateFlow() {
+    viewLifecycleOwner.lifecycleScope.launch {
+         viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            binding.svSearch.getQueryTextChangeStateFlow()
+                .debounce(300)
+                .filter { query ->
+                    if (query.isEmpty()) {
+                        viewModel.searchMovie("")
+                        return@filter false
+                    } else {
+                        return@filter true
+                    }
+                }
+                .distinctUntilChanged()
+                .flatMapLatest { query ->
+                    viewModel.searchMovie(query)
+                }
+                .collectLatest {
+                    pagingAdapter.submitData(it)
+                }
+        }
+    }
+}
+```
+
+* `debounce(timeout: Long)`
+  * `SearchView#getQueryTextChangeStateFlow`를 통해 이벤트가 발생하면 `timeout`만큼 기다렸다가 가장 최신의 value를 DownStream Flow로 전달한다.
+  
+* `filter { }`
+  * Upstream Flow로부터 전달받는 query 중에서 불필요한 네트워크 호출을 피하기 위해 빈 문자열 query는 필터링한다.
+  
+* `distinctUntilChanged()`
+  * 동일한 query에 대한 반복 호출을 방지한다.
+
+* `flatMapLatest { }`
+  * `viewModel#searchMovie`에 대한 가장 최신의 결과만 반환하고 이전 데이터와 같은 나머지 데이터는 무시한다.
+  
+<br>
+
+#### Paging
+* data/api
+``` kotlin
+// KobisMovieApi.kt
+@GET("movie/searchMovieList.json")
+suspend fun getMovieList(
+    @Query("key") key: String = KOBIS_API_KEY,
+    @Query("movieNm") movieKrName: String = "",
+    @Query("curPage") page: String
+): MovieListResponse
+```
+
+* data/source
+``` kotlin
+// MovieListDataSource.kt
+interface MovieListDataSource {
+
+    suspend fun getMovieList(movieName: String, page: String): MovieListResponse
+}
+
+// MovieListDataSourceImpl.kt
+@Singleton
+class MovieListDataSourceImpl @Inject constructor(
+    @RetrofitKobis private val api: KobisMovieApi
+) : MovieListDataSource {
+
+    override suspend fun getMovieList(movieName: String, page: String): MovieListResponse {
+        return api.getMovieList(movieKrName = movieName, page = page)
+    }
+}
+```
+
+* data/pagingsource
+```kotlin
+class MovieSearchResultPagingSource(
+    private val dataSource: MovieListDataSource,
+    private val movieName: String
+) : PagingSource<Int, MovieSearchInfo>() {
+    override fun getRefreshKey(state: PagingState<Int, MovieSearchInfo>): Int? {
+        return state.anchorPosition?.let { anchorPosition ->
+            val anchorPage = state.closestPageToPosition(anchorPosition)
+            anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)
+        }
+    }
+
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, MovieSearchInfo> {
+        val page = params.key ?: STARTING_PAGE
+
+        if (page != STARTING_PAGE) delay(100L)
+
+        return try {
+            val searchResult =
+                dataSource.getMovieList(movieName = movieName, page = page.toString())
+                    .mapToMovieSearchInfo()
+
+            LoadResult.Page(
+                data = searchResult,
+                prevKey = if (page == STARTING_PAGE) null else page - 1,
+                nextKey = if (searchResult.isEmpty()) null else page + 1
+            )
+        } catch (e: Throwable) {
+            LoadResult.Error(e)
+        }
+    }
+
+
+    companion object {
+        private const val STARTING_PAGE = 1
+    }
+}
+```
+* `PagingSource#getRefreshKey`를 통해 데이터 로드시 사용될 Key 값을 가져옴
+* `PagingSource#load`를 통해 api에 접근하여 prevKey와 nextKey에 맞게 데이터를 반환
+
+* repository
+``` kotlin
+// domain/MovieRepository.kt
+interface MovieRepository {
+    fun getMovieListByMovieName(movieName: String): Flow<PagingData<MovieSearchInfo>>
+}
+
+// data/MovieRepositoryImpl.kt
+class MovieRepositoryImpl @Inject constructor(
+    private val dataSource: MovieListDataSource
+) : MovieRepository {
+
+    override fun getMovieListByMovieName(movieName: String) = Pager(
+        config = PagingConfig(
+            pageSize = ITEM_PER_PAGE,
+            enablePlaceholders = false,
+            initialLoadSize = ITEM_PER_PAGE
+        ),
+        pagingSourceFactory = { MovieSearchResultPagingSource(dataSource, movieName) }
+    ).flow
+
+
+    companion object {
+        private const val ITEM_PER_PAGE = 10
+    }
+}
+```
+
+* Usecase
+``` kotlin
+class SearchMovieUseCase @Inject constructor(
+    private val movieRepository: MovieRepository
+) {
+    operator fun invoke(movieName: String) =
+        movieRepository.getMovieListByMovieName(movieName).flowOn(Dispatchers.Default)
+}
+```
+
+* ViewModel
+``` kotlin
+@HiltViewModel
+class SearchViewModel @Inject constructor(
+    private val searchMovieUseCase: SearchMovieUseCase
+) : ViewModel() {
+
+    ...
+
+    fun searchMovie(movieNameQuery: String) =
+        searchMovieUseCase.invoke(movieNameQuery).cachedIn(viewModelScope)
+
+    ...
+}
+```
 ---
 
 ## ****5. Technology Stack****
@@ -379,30 +527,8 @@ push()를 통해 시간에 따른 임이의 string값을 인덱스로 준다.
 - Controller와 같이 코드가 집중되면 성능이 저하되고 유지보수가 어려워진다.
 #### 2. StateFlow & SharedFlow vs LiveData
 * ㅁㅁㅁㅁㅁ
-#### 3. koin vs dagger & hilt
-
-- 의존성 주입(di)?
-
-주입은 클래스 외부에서 객체를 생성하여 해당 객체를 클래스 내부에 주입하는 것입니다. 이를 통해서 클래스 간에 의존도를 낮춰줄 수 있습니다. 의존도가 낮아지게 된다면, 특정 클래스가 변경이 되어도 다른 클래스가 변경의 영향을 적게 받게 됩니다.
-
-- 그렇다면 di를 사용함으로써 얻을 수 있는 이점은 무엇이있을까요?
-
-1. Unit Test가 용이해진다.
-2. 코드의 재활용성을 높여준다.
-3. 객체 간의 의존성(종속성)을 줄이거나 없엘 수 있다.
-4. 객체 간의 결합도이 낮추면서 유연한 코드를 작성할 수 있다.
-
-
-- hilt / dagger / koin 비교
-  - koin : Kotlin DSL로 만들어졌으며, hilt / dagger / koin 중 가장 러닝커브가 낮다고 평가되고 있습니다. 그렇지만 koin은 런타임에 의존성 주입이 진행되기 때문에 App의 성능이 저하된다는 단점이 있습니다. 그렇기에 규모가 큰 프로젝트에서는 koin을 쓰지 않는 것을 권장하고 있습니다. 
-  - dagger : 가장 높은 러닝커브를 가지고 있습니다. 컴파일 시 의존성 주입이 시작됩니다. 그 결과 문제가 발생할 경우 컴파일 시점에 에러를 발생하기에 상대적으로 높은 안정성을 갖습니다. 그렇지만 가장 높은 러닝커브를 가지고 있으며, 이로 인하여 개발 환경 셋팅하는 것이 굉장히 어렵습니다.  
-  - hilt : dagger를 기반으로 만들어진 DI framework. dagger의 장점을 가져오면서, 사용자가 좀 더 사용하기 편하게 개량되었습니다.
-  
-- 왜 hilt를 선택? 
-
-위에서 언급한 것처럼 hilt 사용을 통해 dagger보다 낮은 러닝커브를 가지고 있으며, koin과 다르게 컴파일 시 의존성 주입이 시작되기에 좀 더 높은 안정성을 가질 수 있습니다. 
-
-
+#### 3. Hilt vs Dagger & Koin
+* ㅁㅁㅁㅁㅁ
 #### 4. Serialization vs Gson & Moshi
 * ㅁㅁㅁㅁㅁ
 #### 5. Navigation vs FragmentManager Transaction
