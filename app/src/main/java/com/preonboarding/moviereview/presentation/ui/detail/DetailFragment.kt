@@ -81,7 +81,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
         }.attach()
     }
     private fun checkMovieCd(){
-        binding.tvTest.text = args.movieCd
+        binding.tvTest.text = args.homeData
     }
 
     companion object {
