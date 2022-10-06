@@ -122,7 +122,6 @@
 	* reflection 방식 사용하여 Json string을 역/직렬화
 - **Moshi**
 	* default value를 무시하고 0 또는 null로 역/직렬화하는 문제점
-	* Gson은 Json으로 전환할 때 constructor에 있는 값만 convert 해주고 Moshi는 내부에 있는 멤버 변수까지 convert 해줌
 - **Kotlin Serialization**
 	* 잘못 작성된 코드는 컴파일 에러로 잡힘 → 컴파일 안전을 보장
 	* reflection을 사용하지 않아 성능적인 장점 존재
@@ -138,7 +137,7 @@
 
 -----  
 
-### Image 라이브러리 (Glide vs Picasso vs Fresco)
+### Image 라이브러리 (Glide vs Picasso vs Fresco vs Coil)
 - **Picasso**
 	- 장점
 		- 메모리를 많이 사용하지 않는 경우 적합
@@ -155,7 +154,7 @@
 		- 로딩 속도가 Picasso 보다 빠름 
 		- gif 지원 
 		- OkHttp 라이브러리에 연결할 수 있는 유틸리티 라이브러리가 포함되어 있어, 라이브러리와 호환성이 좋음
-		- 이미지 뷰의 크기를 측정한 다음 원본 이미지를 가져와 이미지 뷰 크기에 맞게 리사이징 후 비트맵에 그려주기 때문에 메모리 효율성이 Picasso보다 좋음 
+		- 이미지 뷰의 크기를 측정한 다음 원본 이미지를 가져와 이미지 뷰 크기에 맞게 리사이징 후 비트맵에 그려주기 때문에 메모리 효율성이 좋음
 	- 단점
 		- 메모리 부담 존재 
 - **Coil**
