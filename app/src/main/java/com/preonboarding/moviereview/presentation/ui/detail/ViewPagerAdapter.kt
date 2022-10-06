@@ -1,4 +1,4 @@
-package com.preonboarding.moviereview.presentation.common.adapter
+package com.preonboarding.moviereview.presentation.ui.detail
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
