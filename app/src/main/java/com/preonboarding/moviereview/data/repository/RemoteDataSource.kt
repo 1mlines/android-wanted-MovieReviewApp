@@ -1,11 +1,19 @@
 package com.preonboarding.moviereview.data.repository
 
 import android.util.Log
+import com.preonboarding.moviereview.data.mapper.asModel
 import com.preonboarding.moviereview.data.network.KobisMovieApi
 import com.preonboarding.moviereview.data.network.OmdbMovieApi
+import com.preonboarding.moviereview.data.network.model.kobis.MovieInfos
+import com.preonboarding.moviereview.data.network.model.omdb.PosterInfo
 import com.preonboarding.moviereview.data.network.state.DailyBoxOfficesState
 import com.preonboarding.moviereview.data.network.state.MovieInfosState
 import com.preonboarding.moviereview.data.network.state.PosterInfoState
+import com.preonboarding.moviereview.domain.model.BoxOffice
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class RemoteDataSource @Inject constructor(
