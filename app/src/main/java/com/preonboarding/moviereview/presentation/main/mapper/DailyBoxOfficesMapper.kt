@@ -1,4 +1,4 @@
-package com.preonboarding.moviereview.data.mapper
+package com.preonboarding.moviereview.presentation.main.mapper
 
 import com.preonboarding.moviereview.data.network.model.kobis.DailyBoxOffice
 import com.preonboarding.moviereview.domain.model.BoxOffice

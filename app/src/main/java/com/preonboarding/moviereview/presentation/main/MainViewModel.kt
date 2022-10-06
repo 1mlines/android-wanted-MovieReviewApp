@@ -2,7 +2,7 @@ package com.preonboarding.moviereview.presentation.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.preonboarding.moviereview.data.mapper.asModel
+import com.preonboarding.moviereview.presentation.main.mapper.asModel
 import com.preonboarding.moviereview.domain.model.BoxOffice
 import com.preonboarding.moviereview.domain.usecase.DailyBoxOfficeUseCase
 import com.preonboarding.moviereview.domain.usecase.MovieInfosUseCase
