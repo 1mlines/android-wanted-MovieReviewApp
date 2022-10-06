@@ -406,6 +406,12 @@ class SearchViewModel @Inject constructor(
     ...
 }
 ```
+
+#### 결과
+
+https://user-images.githubusercontent.com/51078673/194398262-33ad7e2e-2635-4287-8a7f-b451a24fd510.mov
+
+
 ---
 
 ## ****5. Technology Stack****
