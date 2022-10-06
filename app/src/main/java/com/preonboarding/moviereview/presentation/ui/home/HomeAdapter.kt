@@ -4,13 +4,14 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.preonboarding.moviereview.data.remote.model.BoxOfficeMovie
 import com.preonboarding.moviereview.databinding.ItemMovieListBinding
 
-class HomePagingAdapter(
+class HomeAdapter(
     private val itemClickListener: (BoxOfficeMovie) -> Unit
-) : PagingDataAdapter<BoxOfficeMovie, HomePagingAdapter.HomeViewHolder>(DIFF_COMPARATOR) {
+) : ListAdapter<BoxOfficeMovie, HomeAdapter.HomeViewHolder>(DIFF_COMPARATOR) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {

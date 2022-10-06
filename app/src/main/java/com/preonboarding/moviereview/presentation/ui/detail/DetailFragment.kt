@@ -3,10 +3,9 @@ package com.preonboarding.moviereview.presentation.ui.detail
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import com.google.firebase.database.*
-import com.google.android.material.tabs.TabLayoutMediator
-import androidx.navigation.NavArgs
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.tabs.TabLayoutMediator
+import com.google.firebase.database.*
 import com.preonboarding.moviereview.R
 import com.preonboarding.moviereview.databinding.FragmentDetailBinding
 import com.preonboarding.moviereview.presentation.common.base.BaseFragment
@@ -14,7 +13,6 @@ import com.preonboarding.moviereview.presentation.common.const.FIRE_BASE_URL
 import com.preonboarding.moviereview.presentation.common.extension.navigate
 import com.preonboarding.moviereview.presentation.common.extension.navigateUp
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 
 @AndroidEntryPoint
@@ -84,7 +82,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
         }.attach()
     }
     private fun checkMovieCd(){
-        binding.tvTest.text = args.movieCd
+        binding.tvTest.text = args.homeData
     }
 
     companion object {

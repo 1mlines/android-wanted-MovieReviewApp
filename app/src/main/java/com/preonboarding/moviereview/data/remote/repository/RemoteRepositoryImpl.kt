@@ -10,8 +10,10 @@ import com.preonboarding.moviereview.di.RetrofitFireBase
 import com.preonboarding.moviereview.di.RetrofitKobis
 import com.preonboarding.moviereview.di.RetrofitOmdb
 import com.preonboarding.moviereview.domain.repository.remote.RemoteRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -22,13 +24,13 @@ class RemoteRepositoryImpl @Inject constructor(
     @RetrofitFireBase private val fireBaseApi: FireBaseApi,
 ) : RemoteRepository {
 
-    override suspend fun searchDailyBoxOfficeList(
+    override suspend fun getDailyMovie(
         key: String,
         targetDt: String,
     ): Flow<DailyBoxOfficeResponse> =
         flow {
             emit(kobisMovieApi.searchDailyBoxOfficeList(key = key, targetDt = targetDt))
-        }
+        }.flowOn(Dispatchers.IO)
 
     override suspend fun searchMovieInfo(
         key: String,

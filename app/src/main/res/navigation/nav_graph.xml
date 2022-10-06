@@ -25,7 +25,7 @@
         android:label="DetailFragment"
         tools:layout="@layout/fragment_detail">
         <argument
-            android:name="movieCd"
+            android:name="homeData"
             app:argType="string"
             app:nullable="true"
             android:defaultValue="@null"/>
