@@ -2,7 +2,6 @@ package com.preonboarding.moviereview.presentation.ui.custom.dialog.gallery
 
 import android.Manifest
 import android.app.Activity
-import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -19,21 +18,24 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.PagingData
 import com.google.android.material.snackbar.Snackbar
 import com.preonboarding.moviereview.R
 import com.preonboarding.moviereview.databinding.FragmentGalleryDialogBinding
 import com.preonboarding.moviereview.domain.model.GalleryImage
 import com.preonboarding.moviereview.domain.model.ItemType
-import timber.log.Timber
+import dagger.hilt.android.AndroidEntryPoint
 import java.io.ByteArrayOutputStream
 
+@AndroidEntryPoint
 class GalleryDialogFragment : DialogFragment() {
     private lateinit var binding: FragmentGalleryDialogBinding
-    private lateinit var galleryAdapter: GalleryAdapter
     private lateinit var getResult: ActivityResultLauncher<Intent>
-    private val imageList = mutableListOf<GalleryImage>()
-    private var cameraImage = GalleryImage.emptyItem()
 
+    private val galleryViewModel: GalleryDialogViewModel by viewModels()
+    private lateinit var galleryPagingAdapter: GalleryPagingAdapter
     private lateinit var mImageClickListener: MyImageClickListener
 
     interface MyImageClickListener {
@@ -52,13 +54,12 @@ class GalleryDialogFragment : DialogFragment() {
         getResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == Activity.RESULT_OK) {
                 if (it.data?.extras?.get("data") != null) {
-                    val bitmap = it.data?.extras?.get("data") as Bitmap
-                    cameraImage = cameraImage.copy(id = System.currentTimeMillis() / 7,
-                        name = "",
-                        filePath = "",
-                        date = "",
-                        imgUri = getImageUri(requireContext(), bitmap) ?: Uri.EMPTY
+                    val uri = getImageUri(
+                        requireContext(),
+                        it.data?.extras?.get("data") as Bitmap
                     )
+
+                    galleryViewModel.setCameraImage(uri = uri)
                 }
             }
         }
@@ -78,7 +79,6 @@ class GalleryDialogFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initListener()
-        getAllImages()
         initRecyclerView()
     }
 
@@ -89,9 +89,14 @@ class GalleryDialogFragment : DialogFragment() {
     }
 
     private fun initRecyclerView() {
-        galleryAdapter = GalleryAdapter( onClick = { chooseGalleryImage(image = it) } )
-        binding.rvGallery.adapter = galleryAdapter
-        galleryAdapter.submitList(imageList)
+        galleryPagingAdapter = GalleryPagingAdapter( onClick = { chooseGalleryImage(image = it) } )
+        binding.rvGallery.adapter = galleryPagingAdapter
+
+        lifecycleScope.launchWhenStarted {
+            galleryViewModel.getAllImages().collect {
+                galleryPagingAdapter.submitData(it)
+            }
+        }
     }
 
     private fun openCamera() {
@@ -103,10 +108,10 @@ class GalleryDialogFragment : DialogFragment() {
         when(image.type) {
 
             ItemType.CAMERA -> {
-                if(requestCameraPermission()) {
+                if (requestCameraPermission()) {
                     openCamera()
-                    if(cameraImage.imgUri != Uri.EMPTY) {
-                        mImageClickListener.onImageClick(cameraImage)
+                    if (galleryViewModel.cameraImage.value.imgUri != Uri.EMPTY) {
+                        mImageClickListener.onImageClick(galleryViewModel.cameraImage.value)
                         dialog?.dismiss()
                     }
                 }
@@ -124,53 +129,6 @@ class GalleryDialogFragment : DialogFragment() {
                 dialog?.dismiss()
             }
         }
-    }
-
-    private fun getAllImages() {
-        val uriExternal: Uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-        val projection = arrayOf(
-            MediaStore.Images.ImageColumns._ID, // 고유 ID
-            MediaStore.Images.ImageColumns.DATA, // 파일 경로
-            MediaStore.Images.ImageColumns.DISPLAY_NAME, // 이름
-            MediaStore.Images.ImageColumns.DATE_ADDED, // 추가된 날짜
-        )
-
-        // 가져올 위치를 지정한다. SQL 쿼리 식과 비슷하게 생성
-        val selection: String? = null
-        val selectionArgs: Array<String>? = null
-
-        val cursor = requireContext().contentResolver.query(
-            uriExternal,
-            projection,
-            selection,
-            selectionArgs,
-            MediaStore.Images.ImageColumns.DATE_TAKEN + " DESC"
-        )
-
-        if(cursor != null){
-            while(cursor.moveToNext()){
-
-                val id = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID))
-                val filepath = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA))
-                val name = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME))
-                val date = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATE_ADDED))
-
-                // 사진 경로 Uri 가져오기
-                val uri = ContentUris.withAppendedId(uriExternal, id)
-
-                Timber.tag(TAG).e(uri.toString())
-                imageList.add(GalleryImage(
-                    id = id,
-                    name = name,
-                    filePath = filepath,
-                    date = date,
-                    imgUri = uri,
-                    type = ItemType.IMAGE
-                ))
-            }
-            cursor.close()
-        }
-        imageList.add(0, GalleryImage.cameraItem())
     }
 
     private fun requestCameraPermission(): Boolean {
@@ -228,14 +186,13 @@ class GalleryDialogFragment : DialogFragment() {
         }
     }
 
-
     private fun getImageUri(context: Context, inImage: Bitmap): Uri? {
         val bytes = ByteArrayOutputStream()
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
         val path = MediaStore.Images.Media.insertImage(
             context.contentResolver,
             inImage,
-            "Title-${System.currentTimeMillis()}",
+            "Movie-${System.currentTimeMillis()}",
             null
         )
         return Uri.parse(path)
