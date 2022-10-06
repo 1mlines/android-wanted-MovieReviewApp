@@ -10,14 +10,14 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.preonboarding.domain.model.EditState
-import com.preonboarding.domain.model.MODE
-import com.preonboarding.domain.model.ReviewUiState
+import com.preonboarding.presentation.view.review.EditState
 import com.preonboarding.presentation.R
 import com.preonboarding.presentation.common.base.BaseFragment
 import com.preonboarding.presentation.common.shared.setOnThrottleClickListener
 import com.preonboarding.presentation.databinding.FragmentDetailBinding
+import com.preonboarding.presentation.view.review.MODE
 import com.preonboarding.presentation.view.review.ReviewDialog
+import com.preonboarding.presentation.view.review.ReviewUiState
 import com.preonboarding.presentation.view.review.ReviewValidationDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch

@@ -2,13 +2,13 @@ package com.preonboarding.presentation.view.detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.preonboarding.domain.model.EditState
-import com.preonboarding.domain.model.MODE
+import com.preonboarding.presentation.view.review.EditState
 import com.preonboarding.domain.model.Review
-import com.preonboarding.domain.model.ReviewUiState
 import com.preonboarding.domain.usecase.DeleteReviewUseCase
 import com.preonboarding.domain.usecase.GetReviewListUseCase
 import com.preonboarding.domain.usecase.UploadReviewUseCase
+import com.preonboarding.presentation.view.review.MODE
+import com.preonboarding.presentation.view.review.ReviewUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*

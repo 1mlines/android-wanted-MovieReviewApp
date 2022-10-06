@@ -13,8 +13,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.preonboarding.domain.model.MODE
-import com.preonboarding.domain.model.ReviewUiState
 import com.preonboarding.presentation.R
 import com.preonboarding.presentation.common.base.BaseDialogFragment
 import com.preonboarding.presentation.databinding.DialogReviewValidataionBinding
