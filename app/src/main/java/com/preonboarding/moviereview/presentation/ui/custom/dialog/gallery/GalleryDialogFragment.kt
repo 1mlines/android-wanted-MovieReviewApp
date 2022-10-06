@@ -53,10 +53,12 @@ class GalleryDialogFragment : DialogFragment() {
 
         getResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == Activity.RESULT_OK) {
-                if (it.data?.extras?.get("data") != null) {
+                val data = it.data?.extras?.get("data")
+
+                if (data != null) {
                     val uri = getImageUri(
                         requireContext(),
-                        it.data?.extras?.get("data") as Bitmap
+                        data as Bitmap
                     )
 
                     galleryViewModel.setCameraImage(uri = uri)

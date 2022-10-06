@@ -46,15 +46,18 @@ class GalleryDataSourceImpl @Inject constructor(
                 // 사진 경로 Uri 가져오기
                 val uri = ContentUris.withAppendedId(IMAGE_URI, id)
 
-                if(cursor.position >= (pageNumber - 1) * PAGE_SIZE)
-                imageList.add(GalleryImage(
-                    id = id,
-                    name = name,
-                    filePath = filepath,
-                    date = date,
-                    imgUri = uri,
-                    type = ItemType.IMAGE
-                ))
+                if(cursor.position >= (pageNumber - 1) * PAGE_SIZE) {
+                    imageList.add(
+                        GalleryImage(
+                            id = id,
+                            name = name,
+                            filePath = filepath,
+                            date = date,
+                            imgUri = uri,
+                            type = ItemType.IMAGE
+                        )
+                    )
+                }
             }
             cursor.close()
         }
