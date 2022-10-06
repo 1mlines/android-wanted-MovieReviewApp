@@ -63,6 +63,7 @@
 
                 <TextView
                     android:id="@+id/tv_rank"
+                    style="@style/Body14"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
@@ -78,6 +79,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
+                    android:layout_marginTop="15dp"
                     android:layout_marginEnd="15dp"
                     android:background="@drawable/bg_navy700_round_25"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -89,25 +91,13 @@
                     app:tabIndicatorColor="@color/red"
                     app:tabIndicatorGravity="stretch"
                     app:tabMode="fixed"
-                    app:tabSelectedTextColor="@color/white">
-
-                    <com.google.android.material.tabs.TabItem
-                        style="@style/Body11"
-                        android:layout_width="25dp"
-                        android:layout_height="wrap_content"
-                        android:text="Details" />
-
-                    <com.google.android.material.tabs.TabItem
-                        android:layout_width="25dp"
-                        android:layout_height="wrap_content"
-                        android:text="reviews" />
-
-                </com.google.android.material.tabs.TabLayout>
+                    app:tabSelectedTextColor="@color/white"></com.google.android.material.tabs.TabLayout>
 
                 <androidx.viewpager2.widget.ViewPager2
                     android:id="@+id/view_pager"
                     android:layout_width="0dp"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
                     app:layout_constraintBottom_toTopOf="@id/btn_detail"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -119,12 +109,13 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
+                    android:layout_marginTop="15dp"
                     android:layout_marginEnd="15dp"
                     android:background="@drawable/bg_red_round_18"
                     android:text="Add Review"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/view_pager" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
