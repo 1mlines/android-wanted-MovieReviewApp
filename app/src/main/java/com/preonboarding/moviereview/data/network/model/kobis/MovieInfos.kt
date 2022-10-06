@@ -21,21 +21,16 @@ data class MovieInfo (
     val prdtYear: String,
     val showTm: String,
     val openDt: String,
-    val genres: Genres,
-    val directors: Directors,
-    val actors: Actors,
-    val audits: Audits
+    val genres: List<Genre>,
+    val directors: List<Director>,
+    val actors: List<Actor>,
+    val audits: List<Audit>
 )
 
 @Serializable
-data class Audits(
+data class Audit(
     val auditNo: String,
     val watchGradeNm: String
-)
-
-@Serializable
-data class Genres(
-    val genre: List<Genre>
 )
 
 @Serializable
@@ -44,18 +39,8 @@ data class Genre(
 )
 
 @Serializable
-data class Directors(
-    val director: List<Director>
-)
-
-@Serializable
 data class Director(
     val peopleNm: String
-)
-
-@Serializable
-data class Actors(
-    val actor: List<Actor>
 )
 
 @Serializable
