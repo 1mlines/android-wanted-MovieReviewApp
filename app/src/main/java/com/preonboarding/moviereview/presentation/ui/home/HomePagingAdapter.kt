@@ -8,7 +8,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.preonboarding.moviereview.data.remote.model.BoxOfficeMovie
 import com.preonboarding.moviereview.databinding.ItemMovieListBinding
 
-class HomePagingAdapter() : PagingDataAdapter<BoxOfficeMovie, HomePagingAdapter.HomeViewHolder>(DIFF_COMPARATOR) {
+class HomePagingAdapter(
+    private val itemClickListener: (BoxOfficeMovie) -> Unit
+) : PagingDataAdapter<BoxOfficeMovie, HomePagingAdapter.HomeViewHolder>(DIFF_COMPARATOR) {
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -20,7 +23,7 @@ class HomePagingAdapter() : PagingDataAdapter<BoxOfficeMovie, HomePagingAdapter.
 
     override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
         val item = getItem(position)
-        item?.let { holder.bind(it) }
+        item?.let { holder.bind(it, itemClickListener) }
 
     }
 
@@ -28,8 +31,15 @@ class HomePagingAdapter() : PagingDataAdapter<BoxOfficeMovie, HomePagingAdapter.
         private val binding: ItemMovieListBinding
     ): RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: BoxOfficeMovie) {
+        fun bind(
+            item: BoxOfficeMovie,
+            itemClickListener: (BoxOfficeMovie) -> Unit
+        ) {
             binding.dailyMovie = item
+            binding.root.setOnClickListener {
+                itemClickListener.invoke(item)
+            }
+            // executePendingBindings()
         }
 
     }

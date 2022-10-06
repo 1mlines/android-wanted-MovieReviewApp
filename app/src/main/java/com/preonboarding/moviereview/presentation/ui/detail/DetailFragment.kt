@@ -2,6 +2,8 @@ package com.preonboarding.moviereview.presentation.ui.detail
 
 import android.os.Bundle
 import android.view.View
+import androidx.navigation.NavArgs
+import androidx.navigation.fragment.navArgs
 import androidx.fragment.app.viewModels
 import com.google.firebase.database.*
 import com.google.android.material.tabs.TabLayoutMediator
@@ -17,12 +19,15 @@ import timber.log.Timber
 
 @AndroidEntryPoint
 class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_detail) {
+    val args by navArgs<DetailFragmentArgs>()
     private val detailViewModel : DetailViewModel by viewModels()
     private lateinit var database: DatabaseReference
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initListener()
+
+        checkMovieCd()
         setUpViewPager()
     }
 
@@ -65,6 +70,8 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
         navigate(action = R.id.action_detail_to_review)
     }
 
+    private fun checkMovieCd(){
+        binding.tvTest.text = args.movieCd
     private fun setUpViewPager() {
         val tabTitleArray = arrayOf(
             "Details",
