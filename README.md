@@ -453,6 +453,8 @@ class SearchViewModel @Inject constructor(
 }
 ```
 
+#### Figma 레이아웃 디자인
+[Figma 링크](https://www.figma.com/file/7JgePu0qKgx3LcN14sOMT7/%EC%9B%90%ED%8B%B0%EB%93%9C-%EC%95%88%EB%93%9C%EB%A1%9C%EC%9D%B4%EB%93%9C-3%EC%A3%BC%EC%B0%A8-%EA%B3%BC%EC%A0%9C?node-id=25%3A2)
 #### 결과
 
 https://user-images.githubusercontent.com/51078673/194398262-33ad7e2e-2635-4287-8a7f-b451a24fd510.mov
