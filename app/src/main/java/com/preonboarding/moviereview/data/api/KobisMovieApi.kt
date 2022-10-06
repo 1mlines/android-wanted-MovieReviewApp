@@ -2,6 +2,7 @@ package com.preonboarding.moviereview.data.api
 
 import com.preonboarding.moviereview.data.remote.model.DailyBoxOfficeResponse
 import com.preonboarding.moviereview.data.remote.model.MovieInfoResponse
+import com.preonboarding.moviereview.data.remote.model.MovieListResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -20,4 +21,12 @@ interface KobisMovieApi {
         @Query("key") key: String,
         @Query("targetDt") movieCd: String
     ): MovieInfoResponse
+
+    // 영화목록
+    @GET("movie/searchMovieList.json")
+    suspend fun getMovieList(
+        @Query("key") key: String,
+        @Query("movieNm") movieKrName: String = "",
+        @Query("curPage") page: String = "1"
+    ): MovieListResponse
 }
