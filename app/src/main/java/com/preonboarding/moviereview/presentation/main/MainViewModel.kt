@@ -31,12 +31,12 @@ class MainViewModel @Inject constructor(
         val nowDate = now.minusDays(1)
         // 날짜, 시간을 가져오고 싶은 형태 선언
         val date = nowDate.format(DateTimeFormatter.ofPattern("yyyyMMdd"))
-        getBoxOfficeList(key = "d78dfcf081301ea1719d6d8d36756527", date = date)
+        getBoxOfficeList(key = "d78dfcf081301ea1719d6d8d36756527", date = date, code= "0105001")
     }
 
-    private fun getBoxOfficeList(key: String, date: String) {
+    private fun getBoxOfficeList(key: String, date: String , code : String) {
         viewModelScope.launch {
-            val result = dailyBoxOfficeUseCase.getDailyBoxOfficeList(key, date)
+            val result = dailyBoxOfficeUseCase.getDailyBoxOfficeList(key, date, code)
             if (result?.boxOfficeResult != null) {
                 _dailyMovieBoxList.value = result.boxOfficeResult.dailyBoxOfficeList.map {
                     it.asModel()
