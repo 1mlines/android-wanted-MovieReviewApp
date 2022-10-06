@@ -26,7 +26,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         HomeAdapter(
             itemClickListener = {
                 navigateWithArgs(HomeFragmentDirections.actionHomeToDetail(
-                    it.movieCd.toString()
+                    it.toString()
                 ))
 
             }
