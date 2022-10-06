@@ -10,8 +10,4 @@ interface RemoteRepository {
     suspend fun getDailyBoxOfficeList(key: String, targetDt: String, wideAreaCd: String): DailyBoxOffices?
     suspend fun getMoviesInfo(key: String, movieCd: String): MovieInfos?
     suspend fun getPosterInfo(title: String, key: String): PosterInfo?
-
-    fun test(key: String, targetDt: String): Flow<List<BoxOffice>>
-    fun test2(key: String, movieCd: String): Flow<MovieInfos>
-    fun test3(title: String, key: String): Flow<PosterInfo>
 }
