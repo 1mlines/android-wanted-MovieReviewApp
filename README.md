@@ -409,6 +409,7 @@ https://user-images.githubusercontent.com/35549958/194384816-9052d7da-ad72-48af-
 	- Hilt 적용
 	- Coroutine 적용
 	- FirebaseFirestore 싱글톤 구현
+	- viewBinding 을 DataBinding으로 변경
 	- 사진 업로드 구현
 	
 
@@ -490,7 +491,12 @@ data class ReviewVO(
  	- 리뷰 데이터를 관리함.
  
  ```kotlin
- 
+ class ReviewViewModel() : ViewModel() {
+    val TAG = "FIRESTORE_VIEW_MODEL"
+    var firebaseRepository = FirestoreRepository()
+    var savedReviews : MutableLiveData<List<ReviewVO>> = MutableLiveData()
+ 	
+
     // save review to firebase
     fun saveReviewToFirebase(review: ReviewVO){
         firebaseRepository.saveReviewItem(review).addOnFailureListener {
