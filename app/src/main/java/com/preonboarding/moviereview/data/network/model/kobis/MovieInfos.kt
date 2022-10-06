@@ -27,7 +27,7 @@ data class MovieInfo (
 
 @Serializable
 data class Genres(
-    val genre: List<Genre>
+    val genres: List<Genre>
 )
 
 @Serializable
@@ -37,7 +37,7 @@ data class Genre(
 
 @Serializable
 data class Directors(
-    val director: List<Director>
+    val directors: List<Director>
 )
 
 @Serializable
@@ -47,7 +47,7 @@ data class Director(
 
 @Serializable
 data class Actors(
-    val actor: List<Actor>
+    val actors: List<Actor>
 )
 
 @Serializable
