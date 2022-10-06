@@ -23,6 +23,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.preonboarding.moviereview.boxoffice.compose.BoxOfficeItem
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+
 @OptIn(ExperimentalFoundationApi::class)
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -60,18 +63,24 @@ class MainActivity : ComponentActivity() {
                             data.lastIndex -> {
                                 BoxOfficeItem(boxOffice = boxOffice) {
                                     val intent = Intent()
+                                    val json = Json.encodeToString(it)
+                                    intent.putExtra("data", json)
                                     startActivity(intent)
                                 }
                             }
                             0 -> {
                                 BoxOfficeItem(modifier = Modifier.padding(top = 10.dp, bottom = 10.dp), boxOffice = boxOffice) {
                                     val intent = Intent()
+                                    val json = Json.encodeToString(it)
+                                    intent.putExtra("data", json)
                                     startActivity(intent)
                                 }
                             }
                             else -> {
                                 BoxOfficeItem(modifier = Modifier.padding(bottom = 10.dp), boxOffice = boxOffice) {
                                     val intent = Intent()
+                                    val json = Json.encodeToString(it)
+                                    intent.putExtra("data", json)
                                     startActivity(intent)
                                 }
                             }
