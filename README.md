@@ -74,6 +74,55 @@
 
 ---
 
+일간 박스 오피스에 대한 정보를 담고 있는 페이지입니다. 현재 순위, 전날과 비교했을 때 순위의 변동 여부, 누적 관계 수, 개봉한 날짜 등을 확인할 수 있습니다. 
+
+```kotlin
+private fun observeGetMovieList() {
+    viewLifecycleOwner.lifecycleScope.launch {
+        viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            homeViewModel.checkHomeState.collectLatest { state ->
+                when(state) {
+                    is HomeState.Loading -> {
+                        binding.rvList.isVisible = false
+                        binding.progressBar.isVisible = true
+                    }
+                    is HomeState.Failure -> {
+                        binding.rvList.isVisible = false
+                        binding.progressBar.isVisible = false
+                    }
+                    is HomeState.Success -> {
+                        binding.rvList.isVisible = true
+                        binding.progressBar.isVisible = false
+                        val data = state.data
+                        val boxOfficeResult = data.boxOfficeResult
+                        val dailyBoxOfficeList = boxOfficeResult.dailyBoxOfficeList
+                        homeAdapter.submitList(dailyBoxOfficeList)
+                    }
+                    is HomeState.Empty -> {
+
+                    }
+                }
+            }
+        }
+    }
+}
+```
+stateFlow : 상태 관리를 용이하게 할 수 있게 되었습니다. 화면이 나오지 않는 경우 progressBar를 사용해서 로딩 중인 것을 알 수 있게끔 구현하였습니다. 
+
+```kotlin
+private val DIFF_COMPARATOR = object : DiffUtil.ItemCallback<BoxOfficeMovie>(){
+
+            override fun areItemsTheSame(oldItem: BoxOfficeMovie, newItem: BoxOfficeMovie): Boolean {
+                return oldItem.movieNm == newItem.movieNm
+            }
+
+            override fun areContentsTheSame(oldItem: BoxOfficeMovie, newItem: BoxOfficeMovie): Boolean {
+                return oldItem == newItem
+            }
+        }
+```
+listAdapter : DiffUtil 이라는 유틸리티 클래스를 사용해서 리스트 간의 차이를 비교한 후, 변경된 아이템만 UI에 업데이트 해줄 수 있습니다. 
+
 ### 3. 두번째 화면 - 이서윤
 
 ---
@@ -330,8 +379,23 @@ push()를 통해 시간에 따른 임이의 string값을 인덱스로 준다.
 - Controller와 같이 코드가 집중되면 성능이 저하되고 유지보수가 어려워진다.
 #### 2. StateFlow & SharedFlow vs LiveData
 * ㅁㅁㅁㅁㅁ
-#### 3. Hilt vs Dagger & Koin
-* ㅁㅁㅁㅁㅁ
+#### 3. koin vs dagger & hilt
+* - 의존성 주입(di)?
+
+주입은 클래스 외부에서 객체를 생성하여 해당 객체를 클래스 내부에 주입하는 것입니다. 이를 통해서 클래스 간에 의존도를 낮춰줄 수 있습니다. 의존도가 낮아지게 된다면, 특정 클래스가 변경이 되어도 다른 클래스가 변경의 영향을 적게 받게 됩니다.
+
+그렇다면 di를 사용함으로써 얻을 수 있는 이점은 무엇이있을까요?
+
+1. Unit Test가 용이해진다.
+2. 코드의 재활용성을 높여준다.
+3. 객체 간의 의존성(종속성)을 줄이거나 없엘 수 있다.
+4. 객체 간의 결합도이 낮추면서 유연한 코드를 작성할 수 있다.
+
+
+- hilt / dagger / koin
+  - koin : Kotlin DSL로 만들어졌으며, hilt / dagger / koin 가장 러닝커브가 낮다고 평가되고 있습니다. 그렇지만 koin은 런타임에 의존성 주입이 진행되기 때문에 App의 성능이 저하된다는 단점이 있습니다. 그렇기에 규모가 큰 프로젝트에서는 koin을 쓰지 않는 것을 권장하고 있습니다. (에러 로그 찾기 힘들다 / 앱을 실행할 때 에러가 발생하기에 안정성 문제 있음..)
+  - dagger : 가장 높은 러닝커브를 가지고 있습니다. 컴파일 시 의존성 주입이 시작됩니다. 그 결과 문제가 발생할 경우 컴파일 시점에 에러를 발생하기에 상대적으로 높은 안정성을 갖습니다. 그렇지만 가장 높은 러닝커브를 가지고 있으며, 이로 인하여 개발 환경 셋팅하는 것이 굉장히 어렵습니다.  
+  - hilt : dagger를 기반으로 만들어진 DI framework. dagger의 장점을 가져오면서, 사용자가 좀 더 사용하기 편하게 개량되었습니다.
 #### 4. Serialization vs Gson & Moshi
 * ㅁㅁㅁㅁㅁ
 #### 5. Navigation vs FragmentManager Transaction
