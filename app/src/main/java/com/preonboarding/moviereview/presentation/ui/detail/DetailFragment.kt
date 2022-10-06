@@ -58,8 +58,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
                     else{                        //리뷰가 있을때
                         val review = detailViewModel.searchReviewMovieList(1)//리뷰 가져오기
                         //TODO: 가져오는 객체가 map이므로 iterator로 뽑아서 -> List에 넣고 -> RecyclerView
-//                        map.forEach {
-//
+//                        HashMap<String, String>().forEach {
 //                        }
 
                     }
