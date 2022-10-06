@@ -118,6 +118,9 @@ private val DIFF_COMPARATOR = object : DiffUtil.ItemCallback<BoxOfficeMovie>(){
 ```
 listAdapter : DiffUtil 이라는 유틸리티 클래스를 사용해서 리스트 간의 차이를 비교한 후, 변경된 아이템만 UI에 업데이트 해줄 수 있습니다. 
 
+
+[dailyMovie.webm](https://user-images.githubusercontent.com/70066242/194413092-36d679df-26bf-4512-99f9-da707dd082ab.webm)
+
 ---
 
 ### 3. 두번째 화면 - 이서윤
