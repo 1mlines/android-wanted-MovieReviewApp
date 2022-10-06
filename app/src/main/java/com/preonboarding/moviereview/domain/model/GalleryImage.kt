@@ -8,4 +8,14 @@ data class GalleryImage(
     val filePath: String,
     val date: String,
     val imgUri: Uri,
-)
+    val type: ItemType
+) {
+    companion object {
+        fun cameraItem() = GalleryImage(0, "", "", "", Uri.EMPTY, ItemType.CAMERA)
+        fun emptyItem() = GalleryImage(0, "", "", "", Uri.EMPTY, ItemType.IMAGE)
+    }
+}
+
+enum class ItemType {
+    CAMERA, IMAGE
+}
