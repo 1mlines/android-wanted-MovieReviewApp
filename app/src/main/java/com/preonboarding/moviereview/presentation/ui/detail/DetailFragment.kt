@@ -1,6 +1,7 @@
 package com.preonboarding.moviereview.presentation.ui.detail
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
@@ -82,7 +83,8 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
         }.attach()
     }
     private fun checkMovieCd(){
-        binding.tvTest.text = args.homeData
+        binding.tvTest.text = args.homeData.movieCd
+
     }
 
     companion object {

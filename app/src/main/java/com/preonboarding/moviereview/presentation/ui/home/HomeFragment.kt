@@ -26,7 +26,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         HomeAdapter(
             itemClickListener = {
                 navigateWithArgs(HomeFragmentDirections.actionHomeToDetail(
-                    it.toString()
+                    it
                 ))
 
             }
@@ -113,3 +113,5 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         private const val TAG = "HomeFragment"
     }
 }
+
+
