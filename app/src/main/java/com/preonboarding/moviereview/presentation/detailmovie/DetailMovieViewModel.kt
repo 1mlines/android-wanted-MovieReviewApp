@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.preonboarding.moviereview.data.network.model.kobis.MovieInfo
-import com.preonboarding.moviereview.data.network.model.kobis.MovieInfos
 import com.preonboarding.moviereview.domain.usecase.DailyBoxOfficeUseCase
 import com.preonboarding.moviereview.domain.usecase.MovieInfosUseCase
 import com.preonboarding.moviereview.domain.usecase.PosterInfoUseCase
@@ -21,30 +20,26 @@ class DetailMovieViewModel @Inject constructor(
 ) : ViewModel() {
     var movieCd = ""
 
-    private var _result = MutableLiveData<MovieInfo>()
-    val result: LiveData<MovieInfo> = _result
+    private var _movieInfo = MutableLiveData<MovieInfo>()
+    val movieInfo: LiveData<MovieInfo> = _movieInfo
 
     private var _imageUrl = MutableLiveData<String>()
     val imageUrl: LiveData<String> = _imageUrl
 
-    fun getDailyBox(key: String, targetDt: String) {
+    fun getPosterInfo(movieNmEn: String, key: String) {
         viewModelScope.launch {
-            val result = dailyBoxOfficeUseCase.getDailyBoxOfficeList(key, targetDt)
-            movieCd = result!!.boxOfficeResult!!.dailyBoxOfficeList[0].movieCd
+            val posterInfo = posterInfoUseCase.getPosterInfo(movieNmEn, key)
+            if (posterInfo != null) {
+                _imageUrl.value = posterInfo.Poster
+            }
         }
     }
 
-    fun getPosterInfo(title: String, key: String) {
-        viewModelScope.launch {
-            val result = posterInfoUseCase.getPosterInfo(title, key)
-        }
-    }
-
-    fun getMovieInfo(key: String, movieCd: String) {
+    fun getMovieInfo(movieCd: String, key: String) {
         viewModelScope.launch {
             var movieInfos = movieInfosUseCase.getMovieInfo(key, movieCd)
-            if (movieInfos != null){
-                _result.value = movieInfos.movieInfoResult.movieInfo
+            if (movieInfos != null) {
+                _movieInfo.value = movieInfos.movieInfoResult.movieInfo
             }
         }
     }

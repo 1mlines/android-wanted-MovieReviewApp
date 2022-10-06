@@ -4,8 +4,8 @@
     <data>
 
         <variable
-            name="dailyBoxOffices"
-            type="com.preonboarding.moviereview.data.network.model.kobis.DailyBoxOffice" />
+            name="boxOffice"
+            type="com.preonboarding.moviereview.domain.model.BoxOffice" />
 
         <variable
             name="movieInfo"
@@ -33,7 +33,7 @@
             android:layout_height="120dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:setPoster="@{posterInfo.Poster}"
+            app:setPoster="@{boxOffice.moviePoster}"
             tools:src="@drawable/ic_launcher_foreground" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -50,7 +50,7 @@
                 android:id="@+id/textview_detailmovie_rank"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{dailyBoxOffices.rank}"
+                android:text="@{boxOffice.ranking}"
                 android:textColor="@color/white"
                 android:textSize="12dp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -65,7 +65,7 @@
                 android:textSize="12dp"
                 app:layout_constraintStart_toEndOf="@+id/textview_detailmovie_rank"
                 app:layout_constraintTop_toTopOf="parent"
-                app:setRankInten="@{dailyBoxOffices.rankInten}"
+                app:setRankInten="@{boxOffice.rankInten}"
                 tools:text="(↑3)" />
 
             <TextView
@@ -76,7 +76,7 @@
                 android:textSize="10dp"
                 app:layout_constraintStart_toEndOf="@+id/textview_detailmovie_rankInten"
                 app:layout_constraintTop_toTopOf="parent"
-                app:setRankOldAndNew="@{dailyBoxOffices.rankOldAndNew}"
+                app:setRankOldAndNew="@{boxOffice.rankType}"
                 tools:text="NEW" />
 
 
@@ -148,7 +148,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:text="@{dailyBoxOffices.audiAcc}"
+            android:text="@{boxOffice.audiAcc}"
             app:layout_constraintStart_toEndOf="@+id/textview_detailmovie_rating"
             app:layout_constraintTop_toBottomOf="@+id/textview_detailmovie_dates"
             tools:text="관객수 500,000명" />

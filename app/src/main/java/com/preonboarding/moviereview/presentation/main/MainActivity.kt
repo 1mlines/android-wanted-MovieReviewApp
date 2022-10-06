@@ -22,6 +22,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.preonboarding.moviereview.boxoffice.compose.BoxOfficeItem
+import com.preonboarding.moviereview.presentation.detailmovie.DetailMovieActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -62,7 +63,7 @@ class MainActivity : ComponentActivity() {
                         when (index) {
                             data.lastIndex -> {
                                 BoxOfficeItem(boxOffice = boxOffice) {
-                                    val intent = Intent()
+                                    val intent = Intent(applicationContext, DetailMovieActivity::class.java)
                                     val json = Json.encodeToString(it)
                                     intent.putExtra("data", json)
                                     startActivity(intent)
@@ -70,7 +71,7 @@ class MainActivity : ComponentActivity() {
                             }
                             0 -> {
                                 BoxOfficeItem(modifier = Modifier.padding(top = 10.dp, bottom = 10.dp), boxOffice = boxOffice) {
-                                    val intent = Intent()
+                                    val intent = Intent(applicationContext, DetailMovieActivity::class.java)
                                     val json = Json.encodeToString(it)
                                     intent.putExtra("data", json)
                                     startActivity(intent)
@@ -78,7 +79,7 @@ class MainActivity : ComponentActivity() {
                             }
                             else -> {
                                 BoxOfficeItem(modifier = Modifier.padding(bottom = 10.dp), boxOffice = boxOffice) {
-                                    val intent = Intent()
+                                    val intent = Intent(applicationContext, DetailMovieActivity::class.java)
                                     val json = Json.encodeToString(it)
                                     intent.putExtra("data", json)
                                     startActivity(intent)
