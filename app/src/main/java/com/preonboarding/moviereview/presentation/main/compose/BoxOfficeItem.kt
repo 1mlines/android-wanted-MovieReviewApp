@@ -105,6 +105,18 @@ fun BoxOfficeItem(
                             color = Color.White
                         )
                     }
+                    if (boxOffice.rankType == "NEW") {
+                        Box(
+                            modifier = Modifier.align(Alignment.BottomEnd)
+                        ) {
+                            Text(
+                                text = boxOffice.rankType,
+                                fontSize = 25.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color.Red
+                            )
+                        }
+                    }
                 }
             }
 
