@@ -6,5 +6,6 @@ import javax.inject.Inject
 class GetBoxOfficeListUseCase @Inject constructor(
     private val movieRepository: MovieRepository
 ) {
-    //todo
+    suspend operator fun invoke() =
+        movieRepository.getBoxOfficeList()
 }
