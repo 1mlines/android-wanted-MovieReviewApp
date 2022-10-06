@@ -122,18 +122,18 @@
 	* reflection 방식 사용하여 Json string을 역/직렬화
 - **Moshi**
 	* default value를 무시하고 0 또는 null로 역/직렬화하는 문제점
-- **Kotlinx Serialization**
+- **Kotlin Serialization**
 	* 잘못 작성된 코드는 컴파일 에러로 잡힘 → 컴파일 안전을 보장
 	* reflection을 사용하지 않아 성능적인 장점 존재
 
 	<img width="694" alt="스크린샷 2022-10-06 오후 10 34 51" src="https://user-images.githubusercontent.com/31344894/194361493-5f99a744-8e55-4c52-9ad9-7177a065eb83.png">  
 
-	- Kotlinx Serialization 사용할 시 속도 향상 정도 
+	- Kotlin Serialization 사용할 시 속도 향상 정도 
 
 ### HTTP 통신 시 역/직렬화 라이브러리 => Gson 선택
 <img width="682" alt="스크린샷 2022-10-07 오전 12 47 13" src="https://user-images.githubusercontent.com/31344894/194359067-be0b6e13-36bc-419f-a4e3-b692fa269a42.png">  
 
-- Gson 보다는 Kotlinx Serialization의 성능이 더 좋았으나, 익숙함을 사유로 Gson을 선택
+- Gson 보다는 Kotlin Serialization의 성능이 더 좋았으나, 익숙함을 사유로 Gson을 선택
 
 -----  
 
@@ -429,12 +429,12 @@ https://user-images.githubusercontent.com/35549958/194384816-9052d7da-ad72-48af-
 </div>
 
 
-- Realtime Databas
+- Realtime Database
 	- 데이터를 하나의 큰 JSON 트리로 저장함.
-	- 쿼리시, 정렬과 필터링만 가능하며, 기본적으로 해당 depth의 데이터 반환시 그 이하의 모든 depth가 반환됨.
+	- 쿼리시, 정렬과 필터링만 가능하며, 기본적으로 해당 depth의 데이터 반환시 그 이하의 모든 depth가 반환됨. -> 성능저하 발생 가능
 - Cloud Firestore
 	- 데이터가 문서와 컬렉션으로 이루어짐.
-	- 쿼리시, 정렬과 필터링 조건문을 동시 사용 가능하며, 쿼리가 얕아서 특정 컬렉션이나 컬렉션의  문서만 반환 됨. 
+	- 쿼리시, 정렬과 필터링 조건문을 동시 사용 가능하며, 쿼리가 얕아서 특정 컬렉션이나 컬렉션의 문서만 반환 됨. -> 성능저하 발생 가능성 낮음
 	- Realtime Databas의 여러 단점들 보완 및 성능 개선되어 출시됨.
 	
 <p>
@@ -472,6 +472,7 @@ data class ReviewVO(
 ```
  - Repository
  	- FireStore 데이터베이스에서 리뷰 저장, 가져오기에 대한 액세스 권한을 만듬.
+ 	- 데이터 저장시, 커스텀 클래스(ReviewVO)를 사용하여 문서를 작성.
  
  ```kotlin
 
@@ -489,7 +490,8 @@ data class ReviewVO(
 
  - ViewModel
  	- 리뷰 데이터를 관리함.
- 	- 여러 사용자들의 리뷰가 달리므로, 데이터가 변경되는 순간 데이터를 받아오는 Push Driven 방식으로 firebase의 리뷰들을 가져옴.
+ 	- 여러 사용자들의 리뷰가 달리므로, 데이터가 변경되는 순간 데이터를 받아와 UI를 업데이트 하기위해, Push Driven 방식으로 firebase의 리뷰들을 가져옴.
+ 	- 
  
  ```kotlin
  class ReviewViewModel() : ViewModel() {
