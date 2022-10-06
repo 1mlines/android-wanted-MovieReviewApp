@@ -52,7 +52,7 @@ fun BoxOfficeItem(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(100.dp)
+                .height(150.dp)
                 .clickable(
                     interactionSource = interactionSource,
                     indication = null
@@ -130,15 +130,21 @@ fun BoxOfficeItem(
                     .fillMaxHeight()
                     .width(150.dp)
             ) {
-                Text(
-                    modifier = Modifier,
-                    text = "영화 제목 : ${boxOffice.movieName}"
-                )
-                Text(
-                    modifier = Modifier,
-                    text = "개봉일 : ${boxOffice.movieOpen}"
-                )
-                Text(text = "관객 수 : ${boxOffice.audiAcc}")
+                if (boxOffice.movieName.isNotEmpty()) {
+                    Text(
+                        modifier = Modifier,
+                        text = "영화 제목 : ${boxOffice.movieName}"
+                    )
+                }
+                if (boxOffice.movieOpen.isNotEmpty() && boxOffice.movieOpen.isNotBlank()) {
+                    Text(
+                        modifier = Modifier,
+                        text = "개봉일 : ${boxOffice.movieOpen}"
+                    )
+                }
+                if (boxOffice.audiAcc.isNotEmpty() && boxOffice.audiAcc.isNotBlank()) {
+                    Text(text = "관객 수 : ${boxOffice.audiAcc}")
+                }
             }
 
             if (boxOffice.rankInten.toInt() < 0) {
@@ -187,7 +193,7 @@ fun DummyBoxOfficeItem(
     modifier: Modifier = Modifier
 ) {
     Card(
-        modifier = modifier.padding(start = 5.dp, end = 5.dp, top = 10.dp, bottom = 10.dp).shadow(
+        modifier = modifier.padding(start = 5.dp, end = 5.dp, top = 5.dp, bottom = 5.dp).shadow(
             elevation = 3.dp,
             shape = RoundedCornerShape(5.dp)
         )
@@ -195,7 +201,7 @@ fun DummyBoxOfficeItem(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(100.dp),
+                .height(150.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
