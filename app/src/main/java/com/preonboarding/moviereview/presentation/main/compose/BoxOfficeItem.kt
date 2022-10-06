@@ -51,7 +51,9 @@ fun BoxOfficeItem(
                 .fillMaxWidth()
                 .height(100.dp)
                 .clickable {
-                    onClick(boxOffice)
+                    if (boxOffice.isReady) {
+                        onClick(boxOffice)
+                    }
                 },
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
