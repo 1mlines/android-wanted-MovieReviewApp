@@ -10,10 +10,12 @@ import com.preonboarding.domain.usecase.DeleteReviewUseCase
 import com.preonboarding.domain.usecase.GetReviewListUseCase
 import com.preonboarding.domain.usecase.UploadReviewUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
-
 
 //TODO 영화제목 받아와야함
 @HiltViewModel
@@ -39,6 +41,8 @@ class DetailViewModel @Inject constructor(
     val passwd = "123456"
 
     var uri: String = ""
+
+    lateinit var title: String
 
     // 영화제목 받아와야함
     fun uploadReview(title: String) {
@@ -72,7 +76,7 @@ class DetailViewModel @Inject constructor(
         viewModelScope.launch {
             runCatching {
                 // 선택된 리뷰 삭제
-                /*deleteReviewUseCase(title, reviewBuffer)*/
+                deleteReviewUseCase(title, reviewBuffer)
             }.onSuccess {
                 _reviewUiState.emit(ReviewUiState.Success(MODE.DELETE))
             }.onFailure {
@@ -86,7 +90,7 @@ class DetailViewModel @Inject constructor(
             if (password == passwd) {
                 if (mode == MODE.DELETE) {
                     // 리뷰 삭제 로직
-                    // deleteReview()
+                    //deleteReview()
                     _reviewUiState.emit(ReviewUiState.Success(mode))
                 } else {
                     _reviewUiState.emit(ReviewUiState.Modify)
@@ -108,5 +112,6 @@ class DetailViewModel @Inject constructor(
             _selectedReview.value = Review()
         }
     }
+
 
 }

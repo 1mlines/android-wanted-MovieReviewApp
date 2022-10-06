@@ -63,6 +63,8 @@ class MovieRepositoryImpl @Inject constructor(
                                         watchGradeNm = detailInfo.audits.map { it.watchGradeNm },
                                         posterUrl = responsePoster.data.Poster,
                                         plot = responsePoster.data.Plot,
+                                        casts = detailInfo.actors.map { it.cast }
+
                                     )
                                 )
                             }
@@ -84,6 +86,7 @@ class MovieRepositoryImpl @Inject constructor(
                                         watchGradeNm = detailInfo.audits.map { it.watchGradeNm },
                                         posterUrl = "",
                                         plot = "줄거리 없음",
+                                        casts = detailInfo.actors.map { it.cast }
                                     )
                                 )
                             }
