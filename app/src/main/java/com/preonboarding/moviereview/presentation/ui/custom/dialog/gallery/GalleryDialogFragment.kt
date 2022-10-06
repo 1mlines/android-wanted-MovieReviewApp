@@ -33,7 +33,6 @@ import java.io.ByteArrayOutputStream
 class GalleryDialogFragment : DialogFragment() {
     private lateinit var binding: FragmentGalleryDialogBinding
     private lateinit var getResult: ActivityResultLauncher<Intent>
-    private var cameraImage = GalleryImage.emptyItem()
 
     private val galleryViewModel: GalleryDialogViewModel by viewModels()
     private lateinit var galleryPagingAdapter: GalleryPagingAdapter
@@ -55,13 +54,12 @@ class GalleryDialogFragment : DialogFragment() {
         getResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == Activity.RESULT_OK) {
                 if (it.data?.extras?.get("data") != null) {
-                    val bitmap = it.data?.extras?.get("data") as Bitmap
-                    cameraImage = cameraImage.copy(id = System.currentTimeMillis() / 7,
-                        name = "",
-                        filePath = "",
-                        date = "",
-                        imgUri = getImageUri(requireContext(), bitmap) ?: Uri.EMPTY
+                    val uri = getImageUri(
+                        requireContext(),
+                        it.data?.extras?.get("data") as Bitmap
                     )
+
+                    galleryViewModel.setCameraImage(uri = uri)
                 }
             }
         }
@@ -110,10 +108,10 @@ class GalleryDialogFragment : DialogFragment() {
         when(image.type) {
 
             ItemType.CAMERA -> {
-                if(requestCameraPermission()) {
+                if (requestCameraPermission()) {
                     openCamera()
-                    if(cameraImage.imgUri != Uri.EMPTY) {
-                        mImageClickListener.onImageClick(cameraImage)
+                    if (galleryViewModel.cameraImage.value.imgUri != Uri.EMPTY) {
+                        mImageClickListener.onImageClick(galleryViewModel.cameraImage.value)
                         dialog?.dismiss()
                     }
                 }

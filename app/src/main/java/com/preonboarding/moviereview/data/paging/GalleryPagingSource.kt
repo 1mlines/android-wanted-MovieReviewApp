@@ -5,7 +5,6 @@ import androidx.paging.PagingState
 import com.preonboarding.moviereview.data.local.source.gallery.GalleryDataSource
 import com.preonboarding.moviereview.domain.model.GalleryImage
 import kotlinx.coroutines.delay
-import timber.log.Timber
 import javax.inject.Inject
 
 class GalleryPagingSource @Inject constructor(

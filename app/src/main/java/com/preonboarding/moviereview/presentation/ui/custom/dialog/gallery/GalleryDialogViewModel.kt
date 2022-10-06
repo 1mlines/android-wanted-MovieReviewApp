@@ -1,29 +1,35 @@
 package com.preonboarding.moviereview.presentation.ui.custom.dialog.gallery
 
-import android.content.ContentUris
-import android.content.Context
-import android.provider.MediaStore
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.preonboarding.moviereview.data.paging.GalleryPagingSource
 import com.preonboarding.moviereview.domain.model.GalleryImage
-import com.preonboarding.moviereview.domain.model.ItemType
 import com.preonboarding.moviereview.domain.usecase.GetGalleryImageUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class GalleryDialogViewModel @Inject constructor(
     private val getGalleryImageUseCase: GetGalleryImageUseCase,
 ): ViewModel() {
+
+    private val _cameraImage = MutableStateFlow<GalleryImage>(GalleryImage.emptyItem())
+    val cameraImage: StateFlow<GalleryImage>
+        get() = _cameraImage
+
+    fun setCameraImage(uri: Uri?) {
+
+        _cameraImage.value = _cameraImage.value.copy(
+            id = System.currentTimeMillis() / 7,
+            name = "",
+            filePath = "",
+            date = "",
+            imgUri = uri ?: Uri.EMPTY
+        )
+    }
 
     fun getAllImages(): Flow<PagingData<GalleryImage>> {
         return getGalleryImageUseCase.invoke().cachedIn(viewModelScope)
