@@ -68,7 +68,7 @@
 
 ### 1. 프로젝트 세팅 및 카메라 갤러리 - 임수진
 
-#### 1) Multi Api
+#### 1) Multiple API
 
 - 오류 상황
 <img width="600" alt="image" src="https://user-images.githubusercontent.com/85485290/194419038-08c9cc15-8c85-465b-80fd-3ba2eb64df7f.png">
@@ -114,6 +114,12 @@ class RemoteRepositoryImpl @Inject constructor(
     @RetrofitFireBase private val fireBaseApi: FireBaseApi,
 ) : RemoteRepository {
 ```
+
+---
+
+| <img width="300" src="https://user-images.githubusercontent.com/85485290/194422556-f5bfb3be-351b-4952-866f-4841b2eee4fe.png" /> | <img width="300" src="https://user-images.githubusercontent.com/85485290/194422686-b70223a7-de82-4a66-a32f-7f4c4cbdcedb.png" /> | <img width="300" src="https://user-images.githubusercontent.com/85485290/194422771-417795ea-a991-4f3e-9020-5c7c5c351fb0.png" /> | <img width="300" src="https://user-images.githubusercontent.com/85485290/194423706-7f831343-39f6-4413-b6c2-d8ceb053116b.png" /> | <img width="300" src="https://user-images.githubusercontent.com/85485290/194422893-6bac5104-f1ac-4a4a-a477-820b6148cd1b.png" /> |
+| ------------ | ------------ | ------------ | ------------ | ------------ |
+| 갤러리 권한체크 | 갤러리 띄우기 | 카메라 권한체크 | 카메라 촬영 | 이미지 선택 후 띄우기 |
 
 #### 2) Custom Gallery
 
