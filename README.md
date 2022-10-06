@@ -382,6 +382,21 @@ Box(
 
 또한 영화가 새롭게 진입한 영화라면, New Text가 보여지도록 구현하였습니다.
 
+## 한혜원
+- 담당한 일
+	- 두번째 페이지 구현
+- 기여한 점
+	- 영화 상세 정보
+	- 리뷰 목록 
+	- 영화 상세 정보 공유
+- 남은 일
+	- 리뷰 목록 구현
+	- ui에 motionlayout 적용해보기
+- 실행영상
+
+https://user-images.githubusercontent.com/35549958/194384816-9052d7da-ad72-48af-ac88-157f393171cd.mp4
+
+
 ## Convention
 
 ### Branch Convention
