@@ -4,5 +4,5 @@ import com.preonboarding.moviereview.domain.model.GalleryImage
 
 interface GalleryDataSource {
 
-    suspend fun getAllImages(): ArrayList<GalleryImage>
+    suspend fun getAllImages(pageNumber: Int): ArrayList<GalleryImage>
 }

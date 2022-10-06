@@ -25,11 +25,6 @@ class GalleryDialogViewModel @Inject constructor(
     private val getGalleryImageUseCase: GetGalleryImageUseCase,
 ): ViewModel() {
 
-    private val _imageList: MutableStateFlow<PagingData<GalleryImage>> =
-        MutableStateFlow(PagingData.empty())
-    val imageList: StateFlow<PagingData<GalleryImage>>
-        get() = _imageList
-
     fun getAllImages(): Flow<PagingData<GalleryImage>> {
         return getGalleryImageUseCase.invoke().cachedIn(viewModelScope)
     }

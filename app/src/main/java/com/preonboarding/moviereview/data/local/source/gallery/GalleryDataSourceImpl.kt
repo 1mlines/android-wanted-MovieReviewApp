@@ -13,7 +13,7 @@ class GalleryDataSourceImpl @Inject constructor(
     @ApplicationContext private val context: Context
 ): GalleryDataSource {
 
-    override suspend fun getAllImages(): ArrayList<GalleryImage> {
+    override suspend fun getAllImages(pageNumber: Int): ArrayList<GalleryImage> {
         val imageList: ArrayList<GalleryImage> = arrayListOf()
 
         val projection = arrayOf(
@@ -36,7 +36,7 @@ class GalleryDataSourceImpl @Inject constructor(
         )
 
         if(cursor != null){
-            while(cursor.moveToNext()){
+            while(cursor.moveToNext() && cursor.position < PAGE_SIZE * pageNumber){
 
                 val id = cursor.getLong(cursor.getColumnIndexOrThrow(IMAGE_ID))
                 val filepath = cursor.getString(cursor.getColumnIndexOrThrow(IMAGE_DATA))
@@ -46,6 +46,7 @@ class GalleryDataSourceImpl @Inject constructor(
                 // 사진 경로 Uri 가져오기
                 val uri = ContentUris.withAppendedId(IMAGE_URI, id)
 
+                if(cursor.position >= (pageNumber - 1) * PAGE_SIZE)
                 imageList.add(GalleryImage(
                     id = id,
                     name = name,
@@ -57,7 +58,7 @@ class GalleryDataSourceImpl @Inject constructor(
             }
             cursor.close()
         }
-        Timber.tag(TAG).e(imageList.toString())
+        if(pageNumber == 1) imageList.add(0, GalleryImage.cameraItem())
         return imageList
     }
 
@@ -69,6 +70,7 @@ class GalleryDataSourceImpl @Inject constructor(
         private const val IMAGE_DATE_ADDED = MediaStore.Images.ImageColumns.DATE_ADDED
         private const val IMAGE_DATE_TAKEN = MediaStore.Images.ImageColumns.DATE_TAKEN
 
+        private const val PAGE_SIZE = 30
         private const val TAG = "GalleryImageDataSourceImpl"
     }
 }
