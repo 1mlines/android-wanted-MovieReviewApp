@@ -81,6 +81,131 @@
 ### 4. 세번째 화면 - 이현섭
 
 ---
+| case | 원래 db | 리뷰 작성 | 바뀐 db | 바뀐 stroage |
+| --- | --- | --- | --- | --- |
+| 화면 | ![image](https://user-images.githubusercontent.com/35682233/194368886-12e88dfd-002b-426c-823d-8babc333258a.png) | ![KakaoTalk_20221007_013736112](https://user-images.githubusercontent.com/35682233/194369884-9d94e0a1-7315-497f-b837-15c1815fc909.jpg) | ![image](https://user-images.githubusercontent.com/35682233/194370237-2747deb1-cecc-486d-97f4-72b924064977.png) | ![image](https://user-images.githubusercontent.com/35682233/194370273-0eb9fef0-0d16-47a5-9d6c-ed089e13f6ba.png) |
+## 리뷰가져오기
+
+```kotlin
+private fun findReview(){
+        database = FirebaseDatabase.getInstance().reference
+        val ref = database.database.getReferenceFromUrl(FIRE_BASE_URL)
+        // child 안에 무비 id 가져와야한다.
+
+        ref.child("1").addValueEventListener(
+            object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    if(dataSnapshot.value==null){//리뷰가 없을때
+
+                    }
+                    else{                        //리뷰가 있을때
+                        detailViewModel.searchReviewMovieList(1)//리뷰 가져오기
+
+                    }
+                }
+
+                override fun onCancelled(databaseError: DatabaseError) {
+                    println("The read failed: " + databaseError.code)
+                }
+            }
+        )
+    }
+```
+
+realtime 데이터베이스를 가져와서 해당 영화의 리뷰의 정보를 가져온다.
+
+스냅샷을 통해 비엇는지 안비엇는지 확인한다.
+
+```kotlin
+fun searchReviewMovieList(movieId : Int) {
+        viewModelScope.launch {
+            remoteRepository.searchReviewInfo(
+                movieId = movieId
+            )
+                .collect {
+                    Timber.tag("ReviewModel").e(it.toString())
+                }
+        }
+    }
+```
+
+```kotlin
+interface FireBaseApi {
+
+    @GET("{movieId}.json")
+    suspend fun searchReviewInfo(
+        @Path("movieId") movieId: Int,
+    ): Map<String, Review>
+}
+```
+
+다음 코드와 같이 네트워크 통신처럼 데이터를 가져온다.
+
+아쉬운점→어차피 스냅샷으로 판단하는데 굳이 또 네트워크 통신을 할 필요는 없는거 같다.
+
+## 리뷰 작성
+
+이미지 업로드
+
+```kotlin
+private fun uploadPhoto(uri: Uri, successHandler: (String) -> Unit, errorHandler: () -> Unit) {
+        val fileName = "${System.currentTimeMillis()}.png" // 이미지 파일 이름
+        fbStorage.reference.child("article/photo")
+            .child(fileName) // storage 에 article/photo/fileName 경로로 저장
+            .putFile(uri)
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    // 업로드 성공시
+                    fbStorage.reference.child("article/photo").child(fileName).downloadUrl
+                        .addOnSuccessListener { uri ->
+                            // 다운로드 성공시
+                            successHandler(uri.toString()) // successHandler 실행
+                        }
+                        .addOnFailureListener {
+                            // 다운로드 실패시
+                            errorHandler() // errorHandler 실행
+                        }
+                } else {
+                    // 업로드 실패시
+                    errorHandler()
+                }
+            }
+    }
+```
+
+먼저 storage에 이미지를 저장시킨다. 업로드 완료후 해당 이미지 storage링크를 realtime db에 업로드 한다.
+
+```kotlin
+private fun uploadArticle(
+        nickname: String,
+        content: String,
+        password: Int,
+        imageUrl: String,
+        rate: Float,
+    ) {
+        val model = Review(
+            content = content,
+            imageUrl = imageUrl,
+            nickName = nickname,
+            password = password,
+            star = rate)
+
+        //child에서 detail에서 넘어올때 영화id를 같이 넘겨주세요
+        val ref = database.database.getReferenceFromUrl(FIRE_BASE_URL).child("1").push()
+        ref.setValue(model)
+        Snackbar.make(
+            requireActivity().findViewById(android.R.id.content),
+            getString(R.string.review_sucess_snack_bar_text),
+            Snackbar.LENGTH_SHORT)
+            .show()
+        navigateUp()
+    }
+```
+
+db에 업로드 할때 번호로 인덱스를 주면 같이 업로드할 경우 똑같은 번호가 있을 수 있으므로
+
+push()를 통해 시간에 따른 임이의 string값을 인덱스로 준다.
+
 
 ### 5. 영화 검색, 피그마 UI 디자인 - 이재성
 
@@ -95,7 +220,114 @@
 
 ### 기술스택 비교 분석
 #### 1. MVVM vs MVC & MVP
-* ㅁㅁㅁㅁㅁ
+# MVVM
+
+### 구조
+
+> **Model**
+> 
+- MVC, MVP와 동일하다.
+- DB 사용이나 Retrofit을 통한 백엔드 API 호출 등을 주로 수행한다.
+- 데이터, 비즈니스 로직, 서비스 클라이언트 등으로 구성
+- 실제적 데이터
+
+> **View**
+> 
+- 기본적인 것들은 MVC, MVP와 동일 / Activity/Fragment가 View에 포함
+- ViewModel을 관찰하여 상태 변화가 관찰되면 UI 갱신
+- Data Binding을 위해 gradle과 xml을 수정
+- 이를 통해 View는 ViewModel에 의해 Model과 유연한 binding이 가능
+
+> **ViewModel**
+> 
+- 기본적으로 View에 종속되지 않는다.
+- Model을 래핑하고 View에 필요한 Observable data를 준비한다.
+- View가 Model에 Event를 전달할 수 있도록 Hook(BindingAdapter)을 준비한다.
+
+### 장점
+
+- Command Pattern과 Data Binding을 사용해 View와 ViewModel 사이의 의존성도 없앴다.
+- 각각의 부분은 독립적이기 때문에 모듈화하여 개발할 수 있다.
+
+### **단점**
+
+- ViewModel의 설계가 어렵다.
+- View가 변수와 표현식 모두에 Binding될 수 있으므로 갈수록 presentation logic이 늘어나 XML이 방대해진다. 이를 방지하려면 항상 ViewModel에서 직접 값을 가져오는 것이 좋다.
+
+## MVC
+
+### 구조
+
+> **Model**
+> 
+- 어플리케이션에서 사용되는 data, data를 처리한다.
+- View에 의존적이지 않기 때문에 재사용 가능.
+
+> **View**
+> 
+- 사용자에게 보여지는 UI를 나타낸다.
+- Model로부터 data를 받아 사용자에게 보여준다.
+
+> **Controller**
+> 
+- 사용자의 입력을 받고 처리한다.
+- 주로 Activity나 Fragment로 표현한다.
+- Model의 data 변화에 따라 View를 선택한다.
+
+### 장점
+
+- 가장 널리 사용되는 패턴 (보편적으로 많이 사용)
+- 가장 단순
+
+### **단점**
+
+- View와 Model사이의 의존성이 높다.
+- Controller가 Android API에 종속되어 테스트가 어렵다.
+- View를 변경하면 Controller도 변경해야 한다.
+- 많은 코드들이 Controller에 집중되면 성능이 저하되고 유지보수가 어려워진다.
+
+# MVP
+
+### 구조
+
+> **Model**
+> 
+- 어플리케이션에서 사용되는 데이터, 데이터를 처리하는 부분
+
+> **View**
+> 
+- 사용자에게 보여지는 UI 부분
+- 기본적인 것들은 MVC와 동일하나, Activity/Fragment가 View에 포함된다.
+
+> **Presenter**
+> 
+- View에서 요청한 정보를 Model을 가공하여 View에 전달(View와 Model의 다리)
+- Controller와의 차이점은 Interface라는 점이다.
+
+### **동작**
+
+- 사용자의 Action이 View에 들어온다.
+- View는 데이터를 Presenter에 요청
+- Presenter는 Model에 데이터 요청
+- Model은 Presenter에서 요청 받은 데이터 응답
+- Presenter는 View에게 데이터 응답
+- View는 Presenter가 응답한 데이터를 이용해 화면을 나타낸다.
+
+### **특징**
+
+- Presenter는 View, Model의 인스턴스를 가지고 있어 둘을 연결한다.
+- Presenter와 View는 1:1
+- 단순 Interface이기 때문에 테스트가 용이하고 모듈화/유연성 문제가 해결되었다.
+
+### 장점
+
+- View와 Model의 의존성이 없다.(Presenter를 통해 데이터를 전달 받기 때문)
+
+### **단점**
+
+- View와 Presenter 사이 의존성이 높다.
+- 어플리케이션이 복잡해 질수록 View와 Presenter 사이 의존성이 강해진다.
+- Controller와 같이 코드가 집중되면 성능이 저하되고 유지보수가 어려워진다.
 #### 2. StateFlow & SharedFlow vs LiveData
 * ㅁㅁㅁㅁㅁ
 #### 3. Hilt vs Dagger & Koin
