@@ -187,7 +187,7 @@ fun DummyBoxOfficeItem(
     modifier: Modifier = Modifier
 ) {
     Card(
-        modifier = modifier.padding(start = 5.dp, end = 5.dp, top = 10.dp, bottom = 10.dp).shadow(
+        modifier = modifier.padding(start = 5.dp, end = 5.dp, top = 5.dp, bottom = 5.dp).shadow(
             elevation = 3.dp,
             shape = RoundedCornerShape(5.dp)
         )
