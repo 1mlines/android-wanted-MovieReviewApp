@@ -6,9 +6,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.fragment.findNavController
 import com.preonboarding.moviereview.R
-import com.preonboarding.moviereview.data.remote.model.BoxOfficeMovie
 import com.preonboarding.moviereview.databinding.FragmentHomeBinding
 import com.preonboarding.moviereview.presentation.common.base.BaseFragment
 import com.preonboarding.moviereview.presentation.common.const.KOBIS_API_KEY
@@ -23,8 +21,8 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private val homeViewModel: HomeViewModel by viewModels()
-    private val pagingAdapter: HomePagingAdapter by lazy {
-        HomePagingAdapter(
+    private val pagingAdapter: HomeAdapter by lazy {
+        HomeAdapter(
             itemClickListener = {
                 navigateWithArgs(HomeFragmentDirections.actionHomeToDetail(
                     it.movieCd.toString()
@@ -39,10 +37,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         initListener()
         homeViewModel.searchDailyBoxOfficeList()
 
-        homeViewModel.getMovieList(
-            key = KOBIS_API_KEY,
-            targetDt = "20220103"
-        )
+
 
         initRecyclerView()
         observeGetMovieList()

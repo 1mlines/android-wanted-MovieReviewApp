@@ -8,9 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.preonboarding.moviereview.data.remote.model.BoxOfficeMovie
 import com.preonboarding.moviereview.databinding.ItemMovieListBinding
 
-class HomePagingAdapter(
+class HomeAdapter(
     private val itemClickListener: (BoxOfficeMovie) -> Unit
-) : PagingDataAdapter<BoxOfficeMovie, HomePagingAdapter.HomeViewHolder>(DIFF_COMPARATOR) {
+) : PagingDataAdapter<BoxOfficeMovie, HomeAdapter.HomeViewHolder>(DIFF_COMPARATOR) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
