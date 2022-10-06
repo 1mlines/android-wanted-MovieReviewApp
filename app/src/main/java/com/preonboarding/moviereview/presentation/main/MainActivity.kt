@@ -9,6 +9,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -21,6 +22,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.preonboarding.moviereview.boxoffice.compose.BoxOfficeItem
+import com.preonboarding.moviereview.boxoffice.compose.DummyBoxOfficeItem
+import com.preonboarding.moviereview.domain.model.BoxOffice.Companion.DUMMY_LIST
 import com.preonboarding.moviereview.presentation.detailmovie.DetailMovieActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.serialization.encodeToString
@@ -63,40 +66,57 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                     }
-                    itemsIndexed(
-                        items = data,
-                        key = { _, boxOffice ->
-                            boxOffice.ranking
+                    if (data.isNotEmpty()) {
+                        itemsIndexed(
+                            items = data,
+                            key = { _, boxOffice ->
+                                boxOffice.ranking
+                            }
+                        ) { index, boxOffice ->
+                            when (index) {
+                                data.lastIndex -> {
+                                    BoxOfficeItem(boxOffice = boxOffice) {
+                                        val intent = Intent(
+                                            applicationContext,
+                                            DetailMovieActivity::class.java
+                                        )
+                                        val json = Json.encodeToString(it)
+                                        intent.putExtra("data", json)
+                                        startActivity(intent)
+                                    }
+                                }
+                                0 -> {
+                                    BoxOfficeItem(modifier = Modifier.padding(top = 10.dp, bottom = 10.dp), boxOffice = boxOffice) {
+                                        val intent = Intent(
+                                            applicationContext,
+                                            DetailMovieActivity::class.java
+                                        )
+                                        val json = Json.encodeToString(it)
+                                        intent.putExtra("data", json)
+                                        startActivity(intent)
+                                    }
+                                }
+                                else -> {
+                                    BoxOfficeItem(modifier = Modifier.padding(bottom = 10.dp), boxOffice = boxOffice) {
+                                        val intent = Intent(
+                                            applicationContext,
+                                            DetailMovieActivity::class.java
+                                        )
+                                        val json = Json.encodeToString(it)
+                                        intent.putExtra("data", json)
+                                        startActivity(intent)
+                                    }
+                                }
+                            }
                         }
-                    ) { index, boxOffice ->
-                        when (index) {
-                            data.lastIndex -> {
-                                BoxOfficeItem(boxOffice = boxOffice) {
-                                    val intent =
-                                        Intent(applicationContext, DetailMovieActivity::class.java)
-                                    val json = Json.encodeToString(it)
-                                    intent.putExtra("data", json)
-                                    startActivity(intent)
-                                }
+                    } else {
+                        items(
+                            items = DUMMY_LIST,
+                            key = {
+                                it.movieCd
                             }
-                            0 -> {
-                                BoxOfficeItem(modifier = Modifier.padding(top = 10.dp, bottom = 10.dp), boxOffice = boxOffice) {
-                                    val intent =
-                                        Intent(applicationContext, DetailMovieActivity::class.java)
-                                    val json = Json.encodeToString(it)
-                                    intent.putExtra("data", json)
-                                    startActivity(intent)
-                                }
-                            }
-                            else -> {
-                                BoxOfficeItem(modifier = Modifier.padding(bottom = 10.dp), boxOffice = boxOffice) {
-                                    val intent =
-                                        Intent(applicationContext, DetailMovieActivity::class.java)
-                                    val json = Json.encodeToString(it)
-                                    intent.putExtra("data", json)
-                                    startActivity(intent)
-                                }
-                            }
+                        ) {
+                            DummyBoxOfficeItem()
                         }
                     }
                 }

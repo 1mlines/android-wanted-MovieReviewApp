@@ -76,7 +76,7 @@ object BindingAdapter {
         if (genres != null && showTm != null) {
             var genreToString = ""
             for (i in genres.indices) {
-                Log.d("TAG",genres[i].genreNm)
+                Log.d("TAG", genres[i].genreNm)
                 genreToString += genres[i].genreNm
                 if (i != genres.size - 1) {
                     genreToString += "/"
@@ -89,13 +89,15 @@ object BindingAdapter {
     @JvmStatic
     @BindingAdapter("prdtYear", "openDt")
     fun setDate(textView: TextView, prdtYear: String?, openDt: String?) {
-        if (openDt != null) {
-            var sb = StringBuffer(openDt)
-            sb.insert(4, ".")
-            sb.insert(7, ".")
-            textView.text = "${prdtYear}년 제작 | $sb 개봉"
-        } else {
-            textView.text = "${prdtYear}년 제작 | $openDt 개봉"
+        if (openDt != null && prdtYear != null) {
+            if (openDt != "") {
+                var sb = StringBuffer(openDt)
+                sb.insert(4, ".")
+                sb.insert(7, ".")
+                textView.text = "${prdtYear}년 제작 | $sb 개봉"
+            } else {
+                textView.text = "${prdtYear}년 제작"
+            }
         }
     }
 }

@@ -3,12 +3,14 @@ package com.preonboarding.moviereview.boxoffice.compose
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -40,6 +42,7 @@ fun BoxOfficeItem(
     boxOffice: BoxOffice,
     onClick: (BoxOffice) -> Unit
 ) {
+    val interactionSource = remember { MutableInteractionSource() }
     Card(
         modifier = modifier.padding(start = 5.dp, end = 5.dp).shadow(
             elevation = 3.dp,
@@ -50,8 +53,13 @@ fun BoxOfficeItem(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(100.dp)
-                .clickable {
-                    onClick(boxOffice)
+                .clickable(
+                    interactionSource = interactionSource,
+                    indication = null
+                ) {
+                    if (boxOffice.isReady) {
+                        onClick(boxOffice)
+                    }
                 },
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
@@ -169,6 +177,57 @@ fun BoxOfficeItem(
                     Spacer(modifier = Modifier.width(1.dp))
                     Text(text = boxOffice.rankInten)
                 }
+            }
+        }
+    }
+}
+
+@Composable
+fun DummyBoxOfficeItem(
+    modifier: Modifier = Modifier
+) {
+    Card(
+        modifier = modifier.padding(start = 5.dp, end = 5.dp, top = 10.dp, bottom = 10.dp).shadow(
+            elevation = 3.dp,
+            shape = RoundedCornerShape(5.dp)
+        )
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(100.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Box(
+                modifier = Modifier.width(100.dp).fillMaxHeight().placeholder(
+                    true,
+                    highlight = PlaceholderHighlight.shimmer()
+                )
+            )
+            Column(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .width(150.dp)
+            ) {
+                Row(
+                    modifier = Modifier.padding(top = 10.dp).width(150.dp).height(20.dp).placeholder(
+                        true,
+                        highlight = PlaceholderHighlight.shimmer()
+                    )
+                ) {
+                }
+                Row(
+                    modifier = Modifier.padding(top = 10.dp).width(150.dp).height(20.dp).placeholder(
+                        true,
+                        highlight = PlaceholderHighlight.shimmer()
+                    )
+                ) {
+                }
+            }
+            Row(
+                modifier = Modifier.width(24.dp)
+            ) {
             }
         }
     }

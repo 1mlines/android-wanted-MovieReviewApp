@@ -16,6 +16,7 @@ fun DailyBoxOffice.asModel(): BoxOffice {
         movieName = this.movieNm,
         movieOpen = this.openDt,
         moviePoster = "",
-        audiAcc = this.audiAcc
+        audiAcc = this.audiAcc,
+        isReady = false
     )
 }
