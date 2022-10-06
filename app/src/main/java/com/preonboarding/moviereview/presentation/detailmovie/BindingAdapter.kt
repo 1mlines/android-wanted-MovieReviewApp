@@ -6,6 +6,7 @@ import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.preonboarding.moviereview.R
+import com.preonboarding.moviereview.data.network.model.kobis.Audit
 import com.preonboarding.moviereview.data.network.model.kobis.Genre
 
 object BindingAdapter {
@@ -43,8 +44,8 @@ object BindingAdapter {
     }
 
     @BindingAdapter("setGrade")
-    fun setGrade(imageView: ImageView, watchGradeNm: String) {
-        when (watchGradeNm) {
+    fun setGrade(imageView: ImageView, audits: List<Audit>) {
+        when (audits[0].watchGradeNm) {
             "전체관람가" -> {
                 imageView.setImageResource(R.drawable.ic_detailmovie_all)
             }

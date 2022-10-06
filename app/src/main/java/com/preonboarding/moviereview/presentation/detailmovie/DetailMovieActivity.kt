@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import com.preonboarding.moviereview.R
 import com.preonboarding.moviereview.databinding.ActivityDetailmovieBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,5 +24,10 @@ class DetailMovieActivity : AppCompatActivity() {
             val dailyBoxOffice = ""
             movieCd = intent.getStringExtra("movieCd").toString()
         }
+        viewModel.getMovieInfo(getString(R.string.kobis_api_key), "20120101")
+        viewModel.result.observe(this, Observer { movieInfo ->
+            binding.movieInfo = movieInfo
+        })
+
     }
 }

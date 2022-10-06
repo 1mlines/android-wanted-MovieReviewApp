@@ -101,14 +101,14 @@
             app:layout_constraintStart_toEndOf="@+id/textview_detailmovie_movienm"
             app:layout_constraintTop_toBottomOf="@id/constraintlayout_detailmovie_boxoffice"
             app:layout_constraintVertical_bias="0.5"
-            app:setGrade="@{movieInfo.watchGradeNm}"
+            app:setGrade="@{movieInfo.audits}"
             tools:src="@drawable/ic_detailmovie_all" />
 
         <TextView
             android:id="@+id/textview_detailmovie_genreandtime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:genres="@{movieInfo.genres.genres}"
+            app:genres="@{movieInfo.genres}"
             app:layout_constraintStart_toEndOf="@+id/imageview_detailmovie_poster"
             app:layout_constraintTop_toBottomOf="@+id/textview_detailmovie_movienm"
             app:showTm="@{movieInfo.showTm}"

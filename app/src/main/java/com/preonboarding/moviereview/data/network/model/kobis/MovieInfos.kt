@@ -28,11 +28,6 @@ data class MovieInfo (
 )
 
 @Serializable
-data class Genres(
-    val genres: List<Genre>
-)
-
-@Serializable
 data class Audit(
     val auditNo: String,
     val watchGradeNm: String
@@ -43,19 +38,10 @@ data class Genre(
     val genreNm: String
 )
 
-@Serializable
-data class Directors(
-    val directors: List<Director>
-)
 
 @Serializable
 data class Director(
     val peopleNm: String
-)
-
-@Serializable
-data class Actors(
-    val actors: List<Actor>
 )
 
 @Serializable
