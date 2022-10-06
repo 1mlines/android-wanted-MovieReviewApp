@@ -5,6 +5,14 @@
 
     <data>
 
+        <variable
+            name="dailMovie"
+            type="com.preonboarding.moviereview.data.remote.model.BoxOfficeMovie" />
+
+        <variable
+            name="moviePoster"
+            type="com.preonboarding.moviereview.data.remote.model.MoviePosterResponse" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -28,6 +36,7 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/iv_poster_background"
+                    posterImage="@{moviePoster.poster}"
                     android:layout_width="0dp"
                     android:layout_height="262dp"
                     android:scaleType="centerCrop"
@@ -38,11 +47,11 @@
 
                 <ImageView
                     android:id="@+id/iv_poster"
+                    posterImage="@{moviePoster.poster}"
                     android:layout_width="164dp"
                     android:layout_height="250dp"
                     android:layout_marginTop="120dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/bg_navy200_round_10"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -50,12 +59,12 @@
 
                 <TextView
                     android:id="@+id/tv_title"
-                    style="@style/Body18"
+                    style="@style/Headline24"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="16dp"
                     android:gravity="center"
-                    android:text="John Wick"
+                    android:text="@{dailMovie.movieNm}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/iv_poster"
@@ -63,16 +72,40 @@
 
                 <TextView
                     android:id="@+id/tv_rank"
-                    style="@style/Body14"
-                    android:layout_width="0dp"
+                    style="@style/Body18"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
                     android:gravity="center"
-                    android:text="1위 new"
+                    android:text="@{dailMovie.rank}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_title"
-                    tools:text="1위 new" />
+                    tools:text="1위" />
+
+                <TextView
+                    android:id="@+id/tv_rankOldAndNew"
+                    style="@style/Body14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@{dailMovie.rankOldAndNew}"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_rank"
+                    app:layout_constraintStart_toEndOf="@id/tv_rank"
+                    app:layout_constraintTop_toTopOf="@id/tv_rank"
+                    tools:text="New" />
+
+                <TextView
+                    android:id="@+id/tv_rankInten"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@{dailMovie.rankInten}"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintTop_toBottomOf="@id/tv_rank"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:text="-"/>
 
                 <com.google.android.material.tabs.TabLayout
                     android:id="@+id/tb_indicator"
@@ -84,14 +117,14 @@
                     android:background="@drawable/bg_navy700_round_25"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_rank"
+                    app:layout_constraintTop_toBottomOf="@id/tv_rankInten"
                     app:tabGravity="fill"
                     app:tabIndicator="@drawable/bg_red_round_25"
                     app:tabIndicatorAnimationMode="elastic"
                     app:tabIndicatorColor="@color/red"
                     app:tabIndicatorGravity="stretch"
                     app:tabMode="fixed"
-                    app:tabSelectedTextColor="@color/white"></com.google.android.material.tabs.TabLayout>
+                    app:tabSelectedTextColor="@color/white"/>
 
                 <androidx.viewpager2.widget.ViewPager2
                     android:id="@+id/view_pager"
@@ -125,11 +158,11 @@
             android:id="@+id/tv_test"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:text="cd확인 테스트 "
             android:textColor="@color/white"
-            android:textSize="10sp"/>
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

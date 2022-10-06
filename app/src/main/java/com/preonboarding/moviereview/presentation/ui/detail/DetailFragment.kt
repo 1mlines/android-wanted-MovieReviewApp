@@ -3,9 +3,11 @@ package com.preonboarding.moviereview.presentation.ui.detail
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.navArgs
-import com.google.android.material.tabs.TabLayoutMediator
+import androidx.lifecycle.lifecycleScope
 import com.google.firebase.database.*
+import com.google.android.material.tabs.TabLayoutMediator
+import androidx.navigation.NavArgs
+import androidx.navigation.fragment.navArgs
 import com.preonboarding.moviereview.R
 import com.preonboarding.moviereview.databinding.FragmentDetailBinding
 import com.preonboarding.moviereview.presentation.common.base.BaseFragment
@@ -26,7 +28,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
 
         initListener()
         setUpViewPager()
-        checkMovieCd()
+        //checkMovieCd()
 
     }
 
@@ -54,7 +56,11 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
 
                     }
                     else{                        //리뷰가 있을때
-                        detailViewModel.searchReviewMovieList(1)//리뷰 가져오기
+                        val review = detailViewModel.searchReviewMovieList(1)//리뷰 가져오기
+                        //TODO: 가져오는 객체가 map이므로 iterator로 뽑아서 -> List에 넣고 -> RecyclerView
+//                        map.forEach {
+//
+//                        }
 
                     }
                 }
@@ -81,6 +87,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
             tab.text = tabTitleArray[position]
         }.attach()
     }
+
     private fun checkMovieCd(){
         binding.tvTest.text = args.homeData
     }
