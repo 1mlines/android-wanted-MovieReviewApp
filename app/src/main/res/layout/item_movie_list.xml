@@ -12,17 +12,98 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
+        android:layout_height="wrap_content"
+        android:background="@color/navy700"
+        >
+        
         <TextView
+            android:id="@+id/tv_ranking"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{dailyMovie.movieNm}"
+            style="@style/Headline24"
+            android:text="@{dailyMovie.rank}"
+            tools:text="1"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:textColor="@color/white"
-            tools:text="영화 제목"
-            android:textSize="20sp"/>
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <TextView
+            android:id="@+id/tv_rankOldAndNew"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{dailyMovie.rankOldAndNew}"
+            style="@style/Body14.Grey"
+            app:layout_constraintTop_toBottomOf="@id/tv_ranking"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="10dp"
+            tools:text="New"/>
+
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Body18"
+            android:text="@{dailyMovie.movieNm}"
+            android:layout_marginStart="30dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="15dp"
+            app:layout_constraintStart_toEndOf="@+id/tv_ranking"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="영화 제목" />
+
+
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{dailyMovie.openDt}"
+            style="@style/Body14.Grey"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toEndOf="@+id/tv_ranking"
+            app:layout_constraintTop_toBottomOf="@id/tv_title"
+            tools:text="2022.10.06"/>
+
+        <ImageView
+            android:id="@+id/iv_person"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_person_16"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_title"
+            app:layout_constraintStart_toEndOf="@id/tv_date"/>
+
+        <TextView
+            android:id="@+id/audience_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Body14.Grey"
+            android:text="@{dailyMovie.audiCnt}"
+            tools:text="4000"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_title"
+            app:layout_constraintStart_toEndOf="@id/iv_person"/>
+
+        <TextView
+            android:id="@+id/audience_percent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Body11.Grey"
+            android:text="@{dailyMovie.audiChange}"
+            tools:text="(-14.5%)"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_title"
+            app:layout_constraintStart_toEndOf="@id/audience_number" />
+
+
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
