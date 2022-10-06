@@ -9,10 +9,7 @@ import com.preonboarding.moviereview.domain.usecase.GetDailyMovieUseCase
 import com.preonboarding.moviereview.presentation.common.base.BaseViewModel
 import com.preonboarding.moviereview.presentation.common.const.KOBIS_API_KEY
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -22,9 +19,18 @@ class HomeViewModel @Inject constructor(
     private val getDailyMovieUseCase: GetDailyMovieUseCase
 ): BaseViewModel() {
 
-    var _checkHomeState = MutableStateFlow<PagingData<BoxOfficeMovie>>(PagingData.empty())
-    val checkHomeState: StateFlow<PagingData<BoxOfficeMovie>> = _checkHomeState
+    var _checkHomeState: MutableStateFlow<HomeState> = MutableStateFlow(HomeState.Empty)
+    val checkHomeState: StateFlow<HomeState> = _checkHomeState
 
+    fun getDailyMovie(key: String, targetDt: String) = viewModelScope.launch{
+        _checkHomeState.value = HomeState.Loading
+        getDailyMovieUseCase.invoke(key, targetDt)
+            .catch { e ->
+                _checkHomeState.value = HomeState.Failure(e)
+            }.collectLatest { movieData ->
+                _checkHomeState.value = HomeState.Success(movieData)
+            }
+    }
 
 
 /*    fun searchDailyBoxOfficeList() {
@@ -54,9 +60,5 @@ class HomeViewModel @Inject constructor(
         private const val TAG = "HomeViewModel"
     }
 
-    sealed class HomeState() {
-        object Loading: HomeState()
-        class Success(var data: Flow<PagingData<BoxOfficeMovie>>) : HomeState()
 
-    }
 }
