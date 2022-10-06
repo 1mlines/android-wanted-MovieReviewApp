@@ -10,14 +10,6 @@
         <variable
             name="movieInfo"
             type="com.preonboarding.moviereview.data.network.model.kobis.MovieInfo" />
-
-        <variable
-            name="posterInfo"
-            type="com.preonboarding.moviereview.data.network.model.omdb.PosterInfo" />
-
-        <variable
-            name="viewModel"
-            type="com.preonboarding.moviereview.presentation.detailmovie.DetailMovieViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -50,7 +42,7 @@
                 android:id="@+id/textview_detailmovie_rank"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{boxOffice.ranking}"
+                android:text="@{boxOffice.ranking + `위`}"
                 android:textColor="@color/white"
                 android:textSize="12dp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -148,7 +140,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:text="@{boxOffice.audiAcc}"
+            android:text="@{`누적관객수` + boxOffice.audiAcc + `명`}"
             app:layout_constraintStart_toEndOf="@+id/textview_detailmovie_rating"
             app:layout_constraintTop_toBottomOf="@+id/textview_detailmovie_dates"
             tools:text="관객수 500,000명" />

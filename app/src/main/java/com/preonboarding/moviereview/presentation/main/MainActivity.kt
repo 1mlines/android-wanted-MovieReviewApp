@@ -9,7 +9,6 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -43,7 +42,17 @@ class MainActivity : ComponentActivity() {
                 ) {
                     stickyHeader {
                         Row(
-                            modifier = Modifier.fillMaxWidth().height(50.dp).background(brush = Brush.horizontalGradient(listOf(Color.Magenta, Color.Red))),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(50.dp)
+                                .background(
+                                    brush = Brush.horizontalGradient(
+                                        listOf(
+                                            Color.Magenta,
+                                            Color.Red
+                                        )
+                                    )
+                                ),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Text(
@@ -63,7 +72,8 @@ class MainActivity : ComponentActivity() {
                         when (index) {
                             data.lastIndex -> {
                                 BoxOfficeItem(boxOffice = boxOffice) {
-                                    val intent = Intent(applicationContext, DetailMovieActivity::class.java)
+                                    val intent =
+                                        Intent(applicationContext, DetailMovieActivity::class.java)
                                     val json = Json.encodeToString(it)
                                     intent.putExtra("data", json)
                                     startActivity(intent)
@@ -71,7 +81,8 @@ class MainActivity : ComponentActivity() {
                             }
                             0 -> {
                                 BoxOfficeItem(modifier = Modifier.padding(top = 10.dp, bottom = 10.dp), boxOffice = boxOffice) {
-                                    val intent = Intent(applicationContext, DetailMovieActivity::class.java)
+                                    val intent =
+                                        Intent(applicationContext, DetailMovieActivity::class.java)
                                     val json = Json.encodeToString(it)
                                     intent.putExtra("data", json)
                                     startActivity(intent)
@@ -79,7 +90,8 @@ class MainActivity : ComponentActivity() {
                             }
                             else -> {
                                 BoxOfficeItem(modifier = Modifier.padding(bottom = 10.dp), boxOffice = boxOffice) {
-                                    val intent = Intent(applicationContext, DetailMovieActivity::class.java)
+                                    val intent =
+                                        Intent(applicationContext, DetailMovieActivity::class.java)
                                     val json = Json.encodeToString(it)
                                     intent.putExtra("data", json)
                                     startActivity(intent)

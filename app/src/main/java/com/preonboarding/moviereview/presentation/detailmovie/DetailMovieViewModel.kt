@@ -10,6 +10,7 @@ import com.preonboarding.moviereview.domain.usecase.MovieInfosUseCase
 import com.preonboarding.moviereview.domain.usecase.PosterInfoUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -37,6 +38,7 @@ class DetailMovieViewModel @Inject constructor(
 
     fun getMovieInfo(movieCd: String, key: String) {
         viewModelScope.launch {
+            Timber.d(movieCd+", "+key)
             var movieInfos = movieInfosUseCase.getMovieInfo(key, movieCd)
             if (movieInfos != null) {
                 _movieInfo.value = movieInfos.movieInfoResult.movieInfo

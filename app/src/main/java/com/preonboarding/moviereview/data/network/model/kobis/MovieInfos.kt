@@ -38,7 +38,6 @@ data class Genre(
     val genreNm: String
 )
 
-
 @Serializable
 data class Director(
     val peopleNm: String

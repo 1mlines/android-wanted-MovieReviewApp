@@ -33,7 +33,7 @@ class DetailMovieActivity : AppCompatActivity() {
             }
         }
 
-        viewModel.getMovieInfo(getString(R.string.kobis_api_key), boxOffice.movieCd)
+        viewModel.getMovieInfo(boxOffice.movieCd, getString(R.string.kobis_api_key))
         viewModel.movieInfo.observe(this, Observer {
             binding.movieInfo = it
         })
