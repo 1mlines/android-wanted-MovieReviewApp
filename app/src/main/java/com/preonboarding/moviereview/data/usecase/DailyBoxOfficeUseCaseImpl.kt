@@ -9,7 +9,7 @@ class DailyBoxOfficeUseCaseImpl @Inject constructor(
     private val remoteRepository: RemoteRepository
 ): DailyBoxOfficeUseCase {
 
-    override suspend fun getDailyBoxOfficeList(key: String, targetDt: String): DailyBoxOffices? {
-        return remoteRepository.getDailyBoxOfficeList(key, targetDt)
+    override suspend fun getDailyBoxOfficeList(key: String, targetDt: String, wideAreaCd: String): DailyBoxOffices? {
+        return remoteRepository.getDailyBoxOfficeList(key, targetDt, wideAreaCd)
     }
 }

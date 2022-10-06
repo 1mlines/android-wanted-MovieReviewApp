@@ -5,5 +5,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class PosterInfo (
     val Title: String,
-    val Poster: String
+    val Poster: String?
 )

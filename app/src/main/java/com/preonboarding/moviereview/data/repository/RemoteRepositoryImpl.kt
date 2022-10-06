@@ -11,12 +11,14 @@ import javax.inject.Inject
 
 class RemoteRepositoryImpl @Inject constructor(
     private val remoteDataSource: RemoteDataSource
-): RemoteRepository {
+) : RemoteRepository {
+
     override suspend fun getDailyBoxOfficeList(
         key: String,
-        targetDt: String
+        targetDt: String,
+        wideAreaCd : String
     ): DailyBoxOffices? {
-        return when(val state = remoteDataSource.getDailyBoxOfficeList(key, targetDt)) {
+        return when(val state = remoteDataSource.getDailyBoxOfficeList(key, targetDt, wideAreaCd)) {
             is DailyBoxOfficesState.Success -> {
                 state.dailyBoxOffices
             }
@@ -28,7 +30,7 @@ class RemoteRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getMoviesInfo(key: String, movieCd: String): MovieInfos? {
-        return when(val state = remoteDataSource.getMoviesInfo(key, movieCd)) {
+        return when (val state = remoteDataSource.getMoviesInfo(key, movieCd)) {
             is MovieInfosState.Success -> {
                 state.movieInfos
             }
@@ -39,7 +41,7 @@ class RemoteRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getPosterInfo(title: String, key: String): PosterInfo? {
-        return when(val state = remoteDataSource.getPosterInfo(title, key)) {
+        return when (val state = remoteDataSource.getPosterInfo(title, key)) {
             is PosterInfoState.Success -> {
                 state.posterInfo
             }

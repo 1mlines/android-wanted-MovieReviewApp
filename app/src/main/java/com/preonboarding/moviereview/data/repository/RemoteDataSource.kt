@@ -12,12 +12,13 @@ class RemoteDataSource @Inject constructor(
     private val kobisMovieApi: KobisMovieApi,
     private val omdbMovieApi: OmdbMovieApi
 ){
-    suspend fun getDailyBoxOfficeList(key: String, targetDt: String): DailyBoxOfficesState {
+    suspend fun getDailyBoxOfficeList(key: String, targetDt: String, wideAreaCd: String): DailyBoxOfficesState {
         return runCatching {
             DailyBoxOfficesState.Success(
                 dailyBoxOffices = kobisMovieApi.getDailyBoxOfficeList(
                     key = key,
-                    targetDt = targetDt
+                    targetDt = targetDt,
+                    wideAreaCd = wideAreaCd
                 )
             )
         }.getOrElse {
