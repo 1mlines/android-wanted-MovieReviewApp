@@ -26,11 +26,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private val pagingAdapter: HomePagingAdapter by lazy {
         HomePagingAdapter(
             itemClickListener = {
-                //goToDetail()
                 navigateWithArgs(HomeFragmentDirections.actionHomeToDetail(
                     it.movieCd.toString()
                 ))
-                //findNavController().navigate(HomeFragmentDirections.actionHomeToDetail(it.movieCd))
 
             }
         )
@@ -89,6 +87,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     private fun goToDetail() {
         navigate(action = R.id.action_home_to_detail)
+
     }
 
     companion object {
