@@ -14,9 +14,10 @@ class RemoteRepositoryImpl @Inject constructor(
 ): RemoteRepository {
     override suspend fun getDailyBoxOfficeList(
         key: String,
-        targetDt: String
+        targetDt: String,
+        wideAreaCd : String
     ): DailyBoxOffices? {
-        return when(val state = remoteDataSource.getDailyBoxOfficeList(key, targetDt)) {
+        return when(val state = remoteDataSource.getDailyBoxOfficeList(key, targetDt, wideAreaCd)) {
             is DailyBoxOfficesState.Success -> {
                 state.dailyBoxOffices
             }

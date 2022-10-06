@@ -9,7 +9,8 @@ interface KobisMovieApi {
     @GET("boxoffice/searchDailyBoxOfficeList.json")
     suspend fun getDailyBoxOfficeList(
         @Query("key") key: String,
-        @Query("targetDt") targetDt: String
+        @Query("targetDt") targetDt: String,
+        @Query("wideAreaCd") wideAreaCd: String
     ): DailyBoxOffices
 
     @GET("movie/searchMovieInfo.json")

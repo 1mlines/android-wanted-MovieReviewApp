@@ -16,9 +16,9 @@ class MainViewModel @Inject constructor(
     private val posterInfoUseCase: PosterInfoUseCase
 ) : ViewModel() {
     var movieCd = ""
-    fun getDailyBox(id: String, targetDt: String){
+    fun getDailyBox(id: String, targetDt: String, wideAreaCd: String){
         viewModelScope.launch {
-            val result = dailyBoxOfficeUseCase.getDailyBoxOfficeList(id, targetDt)
+            val result = dailyBoxOfficeUseCase.getDailyBoxOfficeList(id, targetDt, wideAreaCd)
             movieCd = result!!.boxOfficeResult!!.dailyBoxOfficeList[0].movieCd
         }
     }
