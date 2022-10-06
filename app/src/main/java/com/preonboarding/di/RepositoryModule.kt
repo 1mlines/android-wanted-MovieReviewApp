@@ -1,6 +1,8 @@
 package com.preonboarding.di
 
+import com.preonboarding.data.repositoryimpl.FirebaseRepositoryImpl
 import com.preonboarding.data.repositoryimpl.MovieRepositoryImpl
+import com.preonboarding.domain.repository.FirebaseRepository
 import com.preonboarding.domain.repository.MovieRepository
 import dagger.Binds
 import dagger.Module
@@ -18,4 +20,10 @@ abstract class RepositoryModule {
     abstract fun bindMovieRemoteDataSource(
         movieRepositoryImpl: MovieRepositoryImpl,
     ): MovieRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindFirebaseRepository(
+        impl: FirebaseRepositoryImpl
+    ): FirebaseRepository
 }
