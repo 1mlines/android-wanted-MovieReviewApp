@@ -91,7 +91,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
     }
 
     private fun showValidationDialog(mode: MODE) {
-        val dialog = ReviewValidationDialog(mode)
+        val dialog = ReviewValidationDialog.newInstance(mode)
         dialog.show(requireActivity().supportFragmentManager, "ValidationDialog")
     }
 

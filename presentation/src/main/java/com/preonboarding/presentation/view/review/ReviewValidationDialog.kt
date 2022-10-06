@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
@@ -21,10 +22,17 @@ import com.preonboarding.presentation.view.detail.DetailViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-class ReviewValidationDialog(private val selectedMode: MODE) :
+class ReviewValidationDialog() :
     BaseDialogFragment<DialogReviewValidataionBinding>(R.layout.dialog_review_validataion) {
 
     private val reviewViewModel: DetailViewModel by activityViewModels()
+    private var selectedMode: MODE? = null
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        (arguments?.get(KEY_MODE) as? MODE).let {
+            selectedMode = it
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -59,10 +67,12 @@ class ReviewValidationDialog(private val selectedMode: MODE) :
         }
         binding.apply {
             btnValidationCheck.setOnClickListener {
-                reviewViewModel.checkPasswd(
-                    binding.etPasswordCheck.text.toString(),
-                    selectedMode
-                )
+                selectedMode?.let {
+                    reviewViewModel.checkPasswd(
+                        binding.etPasswordCheck.text.toString(),
+                        it
+                    )
+                }
             }
             btnValidationCancel.setOnClickListener {
                 dismiss()
@@ -70,4 +80,13 @@ class ReviewValidationDialog(private val selectedMode: MODE) :
         }
     }
 
+    companion object {
+        fun newInstance(mode: MODE): ReviewValidationDialog {
+            return ReviewValidationDialog().apply {
+                arguments = bundleOf(KEY_MODE to mode)
+            }
+        }
+
+        const val KEY_MODE: String = "key_mode"
+    }
 }
