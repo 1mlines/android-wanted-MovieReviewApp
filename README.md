@@ -147,7 +147,6 @@ annotation class RetrofitOmdb
 class RemoteRepositoryImpl @Inject constructor(
     @RetrofitKobis private val kobisMovieApi: KobisMovieApi,
     @RetrofitOmdb private val omdbMovieApi: OmdbMovieApi,
-    @RetrofitFireBase private val fireBaseApi: FireBaseApi,
 ) : RemoteRepository {
 ```
 
