@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Review(
     val content: String,
-    val imageUrl: String,
+    var imageUrl: String,
     val nickName: String,
     val password: Int,
     val star: Float,
