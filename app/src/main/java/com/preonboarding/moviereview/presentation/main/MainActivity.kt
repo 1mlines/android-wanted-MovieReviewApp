@@ -1,19 +1,74 @@
 package com.preonboarding.moviereview.presentation.main
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import com.preonboarding.moviereview.R
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import com.preonboarding.moviereview.boxoffice.compose.BoxOfficeItem
 import dagger.hilt.android.AndroidEntryPoint
-
+@OptIn(ExperimentalFoundationApi::class)
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
-    val viewModel: MainViewModel by viewModels()
+class MainActivity : ComponentActivity() {
+    private val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        viewModel.getDailyBox(getString(R.string.kobis_api_key), "20120101", getString(R.string.seoul_wide_area_code))
-        viewModel.getPosterInfo("frozen", getString(R.string.omdb_api_key))
+        setContent {
+            MaterialTheme {
+                val data by viewModel.dailyMovieBoxList.collectAsState()
+
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    stickyHeader {
+                        Row(
+                            modifier = Modifier.fillMaxWidth().height(50.dp).background(brush = Brush.horizontalGradient(listOf(Color.Magenta, Color.Red))),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                modifier = Modifier.padding(start = 10.dp),
+                                text = "일일 박스 오피스",
+                                color = Color.White,
+                                fontWeight = FontWeight.Bold
+                            )
+                        }
+                    }
+                    itemsIndexed(
+                        items = data,
+                        key = { _, boxOffice ->
+                            boxOffice.ranking
+                        }
+                    ) { index, boxOffice ->
+                        when (index) {
+                            data.lastIndex -> {
+                                BoxOfficeItem(boxOffice = boxOffice) {}
+                            }
+                            0 -> {
+                                BoxOfficeItem(modifier = Modifier.padding(top = 10.dp, bottom = 10.dp), boxOffice = boxOffice) {}
+                            }
+                            else -> {
+                                BoxOfficeItem(modifier = Modifier.padding(bottom = 10.dp), boxOffice = boxOffice) {}
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }
