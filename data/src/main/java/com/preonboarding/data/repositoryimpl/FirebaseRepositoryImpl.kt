@@ -4,9 +4,10 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.preonboarding.di.DispatcherModule
 import com.preonboarding.domain.model.Review
 import com.preonboarding.domain.repository.FirebaseRepository
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
@@ -14,7 +15,8 @@ import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class FirebaseRepositoryImpl @Inject constructor(
-    private val fbRDB: FirebaseDatabase
+    private val fbRDB: FirebaseDatabase,
+    @DispatcherModule.DispatcherIO private val dispatcherIO: CoroutineDispatcher
 ) : FirebaseRepository {
     override suspend fun uploadReview(title: String, review: Review) {
         val reviewContent = review.toMapContent()
@@ -47,7 +49,7 @@ class FirebaseRepositoryImpl @Inject constructor(
                 }
             })
         awaitClose()
-    }.flowOn(Dispatchers.IO)
+    }.flowOn(dispatcherIO)
 
     override suspend fun deleteReview(title: String, review: Review) {
         fbRDB.getReference(title).child(review.nickname).removeValue()

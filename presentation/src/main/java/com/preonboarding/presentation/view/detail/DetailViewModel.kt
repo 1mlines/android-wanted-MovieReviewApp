@@ -71,7 +71,8 @@ class DetailViewModel @Inject constructor(
     fun deleteReview(title: String) {
         viewModelScope.launch {
             runCatching {
-                deleteReviewUseCase(title, reviewBuffer)
+                // 선택된 리뷰 삭제
+                /*deleteReviewUseCase(title, reviewBuffer)*/
             }.onSuccess {
                 _reviewUiState.emit(ReviewUiState.Success(MODE.DELETE))
             }.onFailure {
