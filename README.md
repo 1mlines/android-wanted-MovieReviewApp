@@ -827,11 +827,14 @@ https://user-images.githubusercontent.com/51078673/194398262-33ad7e2e-2635-4287-
 
 서버 통신 시 데이터 간 직렬화/역직렬화가 필요하다.
 
-- Why Serialization? 
+- Why Serialization? ✨
   - data class의 default value를 무시하지 않는다.
   - non-null value 임에도 불구하고, 서버에서 null을 줬을 때 default value를 지정할 수 있다.
   - list 형식의 데이터도 default argument로 처리 가능하다.
   - 성능적으로 코틀린 친화적이다. (feat: gson의 reflection)
+
+
+Ex) Gson vs Moshi vs Serialization 비교
 
 - Entity
 ```kotlin
