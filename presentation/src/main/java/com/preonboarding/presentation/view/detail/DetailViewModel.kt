@@ -10,10 +10,10 @@ import com.preonboarding.domain.usecase.DeleteReviewUseCase
 import com.preonboarding.domain.usecase.GetReviewListUseCase
 import com.preonboarding.domain.usecase.UploadReviewUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-
 
 //TODO 영화제목 받아와야함
 @HiltViewModel
@@ -31,6 +31,8 @@ class DetailViewModel @Inject constructor(
 
     private val _selectedReview = MutableStateFlow(Review())
     val selectedReview = _selectedReview.asStateFlow()
+
+    private var getReviewListJob: Job? = null
 
     var reviewBuffer = Review()
 
@@ -55,7 +57,8 @@ class DetailViewModel @Inject constructor(
 
     // 영화제목 받아와야함
     fun setMovieList(title: String) {
-        viewModelScope.launch {
+        getReviewListJob?.cancel()
+        getReviewListJob = viewModelScope.launch {
             getReviewListUseCase(title).stateIn(
                 viewModelScope,
                 SharingStarted.Lazily,
@@ -64,7 +67,6 @@ class DetailViewModel @Inject constructor(
                 _reviewList.emit(it)
             }
         }
-
     }
 
     // 영화제목 받아와야함
