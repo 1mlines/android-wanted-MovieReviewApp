@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface RemoteRepository {
 
-    suspend fun searchDailyBoxOfficeList(
+    suspend fun getDailyMovie(
         key: String,
         targetDt: String,
     ): Flow<DailyBoxOfficeResponse>
