@@ -13,7 +13,8 @@ data class BoxOffice(
     val movieName: String,
     val audiAcc: String,
     val moviePoster: String,
-    val movieOpen: String
+    val movieOpen: String,
+    val isReady : Boolean
 ) {
     companion object {
         val DUMMY = BoxOffice(
@@ -24,7 +25,8 @@ data class BoxOffice(
             movieName = "DUMMY",
             audiAcc = "",
             moviePoster = "",
-            movieOpen = "2022/02/02"
+            movieOpen = "2022/02/02",
+            false
         )
     }
 }
