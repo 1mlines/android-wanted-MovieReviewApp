@@ -2,13 +2,21 @@ package com.preonboarding.domain.model
 
 sealed class ReviewUiState {
 
-    object Success: ReviewUiState()
+    data class Success(
+        val mode: MODE
+    ) : ReviewUiState()
 
-    object Failure: ReviewUiState()
+    data class Failure(
+        val mode: MODE
+    ) : ReviewUiState()
 
     object Modify : ReviewUiState()
 
-    object Empty : ReviewUiState()
+    object Reading : ReviewUiState()
 
-    object Reading: ReviewUiState()
+    object Delete : ReviewUiState()
+}
+
+enum class MODE {
+    DELETE, REVIEW, MODIFY, VALIDATION
 }
