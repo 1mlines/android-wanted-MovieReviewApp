@@ -29,7 +29,6 @@ import com.google.accompanist.placeholder.material.placeholder
 import com.google.accompanist.placeholder.material.shimmer
 import com.preonboarding.moviereview.R
 import com.preonboarding.moviereview.domain.model.BoxOffice
-import timber.log.Timber
 
 /**
  * @Created by 김현국 2022/10/05
@@ -72,7 +71,6 @@ fun BoxOfficeItem(
                     ) {
                         val state = painter.state
                         if (state is AsyncImagePainter.State.Loading) {
-                            Timber.tag("state").d("Loading")
                             Box(
                                 modifier = Modifier.width(100.dp).fillMaxHeight().placeholder(
                                     true,
@@ -80,7 +78,6 @@ fun BoxOfficeItem(
                                 )
                             )
                         } else if (state is AsyncImagePainter.State.Success) {
-                            Timber.tag("state").d("Success")
                             SubcomposeAsyncImageContent()
                         }
                     }
