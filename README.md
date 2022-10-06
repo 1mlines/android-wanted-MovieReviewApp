@@ -489,6 +489,7 @@ data class ReviewVO(
 
  - ViewModel
  	- 리뷰 데이터를 관리함.
+ 	- 여러 사용자들의 리뷰가 달리므로, 데이터가 변경되는 순간 데이터를 받아오는 Push Driven 방식으로 firebase의 리뷰들을 가져옴.
  
  ```kotlin
  class ReviewViewModel() : ViewModel() {
