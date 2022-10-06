@@ -2,15 +2,15 @@ package com.preonboarding.moviereview.presentation.ui.custom.dialog.gallery
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.preonboarding.moviereview.databinding.ItemGalleryBinding
 import com.preonboarding.moviereview.domain.model.GalleryImage
 
-class GalleryAdapter(
+class GalleryPagingAdapter(
     private val onClick: (GalleryImage) -> Unit,
-): ListAdapter<GalleryImage, GalleryAdapter.ViewHolder>(diffCallback) {
+): PagingDataAdapter<GalleryImage, GalleryPagingAdapter.ViewHolder>(diffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(ItemGalleryBinding.inflate(
@@ -21,7 +21,7 @@ class GalleryAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        getItem(position).let {
+        getItem(position)?.let {
             holder.bind(image = it)
         }
     }
@@ -48,4 +48,5 @@ class GalleryAdapter(
                 oldItem == newItem
         }
     }
+
 }

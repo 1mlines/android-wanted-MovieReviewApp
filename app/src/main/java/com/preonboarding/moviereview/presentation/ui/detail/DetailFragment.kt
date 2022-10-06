@@ -1,6 +1,7 @@
 package com.preonboarding.moviereview.presentation.ui.detail
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -88,7 +89,8 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
     }
 
     private fun checkMovieCd(){
-        binding.tvTest.text = args.homeData
+        binding.tvTest.text = args.homeData.movieCd
+
     }
 
     companion object {

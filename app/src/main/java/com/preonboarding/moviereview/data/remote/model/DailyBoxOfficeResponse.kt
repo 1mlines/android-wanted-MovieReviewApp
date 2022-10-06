@@ -1,5 +1,7 @@
 package com.preonboarding.moviereview.data.remote.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -15,6 +17,7 @@ data class BoxOfficeResult(
 )
 
 @Serializable
+@Parcelize
 data class BoxOfficeMovie(
     val rnum: String,
     val rank: String,
@@ -34,4 +37,4 @@ data class BoxOfficeMovie(
     val audiAcc: String,
     val scrnCnt: String,
     val showCnt: String
-)
+): Parcelable

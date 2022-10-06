@@ -1,7 +1,9 @@
 package com.preonboarding.moviereview.di
 
-import com.preonboarding.moviereview.data.source.remote.MovieListDataSource
-import com.preonboarding.moviereview.data.source.remote.MovieListDataSourceImpl
+import com.preonboarding.moviereview.data.local.source.gallery.GalleryDataSource
+import com.preonboarding.moviereview.data.local.source.gallery.GalleryDataSourceImpl
+import com.preonboarding.moviereview.data.remote.source.MovieListDataSource
+import com.preonboarding.moviereview.data.remote.source.MovieListDataSourceImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -17,4 +19,10 @@ abstract class DatasourceModule {
     abstract fun bindsMovieListDataSource(
         movieListDataSourceImpl: MovieListDataSourceImpl
     ): MovieListDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindsGalleryImageDataSource(
+        galleryImageDataSourceImpl: GalleryDataSourceImpl
+    ): GalleryDataSource
 }
