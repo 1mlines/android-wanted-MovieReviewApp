@@ -1,8 +1,10 @@
 package com.preonboarding.moviereview.domain.model
 
+import kotlinx.serialization.Serializable
 /**
  * @Created by 김현국 2022/10/05
  */
+@Serializable
 data class BoxOffice(
     val movieCd: String,
     val ranking: String,
