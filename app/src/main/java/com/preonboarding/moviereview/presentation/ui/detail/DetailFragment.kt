@@ -2,11 +2,14 @@ package com.preonboarding.moviereview.presentation.ui.detail
 
 import android.os.Bundle
 import android.view.View
-import androidx.navigation.NavArgs
-import androidx.navigation.fragment.navArgs
+<<<<<<<<< Temporary merge branch 1
 import androidx.fragment.app.viewModels
 import com.google.firebase.database.*
 import com.google.android.material.tabs.TabLayoutMediator
+=========
+import androidx.navigation.NavArgs
+import androidx.navigation.fragment.navArgs
+>>>>>>>>> Temporary merge branch 2
 import com.preonboarding.moviereview.R
 import com.preonboarding.moviereview.databinding.FragmentDetailBinding
 import com.preonboarding.moviereview.presentation.common.base.BaseFragment
@@ -19,16 +22,22 @@ import timber.log.Timber
 
 @AndroidEntryPoint
 class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_detail) {
-    val args by navArgs<DetailFragmentArgs>()
+<<<<<<<<< Temporary merge branch 1
     private val detailViewModel : DetailViewModel by viewModels()
     private lateinit var database: DatabaseReference
+=========
+    val args by navArgs<DetailFragmentArgs>()
+>>>>>>>>> Temporary merge branch 2
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initListener()
+<<<<<<<<< Temporary merge branch 1
+        setUpViewPager()
+=========
 
         checkMovieCd()
-        setUpViewPager()
+>>>>>>>>> Temporary merge branch 2
     }
 
     private fun initListener() {
@@ -70,8 +79,21 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
         navigate(action = R.id.action_detail_to_review)
     }
 
+<<<<<<<<< Temporary merge branch 1
+    private fun setUpViewPager() {
+        val tabTitleArray = arrayOf(
+            "Details",
+            "Reviews",
+        )
+        val adapter = ViewPagerAdapter(requireActivity())
+        binding.viewPager.adapter = adapter
+        TabLayoutMediator(binding.tbIndicator, binding.viewPager) { tab, position ->
+            tab.text = tabTitleArray[position]
+        }.attach()
+=========
     private fun checkMovieCd(){
         binding.tvTest.text = args.movieCd
+>>>>>>>>> Temporary merge branch 2
     }
 
     companion object {
