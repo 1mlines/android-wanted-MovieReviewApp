@@ -17,7 +17,6 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
         super.onViewCreated(view, savedInstanceState)
         initListener()
 
-        checkMovieCd()
     }
 
     private fun initListener() {
@@ -34,9 +33,6 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
         navigate(action = R.id.action_detail_to_review)
     }
 
-    private fun checkMovieCd(){
-        binding.tvTest.text = args.movieCd
-    }
 
     companion object {
         private const val TAG = "DetailFragment"
