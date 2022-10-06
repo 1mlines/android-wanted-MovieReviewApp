@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -11,10 +12,52 @@
         android:layout_height="match_parent"
         tools:context=".view.detail.DetailFragment">
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_reading"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment" />
+            android:layout_height="wrap_content"
+            android:background="@color/main"
+            android:gravity="center"
+            android:paddingVertical="10dp"
+            android:text="리뷰보기"
+            android:textSize="24sp"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_review"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@color/main"
+            android:gravity="center"
+            android:paddingVertical="10dp"
+            android:text="리뷰작성"
+            android:textSize="24sp"
+            app:layout_constraintTop_toBottomOf="@id/btn_reading" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_modify"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@color/main"
+            android:gravity="center"
+            android:paddingVertical="10dp"
+            android:text="수정"
+            android:textSize="24sp"
+            app:layout_constraintTop_toBottomOf="@id/btn_review" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_delete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@color/main"
+            android:gravity="center"
+            android:paddingVertical="10dp"
+            android:text="삭제"
+            android:textSize="24sp"
+            app:layout_constraintTop_toBottomOf="@id/btn_modify" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

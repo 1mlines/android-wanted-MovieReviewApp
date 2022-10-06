@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.preonboarding.presentation.view.detail.DetailViewModel" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="350dp"
+            android:layout_height="500dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:background="@drawable/bg_review_dialog">
+
+            <ImageView
+                android:id="@+id/iv_review_back"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:contentDescription="@null"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_back" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_review_ok"
+                bindButtonEditableMode="@{viewModel.editState}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="12dp"
+                android:background="@color/white"
+                android:gravity="center"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="5dp"
+                android:text="@string/check"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_review_back">
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp">
+
+                    <ImageView
+                        android:id="@+id/iv_movie_thumb"
+                        bindImageViewEditableMode="@{viewModel.editState}"
+                        bindUri="@{viewModel.selectedReview.imageUri}"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:contentDescription="@null"
+                        android:src="@drawable/ic_image_search"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <RatingBar
+                        android:id="@+id/rating_bar"
+                        bindRatingBar="@{viewModel.selectedReview.rating}"
+                        bindRatingBarEditableMode="@{viewModel.editState}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:progressTint="@color/white"
+                        android:rating="2"
+                        android:stepSize="1"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/iv_movie_thumb" />
+
+                    <EditText
+                        android:id="@+id/et_review_nickname"
+                        bindEditableMode="@{viewModel.editState}"
+                        bindString="@{viewModel.selectedReview.nickname}"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="5dp"
+                        android:hint="@string/nickname"
+                        app:layout_constraintEnd_toStartOf="@id/et_review_password"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/rating_bar" />
+
+                    <EditText
+                        android:id="@+id/et_review_password"
+                        bindEditableMode="@{viewModel.editState}"
+                        bindString="@{viewModel.selectedReview.password}"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="15dp"
+                        android:hint="@string/password"
+                        android:maxLength="6"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/et_review_nickname"
+                        app:layout_constraintTop_toBottomOf="@id/rating_bar" />
+
+                    <EditText
+                        android:id="@+id/et_review_content"
+                        bindString="@{viewModel.selectedReview.content}"
+                        bindTextEditableMode="@{viewModel.editState}"
+                        android:layout_width="0dp"
+                        android:layout_height="150dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="15dp"
+                        android:gravity="start"
+                        android:hint="@string/review_content"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/et_review_nickname" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </ScrollView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
+
+</layout>
