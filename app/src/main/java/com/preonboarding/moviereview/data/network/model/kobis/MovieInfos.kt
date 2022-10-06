@@ -16,18 +16,26 @@ data class MovieInfoResult(
 data class MovieInfo (
     val movieCd: String,
     val movieNm: String,
+    val movieNmEn: String,
+    val movieNmOg: String,
     val prdtYear: String,
     val showTm: String,
     val openDt: String,
-    val genres: Genres,
-    val directors: Directors,
-    val actors: Actors,
-    val watchGradeNm: String
+    val genres: List<Genre>,
+    val directors: List<Director>,
+    val actors: List<Actor>,
+    val audits: List<Audit>
 )
 
 @Serializable
 data class Genres(
     val genres: List<Genre>
+)
+
+@Serializable
+data class Audit(
+    val auditNo: String,
+    val watchGradeNm: String
 )
 
 @Serializable
