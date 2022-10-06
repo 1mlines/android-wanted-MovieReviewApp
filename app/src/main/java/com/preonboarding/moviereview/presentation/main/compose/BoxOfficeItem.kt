@@ -182,6 +182,57 @@ fun BoxOfficeItem(
     }
 }
 
+@Composable
+fun DummyBoxOfficeItem(
+    modifier: Modifier = Modifier
+) {
+    Card(
+        modifier = modifier.padding(start = 5.dp, end = 5.dp, top = 10.dp, bottom = 10.dp).shadow(
+            elevation = 3.dp,
+            shape = RoundedCornerShape(5.dp)
+        )
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(100.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Box(
+                modifier = Modifier.width(100.dp).fillMaxHeight().placeholder(
+                    true,
+                    highlight = PlaceholderHighlight.shimmer()
+                )
+            )
+            Column(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .width(150.dp)
+            ) {
+                Row(
+                    modifier = Modifier.padding(top = 10.dp).width(150.dp).height(20.dp).placeholder(
+                        true,
+                        highlight = PlaceholderHighlight.shimmer()
+                    )
+                ) {
+                }
+                Row(
+                    modifier = Modifier.padding(top = 10.dp).width(150.dp).height(20.dp).placeholder(
+                        true,
+                        highlight = PlaceholderHighlight.shimmer()
+                    )
+                ) {
+                }
+            }
+            Row(
+                modifier = Modifier.width(24.dp)
+            ) {
+            }
+        }
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 fun PreviewBoxOfficeItem() {
