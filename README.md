@@ -68,6 +68,181 @@
 
 ### 1. 프로젝트 세팅 및 카메라 갤러리 - 임수진
 
+#### 1) Multi Api
+
+- 오류 상황
+<img width="600" alt="image" src="https://user-images.githubusercontent.com/85485290/194419038-08c9cc15-8c85-465b-80fd-3ba2eb64df7f.png">
+
+
+- annotation 정의
+
+```kotlin
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class RetrofitKobis
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class RetrofitOmdb
+```
+
+- RetrofitModule.kt
+
+```kotlin
+    // KOBIS API
+    @Provides
+    @Singleton
+    @RetrofitKobis
+    fun providesKobisApi(@RetrofitKobis retrofit: Retrofit): KobisMovieApi =
+        retrofit.create(KobisMovieApi::class.java)
+
+    // OMDB API
+    @Provides
+    @Singleton
+    @RetrofitOmdb
+    fun providesOMDbApi(@RetrofitOmdb retrofit: Retrofit): OmdbMovieApi =
+        retrofit.create(OmdbMovieApi::class.java)
+
+```
+
+- RemoteRepositoryImpl
+```kotlin
+@Singleton
+class RemoteRepositoryImpl @Inject constructor(
+    @RetrofitKobis private val kobisMovieApi: KobisMovieApi,
+    @RetrofitOmdb private val omdbMovieApi: OmdbMovieApi,
+    @RetrofitFireBase private val fireBaseApi: FireBaseApi,
+) : RemoteRepository {
+```
+
+#### 2) Custom Gallery
+
+- ContentResolver로 갤러리 이미지 가져오기
+- GalleryDataSourceImpl
+```kotlin
+            while(cursor.moveToNext() && cursor.position < PAGE_SIZE * pageNumber){
+
+                val id = cursor.getLong(cursor.getColumnIndexOrThrow(IMAGE_ID))
+                val filepath = cursor.getString(cursor.getColumnIndexOrThrow(IMAGE_DATA))
+                val name = cursor.getString(cursor.getColumnIndexOrThrow(IMAGE_NAME))
+                val date = cursor.getString(cursor.getColumnIndexOrThrow(IMAGE_DATE_ADDED))
+
+                // 사진 경로 Uri 가져오기
+                val uri = ContentUris.withAppendedId(IMAGE_URI, id)
+
+                if(cursor.position >= (pageNumber - 1) * PAGE_SIZE) {
+                    imageList.add(
+                        GalleryImage(
+                            id = id,
+                            name = name,
+                            filePath = filepath,
+                            date = date,
+                            imgUri = uri,
+                            type = ItemType.IMAGE
+                        )
+                    )
+                }
+            }
+```
+
+- GalleryPagingSource
+```kotlin
+class GalleryPagingSource @Inject constructor(
+    private val galleryDataSource: GalleryDataSource
+): PagingSource<Int, GalleryImage>() {
+
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, GalleryImage> {
+        return try {
+            val pageNumber = params.key ?: START_PAGE // curKey
+
+            if(pageNumber != START_PAGE) delay(DELAY_MILLIS)
+
+            val imageList = galleryDataSource.getAllImages(pageNumber = pageNumber)
+
+            LoadResult.Page(
+                data = imageList,
+                prevKey = if (pageNumber == START_PAGE) null else pageNumber - 1,
+                nextKey = if (imageList.isEmpty()) null else pageNumber + (params.loadSize / PAGE_SIZE),
+            )
+
+        } catch (e: Exception) {
+            LoadResult.Error(e)
+        }
+    }
+    
+    ...
+    
+ }
+```
+
+- GalleryRepositoryImpl
+```kotlin
+class GalleryRepositoryImpl @Inject constructor(
+    private val galleryDataSource: GalleryDataSource
+) : GalleryRepository {
+
+    override fun getAllImages(): Flow<PagingData<GalleryImage>> {
+        return Pager(PagingConfig(PAGE_SIZE)) {
+            GalleryPagingSource(
+                galleryDataSource = galleryDataSource
+            )
+        }.flow
+    }
+    
+    ...
+    
+}
+```
+
+- GalleryViewModel & GalleryDialogFragment
+
+- 페이징 데이터 Caching
+```kotlin
+
+    // ViewMdoel
+    fun getAllImages(): Flow<PagingData<GalleryImage>> {
+        return getGalleryImageUseCase.invoke().cachedIn(viewModelScope)
+    }
+    
+    // Fragment
+    lifecycleScope.launchWhenStarted {
+        galleryViewModel.getAllImages().collect {
+            galleryPagingAdapter.submitData(it)
+        }
+    }
+
+```
+
+#### 3) Camera Intent
+
+- open camera
+
+```kotlin
+    private fun openCamera() {
+        val intent: Intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        getResult.launch(intent)
+    }
+
+```
+
+- bitmap to uri
+```kotlin
+      getResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == Activity.RESULT_OK) {
+                val data = it.data?.extras?.get("data")
+                
+                if (data != null) {
+                    val uri = getImageUri(
+                        requireContext(),
+                        data as Bitmap
+                    )
+
+                    galleryViewModel.setCameraImage(uri = uri)
+                }
+            }
+        }
+```
+
 ---
 
 ### 2. 첫번째 화면 - 권혁준
