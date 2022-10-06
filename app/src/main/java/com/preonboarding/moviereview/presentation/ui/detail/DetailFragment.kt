@@ -7,7 +7,6 @@ import com.google.firebase.database.*
 import com.google.android.material.tabs.TabLayoutMediator
 import com.preonboarding.moviereview.R
 import com.preonboarding.moviereview.databinding.FragmentDetailBinding
-import com.preonboarding.moviereview.presentation.common.adapter.ViewPagerAdapter
 import com.preonboarding.moviereview.presentation.common.base.BaseFragment
 import com.preonboarding.moviereview.presentation.common.const.FIRE_BASE_URL
 import com.preonboarding.moviereview.presentation.common.extension.navigate
@@ -20,10 +19,11 @@ import timber.log.Timber
 class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_detail) {
     private val detailViewModel : DetailViewModel by viewModels()
     private lateinit var database: DatabaseReference
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initListener()
-        //setUpViewPager()
+        setUpViewPager()
     }
 
     private fun initListener() {
@@ -66,11 +66,15 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
     }
 
     private fun setUpViewPager() {
+        val tabTitleArray = arrayOf(
+            "Details",
+            "Reviews",
+        )
         val adapter = ViewPagerAdapter(requireActivity())
         binding.viewPager.adapter = adapter
         TabLayoutMediator(binding.tbIndicator, binding.viewPager) { tab, position ->
+            tab.text = tabTitleArray[position]
         }.attach()
-
     }
 
     companion object {
