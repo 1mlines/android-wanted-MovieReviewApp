@@ -11,7 +11,7 @@ class MovieListDataSourceImpl @Inject constructor(
     @RetrofitKobis private val api: KobisMovieApi
 ) : MovieListDataSource {
 
-    override suspend fun getMovieList(key: String, movieName: String, page: String): MovieListResponse {
-        return api.getMovieList(key, movieName, page)
+    override suspend fun getMovieList(movieName: String, page: String): MovieListResponse {
+        return api.getMovieList(movieKrName = movieName, page = page)
     }
 }

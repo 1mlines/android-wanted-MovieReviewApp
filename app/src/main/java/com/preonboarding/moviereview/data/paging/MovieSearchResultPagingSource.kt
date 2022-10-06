@@ -9,7 +9,6 @@ import kotlinx.coroutines.delay
 
 class MovieSearchResultPagingSource(
     private val dataSource: MovieListDataSource,
-    private val key: String,
     private val movieName: String
 ) : PagingSource<Int, MovieSearchInfo>() {
     override fun getRefreshKey(state: PagingState<Int, MovieSearchInfo>): Int? {
@@ -26,7 +25,8 @@ class MovieSearchResultPagingSource(
 
         return try {
             val searchResult =
-                dataSource.getMovieList(key, movieName, page.toString()).mapToMovieSearchInfo()
+                dataSource.getMovieList(movieName = movieName, page = page.toString())
+                    .mapToMovieSearchInfo()
 
             LoadResult.Page(
                 data = searchResult,
