@@ -17,20 +17,25 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getDailyMovieUseCase: GetDailyMovieUseCase
-): BaseViewModel() {
+) : BaseViewModel() {
 
-    var _checkHomeState: MutableStateFlow<HomeState> = MutableStateFlow(HomeState.Empty)
+    private var _checkHomeState: MutableStateFlow<HomeState> = MutableStateFlow(HomeState.Empty)
     val checkHomeState: StateFlow<HomeState> = _checkHomeState
 
-    fun getDailyMovie(key: String, targetDt: String) = viewModelScope.launch{
-        _checkHomeState.value = HomeState.Loading
+    suspend fun getData(key: String, targetDt: String) =
         getDailyMovieUseCase.invoke(key, targetDt)
-            .catch { e ->
-                _checkHomeState.value = HomeState.Failure(e)
-            }.collectLatest { movieData ->
-                _checkHomeState.value = HomeState.Success(movieData)
-            }
-    }
+
+
+    fun getDailyMovie(key: String, targetDt: String) =
+        viewModelScope.launch {
+            _checkHomeState.value = HomeState.Loading
+            getDailyMovieUseCase.invoke(key, targetDt)
+                .catch { e ->
+                    _checkHomeState.value = HomeState.Failure(e)
+                }.collectLatest { movieData ->
+                    _checkHomeState.value = HomeState.Success(movieData)
+                }
+        }
 
 
 /*    fun searchDailyBoxOfficeList() {

@@ -2,6 +2,7 @@ package com.preonboarding.moviereview.presentation.ui.home
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -35,12 +36,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initListener()
-        homeViewModel.searchDailyBoxOfficeList()
-
 
 
         initRecyclerView()
         observeGetMovieList()
+
+        homeViewModel.getDailyMovie(
+            key = KOBIS_API_KEY,
+            targetDt = "20220101"
+        )
     }
 
     private fun initRecyclerView() {
@@ -52,8 +56,25 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private fun observeGetMovieList() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                homeViewModel.checkHomeState.collectLatest { movieList ->
-                    pagingAdapter.submitData(movieList)
+                homeViewModel.checkHomeState.collectLatest { state ->
+                    when(state) {
+                        is HomeState.Loading -> {
+                            binding.rvList.isVisible = false
+                            binding.progressBar.isVisible = true
+                        }
+                        is HomeState.Failure -> {
+                            binding.rvList.isVisible = false
+                            binding.progressBar.isVisible = false
+                        }
+                        is HomeState.Success -> {
+                            binding.rvList.isVisible = true
+                            binding.progressBar.isVisible = false
+                            // todo adapter 연결
+                        }
+                        is HomeState.Empty -> {
+
+                        }
+                    }
                 }
             }
         }
