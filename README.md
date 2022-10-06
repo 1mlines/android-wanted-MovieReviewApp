@@ -786,8 +786,94 @@ https://user-images.githubusercontent.com/51078673/194398262-33ad7e2e-2635-4287-
 - 왜 hilt를 선택? 
 
 위에서 언급한 것처럼 hilt 사용을 통해 dagger보다 낮은 러닝커브를 가지고 있으며, koin과 다르게 컴파일 시 의존성 주입이 시작되기에 좀 더 높은 안정성을 가질 수 있습니다. 
+
 #### 4. Serialization vs Gson & Moshi
-* ㅁㅁㅁㅁㅁ
+
+서버 통신 시 데이터 간 직렬화/역직렬화가 필요하다.
+
+- Why Serialization? 
+  - data class의 default value를 무시하지 않는다.
+  - non-null value 임에도 불구하고, 서버에서 null을 줬을 때 default value를 지정할 수 있다.
+  - list 형식의 데이터도 default argument로 처리 가능하다.
+  - 성능적으로 코틀린 친화적이다. (feat: gson의 reflection)
+
+- Entity
+```kotlin
+data class Entitiy(
+  val status: String = "entity",
+  val data: Data = Data()
+)
+
+data calss Data(
+  val id: Long = 1000,
+  val list: List<String> = listOf()
+)
+```
+
+- Response 1
+```
+{
+  status : null,
+  data : {
+    "id" : System.currentTimeMs
+  }
+}
+```
+
+- Result 1
+```kotliln
+// Gson
+Entity(
+  status=null,
+  data=Data(id=12918943, list=[])
+)
+
+// Moshi
+Entity(
+  status=,
+  data=Data(id=12918943, list=[])
+)
+
+// Gson
+Entity(
+  status="entity",
+  data=Data(id=12918943, list=[])
+)
+
+```
+
+- Response 2
+```
+{
+  status : "success",
+  data : {
+    "id" : System.currentTimeMs,
+    "list" : null
+  }
+}
+```
+
+- Result 2
+```kotliln
+// Gson
+Entity(
+  status="success",
+  data=Data(id=12918943, list=null)
+)
+
+// Moshi
+com.squareup.moshi.JsonDataException:
+Non-null value 'list' was null at $.data.list
+
+// Gson
+Entity(
+  status="success",
+  data=Data(id=12918943, list=[])
+)
+
+```
+
+
 #### 5. Navigation vs FragmentManager Transaction
 * ㅁㅁㅁㅁㅁ
 
