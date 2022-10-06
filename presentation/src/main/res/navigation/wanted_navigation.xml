@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/wanted_navigation"
+    app:startDestination="@id/listFragment">
+
+    <fragment
+        android:id="@+id/listFragment"
+        android:name="com.preonboarding.presentation.view.list.ListFragment"
+        android:label="ListFragment"
+        tools:layout="@layout/fragment_list">
+        <action
+            android:id="@+id/action_listFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.preonboarding.presentation.view.detail.DetailFragment"
+        android:label="DetailFragment"
+        tools:layout="@layout/fragment_detail">
+        <action
+            android:id="@+id/action_detailFragment_to_reviewFragment"
+            app:destination="@id/reviewFragment" />
+        <argument
+            android:name="Movie"
+            app:argType="com.preonboarding.domain.model.Movie" />
+    </fragment>
+    <fragment
+        android:id="@+id/reviewFragment"
+        android:name="com.preonboarding.presentation.view.review.ReviewFragment"
+        android:label="ReviewFragment"
+        tools:layout="@layout/fragment_review" />
+</navigation>
