@@ -13,10 +13,10 @@ class DetailViewModel @Inject constructor(
     private val remoteRepository: RemoteRepository,
 ) : BaseViewModel() {
 
-    fun searchReviewMovieList() {
+    fun searchReviewMovieList(movieId : Int) {
         viewModelScope.launch {
             remoteRepository.searchReviewInfo(
-                movieId = 1
+                movieId = movieId
             )
                 .collect {
                     Timber.tag("ReviewModel").e(it.toString())
