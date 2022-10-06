@@ -397,6 +397,132 @@ Box(
 https://user-images.githubusercontent.com/35549958/194384816-9052d7da-ad72-48af-ac88-157f393171cd.mp4
 
 
+## Firebase 리뷰 Screen - 박인아
+
+- 담당한 일
+	- 세번째 페이지 구현
+- 기여한 점
+	- Firebase FireStore 연동
+	- 리뷰 목록 
+	- 리뷰 작성 페이지 구현
+- 남은 일
+	- Hilt 적용
+	- Coroutine 적용
+	- FirebaseFirestore 싱글톤 구현
+	- 사진 업로드 구현
+	
+
+## Realtime Database vs Cloud Firestore
+
+<div align="center">
+  <table style="font-weight : bold">
+      <tr>
+          <td align="center">Realtime Database</td>
+          <td align="center">Cloud Firestore</td>
+      </tr>
+      <tr>
+          <td align="center"><img src="https://user-images.githubusercontent.com/95750706/194424517-d32bb3c5-7b9b-4824-b221-0437bec0fcf5.png" width="400"  /></td>
+          <td align="center"><img src="https://user-images.githubusercontent.com/95750706/194425932-2372939c-8ad7-4d55-806a-1041775e4033.png" width="400"  /></td>
+      </tr>
+  </table>
+</div>
+
+
+- Realtime Databas
+	- 데이터를 하나의 큰 JSON 트리로 저장함.
+	- 쿼리시, 정렬과 필터링만 가능하며, 기본적으로 해당 depth의 데이터 반환시 그 이하의 모든 depth가 반환됨.
+- Cloud Firestore
+	- 데이터가 문서와 컬렉션으로 이루어짐.
+	- 쿼리시, 정렬과 필터링 조건문을 동시 사용 가능하며, 쿼리가 얕아서 특정 컬렉션이나 컬렉션의  문서만 반환 됨. 
+	- Realtime Databas의 여러 단점들 보완 및 성능 개선되어 출시됨.
+	
+<p>
+구조화된 데이터 구성을 원하여 Cloud Firestore 를 선택.
+</p>
+
+
+## Android MVVM 패턴
+
+<img src="https://user-images.githubusercontent.com/95750706/194421297-dfcbbf74-045f-497e-811f-d3d29ef2d890.JPG" width="400"  />
+
+## Firebase의 Android MVVM 패턴
+<img src="https://user-images.githubusercontent.com/95750706/194420307-2840a55f-7c2a-46c9-9e0c-34371be39641.JPG" width="400"  />
+
+<p>
+FireStore는 자체적으로 로컬 캐시를 적용하므로, 기존의 MVVM 패턴에서 쓰이는 모델과 원격 데이터 소스를 제거한 단일 레포지토리 클래스로 결합함.
+</p>
+
+ - 데이터 구성
+![miri1](https://user-images.githubusercontent.com/95750706/194430597-3bfa5401-34c6-476b-b081-a04becca9301.png)
+
+
+ - Model
+ ```kotlin
+data class ReviewVO(
+    val contents:String = "",
+    val imageUrl:String = "",
+    val movie_id:String = "",
+    val name:String = "",
+    val password:String = "",
+    val time: Timestamp  = Timestamp.now(),
+    val star: Int = 404
+)
+
+```
+ - Repository
+ 	- FireStore 데이터베이스에서 리뷰 저장, 가져오기에 대한 액세스 권한을 만듬.
+ 
+ ```kotlin
+
+    fun saveReviewItem(review: ReviewVO): Task<Void> {
+        //var
+        var documentReference = firestoreDB.collection("reviews").document(review.movie_id)
+            .collection(review.movie_id).document()
+        return documentReference.set(review)
+    }
+
+    fun getSavedReview(movieCd: String): CollectionReference = firestoreDB.collection("reviews").document(movieCd).collection(movieCd)
+
+
+```
+
+ - ViewModel
+ 	- 리뷰 데이터를 관리함.
+ 
+ ```kotlin
+ 
+    // save review to firebase
+    fun saveReviewToFirebase(review: ReviewVO){
+        firebaseRepository.saveReviewItem(review).addOnFailureListener {
+            Log.i(TAG,"Failed to save Address!")
+        }
+    }
+    
+    fun getReviews(){
+	firebaseRepository.getSavedReview("20112207").addSnapshotListener(EventListener<QuerySnapshot>{ value, e ->
+            if (e != null) {
+                return@EventListener
+            }
+            var savedReviewList : MutableList<ReviewVO> = mutableListOf()
+            for (doc in value!!) {
+                var reviewItem = doc.toObject(ReviewVO::class.java)
+                savedReviewList.add(reviewItem)
+
+            }
+            reviews = savedReviewList
+        })
+        binding.recycler.adapter!!.notifyDataSetChanged()
+	}
+     }
+
+```
+
+ - View
+  
+ <img src="https://user-images.githubusercontent.com/95750706/194432866-a0fcd087-367e-4e23-8d11-32aab0beb44b.jpg" width="300"  /> <img src="https://user-images.githubusercontent.com/95750706/194432874-60af44df-1a33-4f7d-b43f-22623206d304.jpg" width="300"  />
+
+
+
 ## Convention
 
 ### Branch Convention
