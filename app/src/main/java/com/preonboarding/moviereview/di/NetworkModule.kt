@@ -1,8 +1,10 @@
 package com.preonboarding.moviereview.di
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import com.preonboarding.moviereview.data.api.FireBaseApi
 import com.preonboarding.moviereview.data.api.KobisMovieApi
 import com.preonboarding.moviereview.data.api.OmdbMovieApi
+import com.preonboarding.moviereview.presentation.common.const.FIRE_BASE_URL
 import com.preonboarding.moviereview.presentation.common.const.KOBIS_BASE_URL
 import com.preonboarding.moviereview.presentation.common.const.OMDB_BASE_URL
 import dagger.Module
@@ -17,7 +19,6 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Converter
 import retrofit2.Retrofit
 import java.util.concurrent.TimeUnit
-import javax.inject.Named
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
@@ -52,7 +53,7 @@ object NetworkModule {
     @Singleton
     fun providesOkHttpClient(
         httpLoggingInterceptor: HttpLoggingInterceptor,
-        headerInterceptor: Interceptor
+        headerInterceptor: Interceptor,
     ): OkHttpClient = OkHttpClient.Builder()
         .addInterceptor(headerInterceptor)
         .addNetworkInterceptor(httpLoggingInterceptor)
@@ -72,12 +73,12 @@ object NetworkModule {
     @RetrofitKobis
     fun providesKobisRetrofit(
         okHttpClient: OkHttpClient,
-        converterFactory: Converter.Factory
+        converterFactory: Converter.Factory,
     ): Retrofit = Retrofit.Builder()
-            .baseUrl(KOBIS_BASE_URL)
-            .client(okHttpClient)
-            .addConverterFactory(converterFactory)
-            .build()
+        .baseUrl(KOBIS_BASE_URL)
+        .client(okHttpClient)
+        .addConverterFactory(converterFactory)
+        .build()
 
     // OMDB RETROFIT
     @Provides
@@ -85,26 +86,46 @@ object NetworkModule {
     @RetrofitOmdb
     fun providesOMDbRetrofit(
         okHttpClient: OkHttpClient,
-        converterFactory: Converter.Factory
+        converterFactory: Converter.Factory,
     ): Retrofit = Retrofit.Builder()
-            .baseUrl(OMDB_BASE_URL)
-            .client(okHttpClient)
-            .addConverterFactory(converterFactory)
-            .build()
+        .baseUrl(OMDB_BASE_URL)
+        .client(okHttpClient)
+        .addConverterFactory(converterFactory)
+        .build()
+
+    // FIREBASE RETROFIT
+    @Provides
+    @Singleton
+    @RetrofitFireBase
+    fun providesFireBaseRetrofit(
+        okHttpClient: OkHttpClient,
+        converterFactory: Converter.Factory,
+    ): Retrofit = Retrofit.Builder()
+        .baseUrl(FIRE_BASE_URL)
+        .client(okHttpClient)
+        .addConverterFactory(converterFactory)
+        .build()
 
     // KOBIS API
     @Provides
     @Singleton
     @RetrofitKobis
-    fun providesKobisApi(@RetrofitKobis retrofit: Retrofit): KobisMovieApi
-            = retrofit.create(KobisMovieApi::class.java)
+    fun providesKobisApi(@RetrofitKobis retrofit: Retrofit): KobisMovieApi =
+        retrofit.create(KobisMovieApi::class.java)
 
     // OMDB API
     @Provides
     @Singleton
     @RetrofitOmdb
-    fun providesOMDbApi(@RetrofitOmdb retrofit: Retrofit): OmdbMovieApi
-            = retrofit.create(OmdbMovieApi::class.java)
+    fun providesOMDbApi(@RetrofitOmdb retrofit: Retrofit): OmdbMovieApi =
+        retrofit.create(OmdbMovieApi::class.java)
+
+    // FIREBASE API
+    @Provides
+    @Singleton
+    @RetrofitFireBase
+    fun providesFireBaseApi(@RetrofitFireBase retrofit: Retrofit): FireBaseApi =
+        retrofit.create(FireBaseApi::class.java)
 }
 
 @Qualifier
@@ -114,3 +135,7 @@ annotation class RetrofitKobis
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class RetrofitOmdb
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class RetrofitFireBase
