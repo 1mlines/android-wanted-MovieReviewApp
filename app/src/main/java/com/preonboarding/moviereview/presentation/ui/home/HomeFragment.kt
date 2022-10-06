@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private val homeViewModel: HomeViewModel by viewModels()
-    private val pagingAdapter: HomeAdapter by lazy {
+    private val homeAdapter: HomeAdapter by lazy {
         HomeAdapter(
             itemClickListener = {
                 navigateWithArgs(HomeFragmentDirections.actionHomeToDetail(
@@ -49,7 +49,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     private fun initRecyclerView() {
         binding.rvList.apply {
-            adapter = pagingAdapter
+            adapter = homeAdapter
         }
     }
 
@@ -69,7 +69,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                         is HomeState.Success -> {
                             binding.rvList.isVisible = true
                             binding.progressBar.isVisible = false
-                            // todo adapter 연결
+                            val data = state.data
+                            val boxOfficeResult = data.boxOfficeResult
+                            val dailyBoxOfficeList = boxOfficeResult.dailyBoxOfficeList
+                            homeAdapter.submitList(dailyBoxOfficeList)
                         }
                         is HomeState.Empty -> {
 
