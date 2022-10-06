@@ -4,21 +4,21 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class MovieInfoResponse(
-        val movieInfoResult: MovieInfoResult
+    val movieInfoResult: MovieInfoResult
 )
 
 @Serializable
 data class MovieInfoResult(
-        val movieInfo: MovieInfo,
-        val source: String,
+    val movieInfo: MovieInfo,
+    val source: String,
 )
 
 @Serializable
-data class MovieInfo (
-        val movieCd: String,
-        val movieNm: String,
-        val movieNmEn: String,
-        val movieNmOg: String,
+data class MovieInfo(
+    val movieCd: String,
+    val movieNm: String,
+    val movieNmEn: String,
+    val movieNmOg: String,
 //        val prdtYear: String,
 //        val showTm: String,
 //        val openDt: String,
