@@ -2,7 +2,7 @@ package com.preonboarding.moviereview.data.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.preonboarding.moviereview.data.source.remote.MovieListDataSource
+import com.preonboarding.moviereview.data.remote.source.MovieListDataSource
 import com.preonboarding.moviereview.domain.mapper.mapToMovieSearchInfo
 import com.preonboarding.moviereview.domain.model.MovieSearchInfo
 import kotlinx.coroutines.delay

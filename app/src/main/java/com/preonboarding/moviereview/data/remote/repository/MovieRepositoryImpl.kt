@@ -3,7 +3,7 @@ package com.preonboarding.moviereview.data.remote.repository
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import com.preonboarding.moviereview.data.paging.MovieSearchResultPagingSource
-import com.preonboarding.moviereview.data.source.remote.MovieListDataSource
+import com.preonboarding.moviereview.data.remote.source.MovieListDataSource
 import com.preonboarding.moviereview.domain.repository.remote.MovieRepository
 import javax.inject.Inject
 

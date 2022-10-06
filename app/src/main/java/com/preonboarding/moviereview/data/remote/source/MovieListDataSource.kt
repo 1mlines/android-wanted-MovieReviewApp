@@ -1,4 +1,4 @@
-package com.preonboarding.moviereview.data.source.remote
+package com.preonboarding.moviereview.data.remote.source
 
 import com.preonboarding.moviereview.data.remote.model.MovieListResponse
 
