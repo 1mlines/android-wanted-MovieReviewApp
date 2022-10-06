@@ -34,9 +34,9 @@ class FirebaseRepositoryImpl @Inject constructor(
                         Review(
                             it.key.toString(),
                             it.child("password").getValue().toString(),
-                            it.child("rating").getValue().toString().toInt(),
+                            it.child("rating").getValue().toString().toFloat(),
                             it.child("content").getValue().toString(),
-                            it.child("imageUrl").getValue().toString(),
+                            it.child("imageUri").getValue().toString(),
                             it.child("date").getValue().toString(),
                         )
                     })

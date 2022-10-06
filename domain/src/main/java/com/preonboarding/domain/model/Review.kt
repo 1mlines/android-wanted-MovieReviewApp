@@ -1,19 +1,19 @@
 package com.preonboarding.domain.model
 
 data class Review(
-    val nickname: String,
-    val password: String,
-    val rating: Int,
+    val nickname: String = "",
+    val password: String = "",
+    val rating: Float = 0f,
     val content: String = "",
-    val imageUrl: String = "",
-    val date: String
+    val imageUri: String = "",
+    val date: String = ""
 ) {
     fun toMapContent(): Map<String, Any?> {
         return mapOf(
             "password" to password,
             "rating" to rating,
             "content" to content,
-            "imageUrl" to imageUrl,
+            "imageUri" to imageUri,
             "date" to date
         )
     }

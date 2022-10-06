@@ -14,7 +14,7 @@ sealed class ReviewUiState {
 
     object Reading : ReviewUiState()
 
-    object Delete : ReviewUiState()
+    object Review : ReviewUiState()
 }
 
 enum class MODE {

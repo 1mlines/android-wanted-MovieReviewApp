@@ -21,8 +21,6 @@ import com.preonboarding.presentation.view.detail.DetailViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-const val VALIDATION_ERROR = "비밀번호 오류"
-
 class ReviewValidationDialog(private val selectedMode: MODE) :
     BaseDialogFragment<DialogReviewValidataionBinding>(R.layout.dialog_review_validataion) {
 

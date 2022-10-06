@@ -19,4 +19,7 @@
     <string name="check_password">비밀번호 확인</string>
     <string name="cancel">취소</string>
     <string name="password_error">비밀번호 불일치</string>
+    <string name="review_error">리뷰작성 실패</string>
+    <string name="review_guide">닉네임과 비밀번호는 필수입니다.(비밀번호는 6자리)</string>
+    <string name="cancel_album">사진선택 취소</string>
 </resources>
