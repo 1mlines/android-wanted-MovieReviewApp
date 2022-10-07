@@ -39,6 +39,10 @@
         android:name="com.preonboarding.moviereview.presentation.ui.review.ReviewFragment"
         android:label="ReviewFragment"
         tools:layout="@layout/fragment_review">
+        <argument
+            android:name="reviewData"
+            app:argType="com.preonboarding.moviereview.data.remote.model.ReviewInfo"
+            app:nullable="false" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"

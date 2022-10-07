@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -28,6 +29,7 @@ class ReviewFragment : BaseFragment<FragmentReviewBinding>(R.layout.fragment_rev
     private lateinit var database: DatabaseReference
     private lateinit var fbStorage: FirebaseStorage
     private var selectedUri: Uri? = null
+    private val args by navArgs<ReviewFragmentArgs>()
 
     private fun showGalleryDialog() {
         val galleryDialogFragment = GalleryDialogFragment()
@@ -58,6 +60,8 @@ class ReviewFragment : BaseFragment<FragmentReviewBinding>(R.layout.fragment_rev
             navigateUp()
         }
         binding.apply {
+            reviewMovieInfo = args.reviewData
+
             btSaveReview.setOnClickListener {
                 val nickname = editNickNameReview.text.toString()
                 val content = editContentReview.text.toString()
@@ -152,7 +156,9 @@ class ReviewFragment : BaseFragment<FragmentReviewBinding>(R.layout.fragment_rev
             star = rate)
 
         //child에서 detail에서 넘어올때 영화id를 같이 넘겨주세요
-        val ref = database.database.getReferenceFromUrl(FIRE_BASE_URL).child("1").push()
+        val ref =
+            database.database.getReferenceFromUrl(FIRE_BASE_URL).child(args.reviewData.movieCd)
+                .push()
         ref.setValue(model)
         Snackbar.make(
             requireActivity().findViewById(android.R.id.content),

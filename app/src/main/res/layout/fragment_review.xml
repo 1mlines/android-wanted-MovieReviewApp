@@ -5,6 +5,9 @@
 
     <data>
         <import type="android.view.View" />
+        <variable
+            name="ReviewMovieInfo"
+            type="com.preonboarding.moviereview.data.remote.model.ReviewInfo" />
 
         <variable
             name="isReviewImageEmpty"
@@ -32,6 +35,76 @@
                 android:layout_height="wrap_content"
                 layout="@layout/layout_back_header" />
 
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_poster_background_review"
+                posterImage="@{ReviewMovieInfo.postUrl}"
+                android:layout_width="0dp"
+                android:layout_height="262dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/ic_arrow_right_24" />
+
+            <ImageView
+                android:id="@+id/iv_poster_review"
+                posterImage="@{ReviewMovieInfo.postUrl}"
+                android:layout_width="164dp"
+                android:layout_height="250dp"
+                android:layout_marginTop="120dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/bg_navy200_round_10" />
+
+            <TextView
+                android:id="@+id/tv_title_review"
+                style="@style/Headline24"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:text="@{ReviewMovieInfo.movieNm}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_poster_review"
+                tools:text="John Wick" />
+
+            <TextView
+                android:id="@+id/tv_ranking_review"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/Headline24"
+                android:text="@{ReviewMovieInfo.rank}"
+                tools:text="1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_title_review" />
+
+            <TextView
+                android:id="@+id/tv_rankOldAndNew_review"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{ReviewMovieInfo.rankOldAndNew}"
+                style="@style/Body14.Grey"
+                android:textColor="@color/red"
+                app:layout_constraintTop_toBottomOf="@id/tv_ranking_review"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="New"/>
+
+            <TextView
+                android:id="@+id/tv_rankInten_review"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{ReviewMovieInfo.rankInten}"
+                style="@style/Body11.Grey"
+                app:layout_constraintTop_toBottomOf="@id/tv_rankOldAndNew_review"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="순위증감"/>
+
             <TextView
                 android:id="@+id/tv_nick_name_review"
                 style="@style/Body14"
@@ -42,7 +115,7 @@
                 android:layout_marginEnd="24dp"
                 android:text="@string/nick_name"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/layout_header_review" />
+                app:layout_constraintTop_toBottomOf="@id/tv_rankInten_review" />
 
             <EditText
                 android:padding="1dp"
