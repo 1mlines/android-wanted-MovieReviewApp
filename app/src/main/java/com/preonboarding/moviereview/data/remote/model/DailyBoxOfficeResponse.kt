@@ -37,12 +37,5 @@ data class BoxOfficeMovie(
     val audiAcc: String,
     val scrnCnt: String,
     val showCnt: String
-): Parcelable {
-    companion object {
-        const val RANK_ZERO: String = "0"
-        const val RANK_ONE: String = "1"
-        const val RANK_TWO: String = "2"
-        const val RANK_THREE: String = "3"
-    }
-}
+): Parcelable
 
