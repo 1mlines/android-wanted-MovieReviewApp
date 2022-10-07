@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="movieInfo"
+            type="com.preonboarding.moviereview.data.remote.model.MovieInfo" />
+
+        <variable
+            name="dailyMovie"
+            type="com.preonboarding.moviereview.data.remote.model.BoxOfficeMovie" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/tv_production_year_label"
+                    style="@style/Body14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="15dp"
+                    android:text="제작 연도"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_production_year"
+                    style="@style/Body14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="@{movieInfo.prdtYear}"
+                    app:layout_constraintStart_toStartOf="@id/tv_production_year_label"
+                    app:layout_constraintTop_toBottomOf="@id/tv_production_year_label"
+                    tools:text="2022" />
+
+                <TextView
+                    android:id="@+id/tv_open_date_label"
+                    style="@style/Body14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="개봉일"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tv_watch_grade_label"
+                    app:layout_constraintTop_toTopOf="@id/tv_production_year_label" />
+
+                <TextView
+                    android:id="@+id/tv_open_date"
+                    style="@style/Body14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="@{movieInfo.openDt}"
+                    app:layout_constraintStart_toStartOf="@id/tv_open_date_label"
+                    app:layout_constraintTop_toBottomOf="@id/tv_open_date_label"
+                    tools:text="2022.10.05" />
+
+                <TextView
+                    android:id="@+id/tv_show_time_label"
+                    style="@style/Body14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="상영 시간"
+                    app:layout_constraintStart_toStartOf="@id/tv_production_year"
+                    app:layout_constraintTop_toBottomOf="@id/tv_production_year" />
+
+                <TextView
+                    android:id="@+id/tv_show_time"
+                    style="@style/Body14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="@{movieInfo.showTm}"
+                    app:layout_constraintStart_toStartOf="@id/tv_show_time_label"
+                    app:layout_constraintTop_toBottomOf="@id/tv_show_time_label"
+                    tools:text="138분" />
+
+                <TextView
+                    android:id="@+id/tv_genre_label"
+                    style="@style/Body14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="장르"
+                    app:layout_constraintStart_toStartOf="@id/tv_open_date"
+                    app:layout_constraintTop_toTopOf="@id/tv_show_time_label" />
+
+                <TextView
+                    android:id="@+id/tv_genre"
+                    style="@style/Body14"
+                    genreText="@{movieInfo.genres}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="@id/tv_genre_label"
+                    app:layout_constraintTop_toTopOf="@id/tv_show_time"
+                    tools:text="사극, 드라마" />
+
+                <TextView
+                    android:id="@+id/tv_watch_grade_label"
+                    style="@style/Body14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="심의 정보"
+                    app:layout_constraintStart_toStartOf="@id/tv_show_time"
+                    app:layout_constraintTop_toBottomOf="@id/tv_show_time" />
+
+                <TextView
+                    android:id="@+id/tv_watch_grade"
+                    style="@style/Body14"
+                    auditText="@{movieInfo.audits}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    app:layout_constraintStart_toStartOf="@id/tv_watch_grade_label"
+                    app:layout_constraintTop_toBottomOf="@id/tv_watch_grade_label"
+                    tools:text="15세 이상 관람가" />
+
+                <TextView
+                    android:id="@+id/tv_audience_count_label"
+                    style="@style/Body14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="관객수"
+                    app:layout_constraintStart_toStartOf="@id/tv_genre"
+                    app:layout_constraintTop_toTopOf="@id/tv_watch_grade_label" />
+
+                <TextView
+                    android:id="@+id/tv_audience_count"
+                    style="@style/Body14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{dailyMovie.audiCnt}"
+                    app:layout_constraintStart_toStartOf="@id/tv_audience_count_label"
+                    app:layout_constraintTop_toTopOf="@id/tv_watch_grade"
+                    tools:text="123456" />
+
+                <TextView
+                    android:id="@+id/tv_director_label"
+                    style="@style/Body18"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="감독"
+                    app:layout_constraintStart_toStartOf="@id/tv_watch_grade"
+                    app:layout_constraintTop_toBottomOf="@id/tv_watch_grade" />
+
+                <TextView
+                    android:id="@+id/rv_director_list"
+                    style="@style/Body14"
+                    directorsText="@{movieInfo.directors}"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintStart_toStartOf="@id/tv_director_label"
+                    app:layout_constraintTop_toBottomOf="@id/tv_director_label" />
+
+                <TextView
+                    android:id="@+id/tv_actor_label"
+                    style="@style/Body18"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="출연 배우"
+                    app:layout_constraintStart_toStartOf="@id/rv_director_list"
+                    app:layout_constraintTop_toBottomOf="@id/rv_director_list" />
+
+                <TextView
+                    android:id="@+id/rv_actor_list"
+                    style="@style/Body14"
+                    actorsText="@{movieInfo.actors}"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintStart_toStartOf="@id/tv_actor_label"
+                    app:layout_constraintTop_toBottomOf="@id/tv_actor_label" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
+

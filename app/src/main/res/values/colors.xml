@@ -5,6 +5,24 @@
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+
+    <!-- gray -->
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="grey">#A0A0A0</color>
+
+    <!-- alpha -->
+    <color name="white_alpha40">#4DFFFFFF</color>
+    <color name="black_alpha40">#4D000000</color>
+
+    <!-- dark background -->
+    <color name="navy700">#0F1B2B</color>
+    <color name="navy200">#2B3543</color>
+
+    <!-- highlight -->
+    <color name="red">#D9251D</color>
+    <color name="yellow">#F8C42F</color>
+    <color name="blue200">#1F8CE6</color>
+    <color name="blue400">#0057FF</color>
+
 </resources>

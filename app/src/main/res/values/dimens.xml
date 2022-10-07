@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="margin_background_default">24dp</dimen>
+    <dimen name="radius_background_default">10dp</dimen>
+</resources>
