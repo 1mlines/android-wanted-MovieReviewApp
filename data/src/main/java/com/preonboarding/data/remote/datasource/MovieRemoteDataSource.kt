@@ -14,5 +14,5 @@ interface MovieRemoteDataSource {
 
     suspend fun getMovieInfo(movieCd: String): Result<MovieInfoResponse>
 
-    suspend fun getPoster(movieNmEn: String): Result<PosterResponse>
+    suspend fun getPoster(movieNmEn: String, year: String): Result<PosterResponse>
 }
