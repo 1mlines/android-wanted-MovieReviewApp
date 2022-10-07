@@ -35,7 +35,6 @@ class DetailFragment :
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             phoneUri = it.data?.data!!
             tomessage(phoneUri)
-
         }
 
     private val detailViewModel: DetailViewModel by activityViewModels()
@@ -47,7 +46,6 @@ class DetailFragment :
     private var reviewRate: kotlin.Float = 0f
 
 
-    // TODO 영화 제목 받아서 시작할 때 리스트 받아와야 함
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.viewmodel = detailViewModel
@@ -112,7 +110,7 @@ class DetailFragment :
                 "https://m.media-amazon.com/images/M/MV5BODRmZDVmNzUtZDA4ZC00NjhkLWI2M2UtN2M0ZDIzNDcxYThjL2ltYWdlXkEyXkFqcGdeQXVyNTk0MzMzODA@._V1_SX300.jpg"
             //TODO 포스터 이미지 수정
 
-            Glide.with(ivPoster.context).load(posterUrl.toUri()).error(R.drawable.no_img)
+            Glide.with(ivPoster.context).load(movieData.posterUrl.toUri()).error(R.drawable.no_img)
                 .into(ivPoster)
             tvTitle.text = movieData.name
             tvOpenDate.text = "${movieData.openDt} 개봉 (${movieData.prdtYear} 제작)"
@@ -128,7 +126,7 @@ class DetailFragment :
 
             //리뷰 수정시 validation
             reviewAdapter.editItemClick = object : DetailReviewAdapter.EditItemClick {
-                override fun onClick(view: View, position: Int,nickname: String,pw:String) {
+                override fun onClick(view: View, position: Int, nickname: String, pw: String) {
                     detailViewModel.editState = EditState(true, true)
                     showValidationDialog(MODE.MODIFY)
 
@@ -136,10 +134,10 @@ class DetailFragment :
             }
             //리뷰 삭제
             reviewAdapter.deleteItemClick = object : DetailReviewAdapter.DeleteItemClick {
-                override fun onClick(view: View, position: Int,pw:String) {
+                override fun onClick(view: View, position: Int, pw: String) {
                     detailViewModel.passwd = pw
                     Timber.e(pw)
-                        showValidationDialog(MODE.DELETE)
+                    showValidationDialog(MODE.DELETE)
                 }
             }
             //리뷰 추가
@@ -207,7 +205,7 @@ class DetailFragment :
                         sendmessage(
                             number,
                             "영화를 추천합니다! [${currentMovieName}]",
-                            "https://m.media-amazon.com/images/M/MV5BODRmZDVmNzUtZDA4ZC00NjhkLWI2M2UtN2M0ZDIzNDcxYThjL2ltYWdlXkEyXkFqcGdeQXVyNTk0MzMzODA@._V1_SX300.jpg"
+                            movieData.posterUrl
                         )
                     }
                 }
@@ -220,7 +218,7 @@ class DetailFragment :
             data = Uri.parse("smsto:" + phoneNum)
             putExtra("sms_body", message)
             if (posterImgURL.isNotEmpty()) {
-                val uri = Uri.parse(posterImgURL)
+                val uri = posterImgURL.toUri()
                 putExtra(Intent.EXTRA_STREAM, uri)
             }
         }

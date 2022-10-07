@@ -40,13 +40,13 @@ class DetailViewModel @Inject constructor(
 
     var editState = EditState()
 
-    lateinit var passwd : String
+    lateinit var passwd: String
 
     var uri: String = ""
 
     lateinit var title: String
 
-    fun updateReview(title: String){
+    fun updateReview(title: String) {
         viewModelScope.launch {
             runCatching {
                 updateReviewUseCase(title, reviewBuffer)

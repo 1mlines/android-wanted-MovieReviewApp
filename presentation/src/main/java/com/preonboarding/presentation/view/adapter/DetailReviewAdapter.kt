@@ -10,7 +10,6 @@ import com.bumptech.glide.Glide
 import com.preonboarding.domain.model.Review
 import com.preonboarding.presentation.R
 import com.preonboarding.presentation.databinding.ItemReviewBinding
-import timber.log.Timber
 
 //리뷰 아이템
 
@@ -18,16 +17,15 @@ import timber.log.Timber
 class DetailReviewAdapter() : ListAdapter<Review, DetailReviewAdapter.ReviewViewHolder>(diffUtil) {
 
     interface DeleteItemClick {
-        fun onClick(view: View, position: Int,pw:String)
+        fun onClick(view: View, position: Int, pw: String)
     }
 
     interface EditItemClick {
-        fun onClick(view: View, position: Int,nickname:String,pw:String)
+        fun onClick(view: View, position: Int, nickname: String, pw: String)
     }
 
     var deleteItemClick: DeleteItemClick? = null
     var editItemClick: EditItemClick? = null
-
 
 
     inner class ReviewViewHolder(private val binding: ItemReviewBinding) :
@@ -43,11 +41,11 @@ class DetailReviewAdapter() : ListAdapter<Review, DetailReviewAdapter.ReviewView
             binding.ivEdit.setOnClickListener {
                 var nickname = items.nickname
                 var pw = items.password
-                editItemClick?.onClick(it,adapterPosition,nickname,pw)
+                editItemClick?.onClick(it, adapterPosition, nickname, pw)
             }
             binding.ivDelete.setOnClickListener {
                 var pw = items.password
-                deleteItemClick?.onClick(it,adapterPosition,pw)
+                deleteItemClick?.onClick(it, adapterPosition, pw)
 
             }
 
