@@ -52,10 +52,8 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
                     .debounce(300)
                     .filter { query ->
                         if (query.isBlank()) {
-                            viewModel.searchMovie("")
-                                .collectLatest {
-                                    pagingAdapter.submitData(it)
-                                }
+                            // 비어있는 뷰 처리
+                            binding.tvEmptyQuery.visibility = View.VISIBLE
                             return@filter false
                         } else {
                             return@filter true
@@ -66,6 +64,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
                         viewModel.searchMovie(query)
                     }
                     .collectLatest {
+                        binding.tvEmptyQuery.visibility = View.GONE
                         pagingAdapter.submitData(it)
                     }
             }
