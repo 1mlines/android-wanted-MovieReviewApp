@@ -12,14 +12,14 @@ interface KobisMovieApi {
     // 일별 박스오피스
     @GET("boxoffice/searchDailyBoxOfficeList.json")
     suspend fun searchDailyBoxOfficeList(
-        @Query("key") key: String,
+        @Query("key") key: String = KOBIS_API_KEY,
         @Query("targetDt") targetDt: String
     ): DailyBoxOfficeResponse
 
     // 상세정보
     @GET("movie/searchMovieInfo.json")
     suspend fun searchMovieInfo(
-        @Query("key") key: String,
+        @Query("key") key: String = KOBIS_API_KEY,
         @Query("movieCd") movieCd: String?
     ): MovieInfoResponse
 

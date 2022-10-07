@@ -1,4 +1,4 @@
-package com.preonboarding.moviereview.presentation.ui.detail
+package com.preonboarding.moviereview.presentation.ui.boxofficedetail
 
 import android.os.Bundle
 import android.view.View
@@ -15,10 +15,7 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class TabDetailFragment : BaseFragment<FragmentTabDetailBinding>(R.layout.fragment_tab_detail) {
-
-    val args by navArgs<DetailFragmentArgs>()
-
-    private val detailViewModel: DetailViewModel by viewModels({requireParentFragment()})
+    private val boxOfficeDetailViewModel: BoxOfficeDetailViewModel by viewModels({ requireParentFragment() })
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -28,13 +25,13 @@ class TabDetailFragment : BaseFragment<FragmentTabDetailBinding>(R.layout.fragme
     private fun setMovieInfo() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                detailViewModel.movieInfo.collect { state ->
-                    when(state) {
+                boxOfficeDetailViewModel.movieInfo.collect { state ->
+                    when (state) {
                         is MovieStatus.Loading -> {}
                         is MovieStatus.Failure -> {}
                         is MovieStatus.Success -> {
                             binding.movieInfo = state.data.movieInfoResult.movieInfo
-                            detailViewModel.fetchPoster(state.data.movieInfoResult.movieInfo.movieNmEn)
+                            boxOfficeDetailViewModel.fetchPoster(state.data.movieInfoResult.movieInfo.movieNmEn)
                         }
                         is MovieStatus.Initial -> {}
                     }
@@ -44,8 +41,8 @@ class TabDetailFragment : BaseFragment<FragmentTabDetailBinding>(R.layout.fragme
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                detailViewModel.basicInfo.collect { state ->
-                    when(state) {
+                boxOfficeDetailViewModel.basicInfo.collect { state ->
+                    when (state) {
                         is MovieBasicStatus.Initial -> {
                         }
                         is MovieBasicStatus.Main -> {

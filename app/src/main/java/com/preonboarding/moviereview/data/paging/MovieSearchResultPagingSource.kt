@@ -2,13 +2,13 @@ package com.preonboarding.moviereview.data.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.preonboarding.moviereview.data.remote.source.MovieListDataSource
+import com.preonboarding.moviereview.data.remote.source.MovieDataSource
 import com.preonboarding.moviereview.domain.mapper.mapToMovieSearchInfo
 import com.preonboarding.moviereview.domain.model.MovieSearchInfo
 import kotlinx.coroutines.delay
 
 class MovieSearchResultPagingSource(
-    private val dataSource: MovieListDataSource,
+    private val dataSource: MovieDataSource,
     private val movieName: String
 ) : PagingSource<Int, MovieSearchInfo>() {
     override fun getRefreshKey(state: PagingState<Int, MovieSearchInfo>): Int? {

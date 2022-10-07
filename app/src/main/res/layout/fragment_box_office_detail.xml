@@ -18,7 +18,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.ui.detail.DetailFragment">
+        tools:context=".presentation.ui.boxofficedetail.BoxOfficeDetailFragment">
 
         <include
             android:id="@+id/layout_header_detail"
