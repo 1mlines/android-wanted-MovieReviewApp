@@ -46,6 +46,7 @@ dependencies {
     implementation(Google.MATERIAL)
     implementation("androidx.appcompat:appcompat:1.5.1")
     implementation("com.google.firebase:firebase-database-ktx:20.0.6")
+    implementation("com.google.firebase:firebase-crashlytics-buildtools:2.9.2")
     testImplementation(Test.JUNIT)
     androidTestImplementation(AndroidTest.EXT_JUNIT)
     androidTestImplementation(AndroidTest.ESPRESSO_CORE)

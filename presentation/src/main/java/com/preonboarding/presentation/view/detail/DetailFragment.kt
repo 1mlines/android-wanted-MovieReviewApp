@@ -17,6 +17,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
+import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.protocol.HTTP
 import com.preonboarding.domain.model.Movie
 import com.preonboarding.domain.model.Review
 import com.preonboarding.presentation.R
@@ -33,8 +34,11 @@ class DetailFragment :
     private lateinit var phoneUri: Uri
     val resultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            phoneUri = it.data?.data!!
-            tomessage(phoneUri)
+            if (it.data != null){
+                phoneUri = it.data?.data!!
+                tomessage(phoneUri)
+            }
+
         }
 
     private val detailViewModel: DetailViewModel by activityViewModels()
@@ -98,7 +102,7 @@ class DetailFragment :
     }
 
     private fun setReview() {
-        binding.tvRating.rating = reviewRate
+        binding.ratingBar.rating = reviewRate
         reviewAdapter.submitList(reviews)
         binding.rcvReviews.adapter = reviewAdapter
     }
@@ -204,7 +208,7 @@ class DetailFragment :
                         val number = cursor.getString(numberIndex)
                         sendmessage(
                             number,
-                            "영화를 추천합니다! [${currentMovieName}]",
+                            "영화를 추천합니다! [${currentMovieName}] \n ${movieData.openDt} 개봉 \n ${movieData.directorNm} 감독 \n ${movieData.peopleNm[0]} 주연",
                             movieData.posterUrl
                         )
                     }
@@ -215,7 +219,7 @@ class DetailFragment :
 
     private fun sendmessage(phoneNum: String, message: String, posterImgURL: String) {
         val intent = Intent(Intent.ACTION_SEND).apply {
-            data = Uri.parse("smsto:" + phoneNum)
+            data = Uri.parse("mmsto:$phoneNum")
             putExtra("sms_body", message)
             if (posterImgURL.isNotEmpty()) {
                 val uri = posterImgURL.toUri()
