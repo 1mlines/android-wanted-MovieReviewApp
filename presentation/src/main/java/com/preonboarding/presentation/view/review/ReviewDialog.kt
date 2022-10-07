@@ -16,7 +16,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.snackbar.Snackbar
 import com.preonboarding.domain.model.Review
-import com.preonboarding.domain.model.ReviewUiState
 import com.preonboarding.presentation.R
 import com.preonboarding.presentation.common.base.BaseDialogFragment
 import com.preonboarding.presentation.common.shared.setOnThrottleClickListener
