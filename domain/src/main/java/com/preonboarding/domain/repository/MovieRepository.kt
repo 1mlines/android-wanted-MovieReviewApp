@@ -4,5 +4,5 @@ import com.preonboarding.domain.model.Movie
 import com.preonboarding.domain.model.Result
 
 interface MovieRepository {
-    suspend fun getBoxOfficeList(): Result<List<Movie>>
+    suspend fun getBoxOfficeList(): List<Movie>
 }
