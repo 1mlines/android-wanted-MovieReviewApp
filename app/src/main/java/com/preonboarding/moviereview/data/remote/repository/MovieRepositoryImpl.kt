@@ -5,6 +5,7 @@ import androidx.paging.PagingConfig
 import com.preonboarding.moviereview.data.paging.MovieSearchResultPagingSource
 import com.preonboarding.moviereview.data.remote.model.NetworkResult
 import com.preonboarding.moviereview.data.remote.source.MovieDataSource
+import com.preonboarding.moviereview.di.DefaultDispatcher
 import com.preonboarding.moviereview.di.IoDispatcher
 import com.preonboarding.moviereview.domain.mapper.mapToMovieInfo
 import com.preonboarding.moviereview.domain.model.MovieInfo
@@ -17,7 +18,8 @@ import javax.inject.Inject
 
 class MovieRepositoryImpl @Inject constructor(
     private val dataSource: MovieDataSource,
-    @IoDispatcher private val dispatcher: CoroutineDispatcher
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
+    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher
 ) : MovieRepository {
 
     override fun getMovieListByMovieName(movieName: String) = Pager(
@@ -27,12 +29,12 @@ class MovieRepositoryImpl @Inject constructor(
             initialLoadSize = ITEM_PER_PAGE
         ),
         pagingSourceFactory = { MovieSearchResultPagingSource(dataSource, movieName) }
-    ).flow
+    ).flow.flowOn(defaultDispatcher)
 
     override fun getMovieInfoByCode(movieCode: String): Flow<NetworkResult<MovieInfo>> = flow {
         val movieInfo = dataSource.getMovieInfoByCode(movieCode).mapToMovieInfo()
         emit(NetworkResult.Success(movieInfo))
-    }.flowOn(dispatcher)
+    }.flowOn(ioDispatcher)
 
     companion object {
         private const val ITEM_PER_PAGE = 10
