@@ -2,6 +2,7 @@ package com.preonboarding.moviereview.presentation.ui.detail
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -15,11 +16,10 @@ import com.preonboarding.moviereview.data.remote.model.ReviewInfo
 import com.preonboarding.moviereview.databinding.FragmentDetailBinding
 import com.preonboarding.moviereview.presentation.common.base.BaseFragment
 import com.preonboarding.moviereview.presentation.common.const.FIRE_BASE_URL
-import com.preonboarding.moviereview.presentation.common.extension.navigate
 import com.preonboarding.moviereview.presentation.common.extension.navigateUp
 import com.preonboarding.moviereview.presentation.common.extension.navigateWithArgs
-import com.preonboarding.moviereview.presentation.ui.home.HomeFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 
@@ -93,7 +93,27 @@ class DetailFragment: BaseFragment<FragmentDetailBinding>(R.layout.fragment_deta
 
                     }
                     else{                        //리뷰가 있을때
-                        val review = detailViewModel.searchReviewMovieList(args.homeData.movieCd.toInt())//리뷰 가져오기
+                        viewLifecycleOwner.lifecycleScope.launch {
+                            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                                detailViewModel.reviewList.collectLatest { state ->
+                                    when (state) {
+                                        is ReviewStatus.Loading -> {
+
+                                        }
+                                        is ReviewStatus.Failure -> {
+
+                                        }
+                                        is ReviewStatus.Success -> {
+                                            val data = state.data//
+
+                                        }
+                                        is ReviewStatus.Initial -> {
+
+                                        }
+                                    }
+                                }
+                            }
+                        }
                         //TODO: 가져오는 객체가 map이므로 iterator로 뽑아서 -> List에 넣고 -> RecyclerView
 //                        HashMap<String, String>().forEach {
 //                        }
@@ -136,6 +156,7 @@ class DetailFragment: BaseFragment<FragmentDetailBinding>(R.layout.fragment_deta
     private fun getMovieDetail(){
         detailViewModel.fetchMovieDetail(args.homeData.movieCd)
         detailViewModel.setBasicMovieInfo(args.homeData)
+        detailViewModel.searchReviewMovieList(args.homeData.movieCd.toInt())
         binding.dailyMovie = args.homeData
     }
 
