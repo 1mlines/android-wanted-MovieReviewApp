@@ -4,6 +4,7 @@ plugins {
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
     id("com.google.gms.google-services")
+    id("kotlinx-serialization")
 }
 
 android {
@@ -72,4 +73,8 @@ dependencies {
     //Firebase
     implementation(platform(Firebase.FIREBASE_BOM))
     implementation(Firebase.FIREBASE_DATABASE_KTX)
+
+    //Serialization
+    implementation(Serialization.SERIALIZATION)
+    implementation(Retrofit.CONVERTER_SERIALIZATION)
 }

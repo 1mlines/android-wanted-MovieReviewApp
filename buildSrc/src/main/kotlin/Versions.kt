@@ -11,7 +11,7 @@ object Versions {
     const val ANDROID_VERSION_CODE = 1
     const val ANDROID_VERSION_NAME = "$VERSION_MAJOR.$VERSION_MINOR.$VERSION_PATCH"
 
-//    const val KOTLIN_VERSION = "1.7.10"
+    const val KOTLIN_VERSION = "1.7.10"
 
     //coroutine
     const val COROUTINE = "1.6.4"
@@ -46,6 +46,7 @@ object Versions {
 
     //library
     const val RETROFIT = "2.9.0"
+    const val RETROFIT_SERIALIZATION_CONVERTER = "0.8.0"
     const val OKHTTP = "4.10.0"
     const val TIMBER = "5.0.1"
 

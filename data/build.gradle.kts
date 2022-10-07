@@ -4,7 +4,7 @@ plugins {
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
     id("com.google.gms.google-services")
-//    id("kotlinx-serialization")
+    id("kotlinx-serialization")
 }
 
 android {
@@ -67,4 +67,5 @@ dependencies {
 
     //Serialization
     implementation(Serialization.SERIALIZATION)
+    implementation(Retrofit.CONVERTER_SERIALIZATION)
 }
