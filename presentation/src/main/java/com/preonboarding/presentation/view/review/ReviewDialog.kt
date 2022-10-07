@@ -15,7 +15,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.snackbar.Snackbar
 import com.preonboarding.domain.model.Review
-import com.preonboarding.domain.model.ReviewUiState
 import com.preonboarding.presentation.R
 import com.preonboarding.presentation.common.base.BaseDialogFragment
 import com.preonboarding.presentation.common.shared.setOnThrottleClickListener
@@ -81,6 +80,7 @@ class ReviewDialog :
         }
     }
 
+
     private fun initView() {
         dialog?.apply {
             window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -102,10 +102,10 @@ class ReviewDialog :
                         etReviewPassword.text.toString(),
                         ratingBar.rating,
                         etReviewContent.text.toString(),
-                        photoUri.toString(),
+                        photoUri.toString(), //TODO 사진을 안넣으면 오류가 발생합니다!
                         nowDate
                     )
-                    reviewViewModel.uploadReview("헬스천국")
+                    reviewViewModel.uploadReview(reviewViewModel.title)
                 } else {
                     Snackbar.make(
                         requireView(),
@@ -114,6 +114,8 @@ class ReviewDialog :
                     ).show()
                 }
             }
+
+
             ivMovieThumb.setOnClickListener {
                 filterActivityLauncher.launch(
                     Intent(Intent.ACTION_GET_CONTENT).setType("image/*")

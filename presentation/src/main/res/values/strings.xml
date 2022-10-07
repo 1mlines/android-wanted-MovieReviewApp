@@ -22,4 +22,17 @@
     <string name="review_error">리뷰작성 실패</string>
     <string name="review_guide">닉네임과 비밀번호는 필수입니다.(비밀번호는 6자리)</string>
     <string name="cancel_album">사진선택 취소</string>
+
+    <string name="detail_title">제목</string>
+    <string name="detail_year">개봉연도 (제작연도)</string>
+    <string name="detail_rank">등수 (랭크 변화) / 신규진입 여부</string>
+    <string name="detail_audit">관객수</string>
+    <string name="detail_runtime">상영시간</string>
+    <string name="detail_genre">장르 / 심의번호</string>
+    <string name="detail_director">감독명</string>
+    <string name="detail_plot">영화 줄거리</string>
+    <string name="detail_rating">별점 추가하기</string>
+    <string name="review_date">리뷰시간</string>
+
+
 </resources>

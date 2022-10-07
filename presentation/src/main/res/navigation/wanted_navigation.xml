@@ -19,16 +19,9 @@
         android:name="com.preonboarding.presentation.view.detail.DetailFragment"
         android:label="DetailFragment"
         tools:layout="@layout/fragment_detail">
-        <action
-            android:id="@+id/action_detailFragment_to_reviewFragment"
-            app:destination="@id/reviewFragment" />
         <argument
             android:name="Movie"
             app:argType="com.preonboarding.domain.model.Movie" />
     </fragment>
-    <fragment
-        android:id="@+id/reviewFragment"
-        android:name="com.preonboarding.presentation.view.review.ReviewFragment"
-        android:label="ReviewFragment"
-        tools:layout="@layout/fragment_review" />
+
 </navigation>
