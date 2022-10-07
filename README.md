@@ -340,7 +340,61 @@ listAdapter : DiffUtil 이라는 유틸리티 클래스를 사용해서 리스�
 ---
 
 ### 3. 두번째 화면 - 이서윤
+#### 1) Api Call
+* 첫 번째 Api 응답 성공 후 두 번째 Api 호출하여 poster 띄우기
 <img src="https://user-images.githubusercontent.com/110798031/194440337-17d9383b-0821-4e47-b933-6118f87c3145.jpg">
+
+| 상세 정보 |
+| :-------: |
+|<img src="https://user-images.githubusercontent.com/110798031/194546886-bfe1a76d-5832-4c9a-b26a-44f372dfae95.gif" width="300" >|
+
+```kotlin
+    private fun observeUI() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                detailViewModel.moviePoster.collect { state ->
+                    when(state) {
+                        is MoviePosterStatus.Loading -> {
+                        }
+                        is MoviePosterStatus.Failure -> {}
+                        is MoviePosterStatus.Success -> {
+                            binding.moviePoster = state.data
+                            postUrl=state.data
+                        }
+                        is MoviePosterStatus.Initial -> {}
+                    }
+                }
+            }
+        }
+    }
+```
+
+
+#### 2) 메신저로 공유
+* Android Sharedheet 사용
+
+| 메신저로 공유 |
+| :-------: |
+|<img src="https://user-images.githubusercontent.com/110798031/194546842-8cbc357d-44aa-4b4d-bd75-d58420678754.gif" width="300" >|
+
+```kotlin
+private fun shareByMessage() {
+        val sendIntent: Intent = Intent().apply {
+            val title = args.homeData.movieNm
+            val rank = args.homeData.rank
+            val openDate = args.homeData.openDt
+
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT,
+                String.format("제목 : %s\n순위 : %s\n개봉일 : %s", title, rank, openDate))
+            type = "text/plain"
+        }
+
+        val shareIntent = Intent.createChooser(sendIntent, null)
+        startActivity(shareIntent)
+    }
+```
+
 ---
 
 ### 4. 세번째 화면 - 이현섭
