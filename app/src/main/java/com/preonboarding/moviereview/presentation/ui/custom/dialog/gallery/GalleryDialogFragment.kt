@@ -65,7 +65,6 @@ class GalleryDialogFragment : DialogFragment() {
                 }
             }
         }
-
     }
 
     override fun onCreateView(
@@ -94,7 +93,7 @@ class GalleryDialogFragment : DialogFragment() {
         galleryPagingAdapter = GalleryPagingAdapter( onClick = { chooseGalleryImage(image = it) } )
         binding.rvGallery.adapter = galleryPagingAdapter
 
-        lifecycleScope.launchWhenStarted {
+        lifecycleScope.launchWhenResumed {
             galleryViewModel.getAllImages().collect {
                 galleryPagingAdapter.submitData(it)
             }
@@ -112,14 +111,20 @@ class GalleryDialogFragment : DialogFragment() {
             ItemType.CAMERA -> {
                 if (requestCameraPermission()) {
                     openCamera()
-                    if (galleryViewModel.cameraImage.value.imgUri != Uri.EMPTY) {
-                        mImageClickListener.onImageClick(galleryViewModel.cameraImage.value)
-                        dialog?.dismiss()
+
+                    lifecycleScope.launchWhenResumed {
+                        galleryViewModel.cameraImage.collect {
+                            if(it.imgUri != Uri.EMPTY) {
+                                mImageClickListener.onImageClick(galleryViewModel.cameraImage.value)
+                                dialog?.dismiss()
+                            }
+                        }
                     }
+
                 }
                 else {
                     Snackbar.make(
-                        requireActivity().findViewById(android.R.id.content),
+                        binding.root,
                         "카메라 접근 권한 거부됨",
                         Snackbar.LENGTH_SHORT
                     ).show()
@@ -174,7 +179,7 @@ class GalleryDialogFragment : DialogFragment() {
                 for(grant in grantResults){
                     if(grant != PackageManager.PERMISSION_GRANTED){
                         Snackbar.make(
-                            requireActivity().findViewById(android.R.id.content),
+                            binding.root,
                             "카메라 접근 권한 거부됨",
                             Snackbar.LENGTH_SHORT
                         ).show()
