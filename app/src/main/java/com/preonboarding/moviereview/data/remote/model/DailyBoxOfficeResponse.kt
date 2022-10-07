@@ -38,3 +38,4 @@ data class BoxOfficeMovie(
     val scrnCnt: String,
     val showCnt: String
 ): Parcelable
+

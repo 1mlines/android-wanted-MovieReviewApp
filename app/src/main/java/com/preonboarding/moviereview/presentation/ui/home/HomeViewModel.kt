@@ -37,33 +37,7 @@ class HomeViewModel @Inject constructor(
                 }
         }
 
-
-/*    fun searchDailyBoxOfficeList() {
-        viewModelScope.launch {
-            remoteRepository.searchDailyBoxOfficeList(
-                key = KOBIS_API_KEY,
-                targetDt = "20120101"
-            )
-                .collect { dailyBoxofficeRes ->
-                    Timber.tag(TAG).e(dailyBoxofficeRes.toString())
-
-                    dailyBoxofficeRes.boxOfficeResult.dailyBoxOfficeList.map { movie ->
-                        remoteRepository.searchMovieInfo(
-                          key = KOBIS_API_KEY,
-                           movieCd = movie.movieCd
-                       )
-                          .collect { movieInfoRes ->
-                                Timber.tag(TAG).e(movieInfoRes.toString())
-                           }
-                    }
-
-                }
-        }
-    }*/
-
     companion object {
         private const val TAG = "HomeViewModel"
     }
-
-
 }

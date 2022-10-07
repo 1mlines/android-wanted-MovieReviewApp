@@ -2,6 +2,7 @@ package com.preonboarding.moviereview.presentation.ui.home
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -28,22 +29,20 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 navigateWithArgs(HomeFragmentDirections.actionHomeToDetail(
                     it
                 ))
-
             }
         )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         initListener()
-
-
         initRecyclerView()
         observeGetMovieList()
 
         homeViewModel.getDailyMovie(
             key = KOBIS_API_KEY,
-            targetDt = "20220101"
+            targetDt = "20210714"
         )
     }
 
@@ -75,7 +74,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                             homeAdapter.submitList(dailyBoxOfficeList)
                         }
                         is HomeState.Empty -> {
-
+                            Toast.makeText(requireContext(), "화면이 비었습니다", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
@@ -83,11 +82,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         }
     }
 
-
     private fun initListener() = with(binding) {
-        btnHome.setOnClickListener {
-            goToDetail()
-        }
 
         layoutHeaderHome.tbHeader.setNavigationOnClickListener {
             navigateUp()
@@ -102,11 +97,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 else -> false
             }
         }
-    }
-
-    private fun goToDetail() {
-        navigate(action = R.id.action_home_to_detail)
-
     }
 
     companion object {
