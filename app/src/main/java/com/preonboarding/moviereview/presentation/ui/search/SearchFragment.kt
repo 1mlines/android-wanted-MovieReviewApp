@@ -13,6 +13,7 @@ import com.preonboarding.moviereview.databinding.FragmentSearchBinding
 import com.preonboarding.moviereview.presentation.common.base.BaseFragment
 import com.preonboarding.moviereview.presentation.common.extension.getQueryTextChangeStateFlow
 import com.preonboarding.moviereview.presentation.common.extension.navigateUp
+import com.preonboarding.moviereview.presentation.common.extension.navigateWithArgs
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -21,7 +22,11 @@ import kotlinx.coroutines.launch
 class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_search) {
 
     private val viewModel: SearchViewModel by viewModels()
-    private val pagingAdapter: SearchMoviePagingAdapter by lazy { SearchMoviePagingAdapter() }
+    private val pagingAdapter: SearchMoviePagingAdapter by lazy {
+        SearchMoviePagingAdapter {
+            navigateWithArgs(SearchFragmentDirections.actionSearchToMovieDetail(it))
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -80,7 +85,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collectLatest {
-                     pagingAdapter.submitData(it)
+                    pagingAdapter.submitData(it)
                 }
             }
         }
