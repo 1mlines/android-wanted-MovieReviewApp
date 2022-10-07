@@ -5,5 +5,5 @@ import com.preonboarding.moviereview.domain.model.MovieSearchInfo
 import kotlinx.coroutines.flow.Flow
 
 interface MovieRepository {
-    suspend fun getMovieListByMovieName(movieName: String): Flow<PagingData<MovieSearchInfo>>
+    fun getMovieListByMovieName(movieName: String): Flow<PagingData<MovieSearchInfo>>
 }

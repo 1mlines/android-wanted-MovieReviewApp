@@ -11,33 +11,64 @@ import com.google.android.material.snackbar.Snackbar
 import com.preonboarding.moviereview.R
 import com.preonboarding.moviereview.databinding.FragmentSearchBinding
 import com.preonboarding.moviereview.presentation.common.base.BaseFragment
+import com.preonboarding.moviereview.presentation.common.extension.getQueryTextChangeStateFlow
 import com.preonboarding.moviereview.presentation.common.extension.navigateUp
+import com.preonboarding.moviereview.presentation.common.extension.navigateWithArgs
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_search) {
 
     private val viewModel: SearchViewModel by viewModels()
-    private val pagingAdapter: SearchMoviePagingAdapter by lazy { SearchMoviePagingAdapter() }
+    private val pagingAdapter: SearchMoviePagingAdapter by lazy {
+        SearchMoviePagingAdapter {
+            navigateWithArgs(SearchFragmentDirections.actionSearchToMovieDetail(it))
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         bindViews()
 
-        // SearchView 수정 예정
-        viewModel.searchMovie("가")
-
         setRecyclerView()
         observeUiStateFlow()
         observeEventFlow()
+        observeSearchStateFlow()
     }
 
     private fun bindViews() {
         binding.tbSearch.setNavigationOnClickListener {
             navigateUp()
+        }
+    }
+
+    private fun observeSearchStateFlow() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                binding.svSearch.getQueryTextChangeStateFlow()
+                    .debounce(300)
+                    .filter { query ->
+                        if (query.isBlank()) {
+                            viewModel.searchMovie("")
+                                .collectLatest {
+                                    pagingAdapter.submitData(it)
+                                }
+                            return@filter false
+                        } else {
+                            return@filter true
+                        }
+                    }
+                    .distinctUntilChanged()
+                    .flatMapLatest { query ->
+                        viewModel.searchMovie(query)
+                    }
+                    .collectLatest {
+                        pagingAdapter.submitData(it)
+                    }
+            }
         }
     }
 
@@ -54,7 +85,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collectLatest {
-                     pagingAdapter.submitData(it)
+                    pagingAdapter.submitData(it)
                 }
             }
         }

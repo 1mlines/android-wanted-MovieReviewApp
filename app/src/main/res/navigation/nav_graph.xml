@@ -46,7 +46,16 @@
         android:label="SearchFragment"
         tools:layout="@layout/fragment_search">
         <action
-            android:id="@+id/action_search_to_detail"
-            app:destination="@id/detailFragment" />
+            android:id="@+id/action_search_to_movieDetail"
+            app:destination="@id/movieDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/movieDetailFragment"
+        android:name="com.preonboarding.moviereview.presentation.ui.moviedetail.MovieDetailFragment"
+        android:label="MovieDetailFragment"
+        tools:layout="@layout/fragment_movie_detail">
+        <argument
+            android:name="movie"
+            app:argType="com.preonboarding.moviereview.domain.model.MovieSearchInfo" />
     </fragment>
 </navigation>

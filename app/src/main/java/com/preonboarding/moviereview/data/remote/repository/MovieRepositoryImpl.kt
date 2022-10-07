@@ -11,7 +11,7 @@ class MovieRepositoryImpl @Inject constructor(
     private val dataSource: MovieListDataSource
 ) : MovieRepository {
 
-    override suspend fun getMovieListByMovieName(movieName: String) = Pager(
+    override fun getMovieListByMovieName(movieName: String) = Pager(
         config = PagingConfig(
             pageSize = ITEM_PER_PAGE,
             enablePlaceholders = false,
