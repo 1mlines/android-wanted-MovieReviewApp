@@ -10,6 +10,7 @@
         <variable
             name="movieInfo"
             type="com.preonboarding.moviereview.data.network.model.kobis.MovieInfo" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"

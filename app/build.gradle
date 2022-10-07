@@ -100,4 +100,11 @@ dependencies {
 
     // UI Tests
     androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.2.1")
+
+    //FireStore
+    implementation platform('com.google.firebase:firebase-bom:30.4.1')
+    implementation 'com.google.firebase:firebase-firestore-ktx:24.3.1'
+
+
+
 }

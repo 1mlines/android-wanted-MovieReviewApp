@@ -7,10 +7,15 @@ import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.preonboarding.moviereview.R
 import com.preonboarding.moviereview.databinding.ActivityDetailmovieBinding
 import com.preonboarding.moviereview.domain.model.BoxOffice
+import com.preonboarding.moviereview.domain.model.ReviewVo
+import com.preonboarding.moviereview.presentation.review.ReviewViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
@@ -21,6 +26,10 @@ class DetailMovieActivity : AppCompatActivity() {
     private val viewModel: DetailMovieViewModel by viewModels()
     private lateinit var binding: ActivityDetailmovieBinding
     private lateinit var boxOffice: BoxOffice
+
+    private lateinit var recyclerAdapter: ReviewListAdapter
+    private lateinit var reviewViewModel : ReviewViewModel
+    var savedReviews : MutableLiveData<List<ReviewVo>> ?= null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +47,9 @@ class DetailMovieActivity : AppCompatActivity() {
             }
         }
 
+        reviewViewModel = ViewModelProvider(this).get(ReviewViewModel::class.java)
+        reviewViewModel.getReviewList(boxOffice.movieCd)
+
         binding.recyclerviewDetailmovieActors.apply {
             adapter = ActorsAdapter()
         }
@@ -46,12 +58,21 @@ class DetailMovieActivity : AppCompatActivity() {
             adapter = DirectorsAdapter()
         }
 
+//        binding.recyclerviewDetailmovieReviews.apply {
+//            adapter = ReviewListAdapter(this,)
+//        }
+
         viewModel.getMovieInfo(boxOffice.movieCd, getString(R.string.kobis_api_key))
         viewModel.movieInfo.observe(this, Observer {
             binding.movieInfo = it
             (binding.recyclerviewDetailmovieActors.adapter as ActorsAdapter).submitList(it.actors)
             (binding.recyclerviewDetailmovieDirectors.adapter as DirectorsAdapter).submitList(it.directors)
         })
+
+
+
+
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -111,4 +132,7 @@ class DetailMovieActivity : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
+
+
+
 }
