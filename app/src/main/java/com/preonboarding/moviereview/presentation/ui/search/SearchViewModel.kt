@@ -23,19 +23,9 @@ class SearchViewModel @Inject constructor(
     private val _eventFlow = MutableSharedFlow<UiEvent>()
     val eventFlow: SharedFlow<UiEvent> = _eventFlow.asSharedFlow()
 
-    fun searchMovie(movieNameQuery: String) {
-        viewModelScope.launch {
-            kotlin.runCatching {
-                searchMovieUseCase.invoke(movieNameQuery)
-                    .cachedIn(viewModelScope)
-                    .collectLatest { pagedSearchResult ->
-                        _uiState.emit(pagedSearchResult)
-                    }
-            }.onFailure {
-                showErrorMessage(it.message)
-            }
-        }
-    }
+    fun searchMovie(movieNameQuery: String) =
+        searchMovieUseCase.invoke(movieNameQuery).cachedIn(viewModelScope)
+
 
     private fun emitError(event: UiEvent) {
         viewModelScope.launch {

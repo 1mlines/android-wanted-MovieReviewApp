@@ -8,6 +8,6 @@ import javax.inject.Inject
 class SearchMovieUseCase @Inject constructor(
     private val movieRepository: MovieRepository
 ) {
-    suspend operator fun invoke(movieName: String) =
+    operator fun invoke(movieName: String) =
         movieRepository.getMovieListByMovieName(movieName).flowOn(Dispatchers.Default)
 }
