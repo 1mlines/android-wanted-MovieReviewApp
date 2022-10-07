@@ -1,4 +1,4 @@
-package com.preonboarding.domain.model
+package com.preonboarding.presentation.view.review
 
 data class EditState(
     val isEditable: Boolean = true,
