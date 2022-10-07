@@ -87,20 +87,19 @@
 
 ### HTTP 통신 라이브러리 (OkHttp3 vs Retrofit vs Volley)
 - **Volley**
-	- 장점
+	- 특징
 		- 이미지 캐시
 		- 요청에 우선순위 부여 
-	- 단점
 		- 역/직렬화를 직접 세팅해줘야함
 
 - **OkHttp3**
-	- 단점
+	- 특징
 		- 반환받은 Json 객체 → 데이터 클래스 변환 불가
 			- 별도의 과정을 통해 직접 변환
 		- 네트워크 호출은 백그라운드에서 수행이 되지만, 응답값도 백그라운드에 있기 때문에 응답값으로 UI 업데이트가 이루어져야한다면 메인 스레드로 보내주는 작업 필요 
 
 - **Retrofit**
-	- 장점
+	- 특징
 		- type-safe한 HTTP 클라이언트 라이브러리
 			- type safe? 
 				- 네트워크로부터 전달된 데이터를 프로그램에서 필요한 형태의 객체로 받을 수 있다는 의미 
@@ -572,3 +571,9 @@ data class ReviewVO(
 
 - e.g) ``` [Issue-#7] Timer 추가 ``` 
 
+-----
+### 출처 
+- https://mashup-android.vercel.app/mashup-12th/jieun/kotlinx-serialization/
+- https://gun0912.tistory.com/19
+- http://instructure.github.io/blog/2013/12/09/volley-vs-retrofit/
+- https://blog.banksalad.com/tech/migrate-from-koin-to-hilt/
