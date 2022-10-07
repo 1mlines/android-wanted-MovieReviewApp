@@ -2,7 +2,6 @@ package com.preonboarding.moviereview.presentation.detailmovie
 
 import android.util.Log
 import android.widget.ImageView
-import android.widget.RatingBar
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
@@ -10,7 +9,6 @@ import com.bumptech.glide.request.RequestOptions
 import com.preonboarding.moviereview.R
 import com.preonboarding.moviereview.data.network.model.kobis.Audit
 import com.preonboarding.moviereview.data.network.model.kobis.Genre
-import com.preonboarding.moviereview.domain.model.ReviewVO
 import com.preonboarding.moviereview.domain.model.Reviews
 
 object BindingAdapter {
@@ -112,7 +110,7 @@ object BindingAdapter {
             for (review in reviews.reviews) {
                 rating += review.star
             }
-            textView.text = String.format("%.1f", (rating / reviews.reviews.size))
+            textView.text = String.format("%.1f", (rating / reviews.reviews.size).toFloat())
         }
     }
 }

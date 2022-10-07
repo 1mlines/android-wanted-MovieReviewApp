@@ -92,7 +92,7 @@ class ReviewActivity : AppCompatActivity() {
                 binding.etName.text.toString(),
                 binding.etPw.text.toString(),
                 Timestamp(Date()),
-                10
+                10f
             )
         }
 

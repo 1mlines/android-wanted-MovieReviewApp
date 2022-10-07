@@ -34,7 +34,7 @@ class ReviewListAdapter (val context: Context, var reviews: MutableLiveData<List
     override fun onBindViewHolder(holder: VH, position: Int) {
 
         val review = if ( reviews.value == null){
-             ReviewVo(" 리뷰를 달아주세요. ","",movieCd,"","", Timestamp.now(),0)
+             ReviewVo(" 리뷰를 달아주세요. ","",movieCd,"","", Timestamp.now(),0f)
         } else {
             reviews.value!![position]
         }
