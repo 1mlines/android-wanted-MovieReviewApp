@@ -13,19 +13,16 @@ class HomeAdapter(
     private val itemClickListener: (BoxOfficeMovie) -> Unit
 ) : ListAdapter<BoxOfficeMovie, HomeAdapter.HomeViewHolder>(DIFF_COMPARATOR) {
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         //return HomeViewHolder(ItemMovieListBinding.inflate(inflater))
         val binding = ItemMovieListBinding.inflate(inflater, parent, false)
         return HomeViewHolder(binding)
-
     }
 
     override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
         val item = getItem(position)
         item?.let { holder.bind(it, itemClickListener) }
-
     }
 
     inner class HomeViewHolder(
@@ -40,11 +37,8 @@ class HomeAdapter(
             binding.root.setOnClickListener {
                 itemClickListener.invoke(item)
             }
-            // executePendingBindings()
         }
-
     }
-
 
     companion object {
 

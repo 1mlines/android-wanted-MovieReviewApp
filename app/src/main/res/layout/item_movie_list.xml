@@ -6,9 +6,7 @@
     <data>
 
         <import type="android.view.View" />
-
         <import type="com.preonboarding.moviereview.data.remote.model.BoxOfficeMovie" />
-
         <variable
             name="dailyMovie"
             type="com.preonboarding.moviereview.data.remote.model.BoxOfficeMovie" />
@@ -90,7 +88,6 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="영화 제목" />
 
-
         <TextView
             android:id="@+id/tv_date"
             style="@style/Body14.Grey"
@@ -137,7 +134,6 @@
             app:layout_constraintStart_toEndOf="@id/audience_number"
             app:layout_constraintTop_toBottomOf="@id/tv_title"
             tools:text="(-14.5%)" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
