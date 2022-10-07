@@ -1,4 +1,4 @@
-package com.preonboarding.moviereview.presentation.ui.detail
+package com.preonboarding.moviereview.presentation.ui.boxofficedetail
 
 import android.content.Intent
 import android.os.Bundle
@@ -12,24 +12,23 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.database.*
 import com.preonboarding.moviereview.R
 import com.preonboarding.moviereview.data.remote.model.ReviewInfo
-import com.preonboarding.moviereview.databinding.FragmentDetailBinding
+import com.preonboarding.moviereview.databinding.FragmentBoxOfficeDetailBinding
 import com.preonboarding.moviereview.presentation.common.base.BaseFragment
 import com.preonboarding.moviereview.presentation.common.const.FIRE_BASE_URL
-import com.preonboarding.moviereview.presentation.common.extension.navigate
 import com.preonboarding.moviereview.presentation.common.extension.navigateUp
 import com.preonboarding.moviereview.presentation.common.extension.navigateWithArgs
-import com.preonboarding.moviereview.presentation.ui.home.HomeFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
-class DetailFragment: BaseFragment<FragmentDetailBinding>(R.layout.fragment_detail) {
-    private val detailViewModel : DetailViewModel by viewModels()
+class BoxOfficeDetailFragment :
+    BaseFragment<FragmentBoxOfficeDetailBinding>(R.layout.fragment_box_office_detail) {
+    private val boxOfficeDetailViewModel: BoxOfficeDetailViewModel by viewModels()
     private lateinit var database: DatabaseReference
 
-    private val args by navArgs<DetailFragmentArgs>()
-    lateinit var postUrl : String
+    private val args by navArgs<BoxOfficeDetailFragmentArgs>()
+    lateinit var postUrl: String
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -44,14 +43,14 @@ class DetailFragment: BaseFragment<FragmentDetailBinding>(R.layout.fragment_deta
     private fun observeUI() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                detailViewModel.moviePoster.collect { state ->
-                    when(state) {
+                boxOfficeDetailViewModel.moviePoster.collect { state ->
+                    when (state) {
                         is MoviePosterStatus.Loading -> {
                         }
                         is MoviePosterStatus.Failure -> {}
                         is MoviePosterStatus.Success -> {
                             binding.moviePoster = state.data
-                            postUrl=state.data
+                            postUrl = state.data
                         }
                         is MoviePosterStatus.Initial -> {}
                     }
@@ -71,7 +70,7 @@ class DetailFragment: BaseFragment<FragmentDetailBinding>(R.layout.fragment_deta
         }
 
         binding.layoutHeaderDetail.tbHeader.setOnMenuItemClickListener {
-            when(it.itemId) {
+            when (it.itemId) {
                 R.id.menu_share -> {
                     shareByMessage()
                     true
@@ -81,7 +80,7 @@ class DetailFragment: BaseFragment<FragmentDetailBinding>(R.layout.fragment_deta
         }
     }
 
-    private fun findReview(){
+    private fun findReview() {
         database = FirebaseDatabase.getInstance().reference
         val ref = database.database.getReferenceFromUrl(FIRE_BASE_URL)
         // child 안에 무비 id 가져와야한다.
@@ -89,11 +88,11 @@ class DetailFragment: BaseFragment<FragmentDetailBinding>(R.layout.fragment_deta
         ref.child(args.homeData.movieCd).addValueEventListener(
             object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    if(dataSnapshot.value==null){//리뷰가 없을때
+                    if (dataSnapshot.value == null) {//리뷰가 없을때
 
-                    }
-                    else{                        //리뷰가 있을때
-                        val review = detailViewModel.searchReviewMovieList(args.homeData.movieCd.toInt())//리뷰 가져오기
+                    } else {                        //리뷰가 있을때
+                        val review =
+                            boxOfficeDetailViewModel.searchReviewMovieList(args.homeData.movieCd.toInt())//리뷰 가져오기
                         //TODO: 가져오는 객체가 map이므로 iterator로 뽑아서 -> List에 넣고 -> RecyclerView
 //                        HashMap<String, String>().forEach {
 //                        }
@@ -117,7 +116,7 @@ class DetailFragment: BaseFragment<FragmentDetailBinding>(R.layout.fragment_deta
             rankInten = args.homeData.rankInten,
             rankOldAndNew = args.homeData.rankOldAndNew
         )
-        navigateWithArgs(DetailFragmentDirections.actionDetailToReview(reviewArgs))
+        navigateWithArgs(BoxOfficeDetailFragmentDirections.actionDetailToReview(reviewArgs))
         //navigate(action = R.id.action_detail_to_review)
     }
 
@@ -133,9 +132,9 @@ class DetailFragment: BaseFragment<FragmentDetailBinding>(R.layout.fragment_deta
         }.attach()
     }
 
-    private fun getMovieDetail(){
-        detailViewModel.fetchMovieDetail(args.homeData.movieCd)
-        detailViewModel.setBasicMovieInfo(args.homeData)
+    private fun getMovieDetail() {
+        boxOfficeDetailViewModel.fetchMovieDetail(args.homeData.movieCd)
+        boxOfficeDetailViewModel.setBasicMovieInfo(args.homeData)
         binding.dailyMovie = args.homeData
     }
 
@@ -146,8 +145,10 @@ class DetailFragment: BaseFragment<FragmentDetailBinding>(R.layout.fragment_deta
             val openDate = args.homeData.openDt
 
             action = Intent.ACTION_SEND
-            putExtra(Intent.EXTRA_TEXT,
-                String.format("제목 : %s\n순위 : %s\n개봉일 : %s", title, rank, openDate))
+            putExtra(
+                Intent.EXTRA_TEXT,
+                String.format("제목 : %s\n순위 : %s\n개봉일 : %s", title, rank, openDate)
+            )
             type = "text/plain"
         }
 

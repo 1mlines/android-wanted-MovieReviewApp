@@ -1,4 +1,4 @@
-package com.preonboarding.moviereview.presentation.ui.detail
+package com.preonboarding.moviereview.presentation.ui.boxofficedetail
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
