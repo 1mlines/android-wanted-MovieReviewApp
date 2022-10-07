@@ -51,6 +51,7 @@ dependencies {
     testImplementation(Test.JUNIT)
     androidTestImplementation(AndroidTest.EXT_JUNIT)
     androidTestImplementation(AndroidTest.ESPRESSO_CORE)
+    implementation("com.google.firebase:firebase-database-ktx:20.0.6")
 
     //Retrofit
     implementation(Retrofit.RETROFIT)

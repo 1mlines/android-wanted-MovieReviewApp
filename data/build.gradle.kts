@@ -3,7 +3,6 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
-    id("com.google.gms.google-services")
     id("kotlinx-serialization")
 }
 
@@ -42,6 +41,7 @@ dependencies {
     testImplementation(Test.JUNIT)
     androidTestImplementation(AndroidTest.EXT_JUNIT)
     androidTestImplementation(AndroidTest.ESPRESSO_CORE)
+    implementation("com.google.firebase:firebase-database-ktx:20.0.6")
 
     //Retrofit
     implementation(Retrofit.RETROFIT)
