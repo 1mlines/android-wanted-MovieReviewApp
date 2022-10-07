@@ -9,7 +9,6 @@ import android.os.Bundle
 import android.view.*
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.net.toUri
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -80,7 +79,8 @@ class ReviewDialog :
             ).show()
         }
     }
-    //TODO 사진을 안넣으면 오류가 발생합니다!
+
+
     private fun initView() {
         dialog?.apply {
             window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -103,7 +103,7 @@ class ReviewDialog :
                         etReviewPassword.text.toString(),
                         ratingBar.rating,
                         etReviewContent.text.toString(),
-                        photoUri.toString(),
+                        photoUri.toString(), //TODO 사진을 안넣으면 오류가 발생합니다!
                         nowDate
                     )
                     reviewViewModel.uploadReview(reviewViewModel.title)

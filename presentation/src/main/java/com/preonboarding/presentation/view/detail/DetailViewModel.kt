@@ -5,11 +5,13 @@ import androidx.lifecycle.viewModelScope
 import com.preonboarding.domain.model.Review
 import com.preonboarding.domain.usecase.DeleteReviewUseCase
 import com.preonboarding.domain.usecase.GetReviewListUseCase
+import com.preonboarding.domain.usecase.UpdateReviewUseCase
 import com.preonboarding.domain.usecase.UploadReviewUseCase
 import com.preonboarding.presentation.view.review.EditState
 import com.preonboarding.presentation.view.review.MODE
 import com.preonboarding.presentation.view.review.ReviewUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -19,7 +21,8 @@ import javax.inject.Inject
 class DetailViewModel @Inject constructor(
     private val uploadReviewUseCase: UploadReviewUseCase,
     private val deleteReviewUseCase: DeleteReviewUseCase,
-    private val getReviewListUseCase: GetReviewListUseCase
+    private val getReviewListUseCase: GetReviewListUseCase,
+    private val updateReviewUseCase: UpdateReviewUseCase
 ) : ViewModel() {
 
     private val _reviewUiState = MutableSharedFlow<ReviewUiState>()
@@ -31,17 +34,29 @@ class DetailViewModel @Inject constructor(
     private val _selectedReview = MutableStateFlow(Review())
     val selectedReview = _selectedReview.asStateFlow()
 
+    private var getReviewListJob: Job? = null
+
     var reviewBuffer = Review()
 
     var editState = EditState()
-
-    val passwd = "123456"
 
     var uri: String = ""
 
     lateinit var title: String
 
-    // 영화제목 받아와야함
+    fun updateReview(title: String){
+        viewModelScope.launch {
+            runCatching {
+                updateReviewUseCase(title, reviewBuffer)
+            }.onSuccess {
+                _reviewUiState.emit(ReviewUiState.Success(MODE.REVIEW))
+            }.onFailure {
+                _reviewUiState.emit(ReviewUiState.Failure(MODE.REVIEW))
+            }
+        }
+    }
+
+
     fun uploadReview(title: String) {
         viewModelScope.launch {
             runCatching {
@@ -54,9 +69,10 @@ class DetailViewModel @Inject constructor(
         }
     }
 
-    // 영화제목 받아와야함
+
     fun setMovieList(title: String) {
-        viewModelScope.launch {
+        getReviewListJob?.cancel()
+        getReviewListJob = viewModelScope.launch {
             getReviewListUseCase(title).stateIn(
                 viewModelScope,
                 SharingStarted.Lazily,
@@ -68,11 +84,11 @@ class DetailViewModel @Inject constructor(
 
     }
 
-    // 영화제목 받아와야함
+
     fun deleteReview(title: String) {
         viewModelScope.launch {
             runCatching {
-                // 선택된 리뷰 삭제
+                //TODO 모든 리뷰가 삭제되는듯
                 deleteReviewUseCase(title, reviewBuffer)
             }.onSuccess {
                 _reviewUiState.emit(ReviewUiState.Success(MODE.DELETE))
@@ -84,10 +100,10 @@ class DetailViewModel @Inject constructor(
 
     fun checkPasswd(password: String, mode: MODE) {
         viewModelScope.launch {
+            //TODO 비밀번호 값 가져와야함!
             if (password == passwd) {
                 if (mode == MODE.DELETE) {
-                    // 리뷰 삭제 로직
-                    //deleteReview()
+                    deleteReview(title)
                     _reviewUiState.emit(ReviewUiState.Success(mode))
                 } else {
                     _reviewUiState.emit(ReviewUiState.Modify)

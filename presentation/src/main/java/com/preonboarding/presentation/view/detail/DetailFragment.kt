@@ -133,6 +133,7 @@ class DetailFragment :
                 }
             }
             //리뷰 삭제
+            //TODO 리뷰 삭제시 pw 설정을 해주어야합니다.
             reviewAdapter.deleteItemClick = object : DetailReviewAdapter.DeleteItemClick {
                 override fun onClick(view: View, position: Int) {
                     showValidationDialog(MODE.DELETE)

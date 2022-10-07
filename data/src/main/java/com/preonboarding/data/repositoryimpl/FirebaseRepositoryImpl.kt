@@ -30,6 +30,14 @@ class FirebaseRepositoryImpl @Inject constructor(
             }
     }
 
+    override suspend fun updateReview(title: String, review: Review) {
+        val reviewContent = review.toMapContent()
+        fbRDB.getReference(title).child(review.nickname)
+            .updateChildren(reviewContent).addOnFailureListener {
+                throw it
+            }
+    }
+
     override fun getReviewList(title: String) = callbackFlow<List<Review>> {
         fbRDB.getReference(title)
             .addValueEventListener(object : ValueEventListener {

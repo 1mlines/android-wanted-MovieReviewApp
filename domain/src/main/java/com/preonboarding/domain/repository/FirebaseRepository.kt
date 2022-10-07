@@ -9,4 +9,6 @@ interface FirebaseRepository {
     fun getReviewList(title: String): Flow<List<Review>>
 
     suspend fun deleteReview(title: String, review: Review)
+
+    suspend fun updateReview(title: String, review: Review)
 }
