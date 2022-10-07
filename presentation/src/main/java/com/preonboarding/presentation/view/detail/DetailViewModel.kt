@@ -40,6 +40,9 @@ class DetailViewModel @Inject constructor(
 
     var editState = EditState()
 
+    //TODO 수정필요
+    var passwd = "123456"
+
     var uri: String = ""
 
     lateinit var title: String
@@ -88,7 +91,7 @@ class DetailViewModel @Inject constructor(
     fun deleteReview(title: String) {
         viewModelScope.launch {
             runCatching {
-                //TODO 모든 리뷰가 삭제되는듯
+                //TODO 모든 리뷰가 삭제되는듯 , 모두 같은 비밀번호 123456을 공유해서 인거같습니다.
                 deleteReviewUseCase(title, reviewBuffer)
             }.onSuccess {
                 _reviewUiState.emit(ReviewUiState.Success(MODE.DELETE))
