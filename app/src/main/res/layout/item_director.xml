@@ -4,6 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <variable
+            name="director"
+            type="com.preonboarding.moviereview.domain.model.MovieInfo.Directors" />
 
     </data>
 
@@ -16,6 +19,7 @@
             style="@style/Body14"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:text="@{director.director}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
