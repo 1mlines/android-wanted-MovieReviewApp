@@ -5,22 +5,22 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.preonboarding.moviereview.data.network.model.kobis.Director
-import com.preonboarding.moviereview.databinding.ItemDetailmovieDirectorsBinding
+import com.preonboarding.moviereview.databinding.ItemDetailmovieReviewBinding
+import com.preonboarding.moviereview.domain.model.ReviewVO
 
 
-class DirectorsAdapter : ListAdapter<Director, DirectorsAdapter.Holder>(DirectorsDiffCallback()) {
-    inner class Holder(private val binding: ItemDetailmovieDirectorsBinding) :
+class ReviewsAdapter : ListAdapter<ReviewVO, ReviewsAdapter.Holder>(ReviewsDiffCallback()) {
+    inner class Holder(private val binding: ItemDetailmovieReviewBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(director: Director) {
-            binding.director = director
+        fun bind(review: ReviewVO) {
+            binding.review = review
             binding.executePendingBindings()
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val binding =
-            ItemDetailmovieDirectorsBinding.inflate(
+            ItemDetailmovieReviewBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent, false
             )
@@ -34,12 +34,12 @@ class DirectorsAdapter : ListAdapter<Director, DirectorsAdapter.Holder>(Director
 
 }
 
-class DirectorsDiffCallback : DiffUtil.ItemCallback<Director>() {
-    override fun areItemsTheSame(oldItem: Director, newItem: Director): Boolean {
+class ReviewsDiffCallback : DiffUtil.ItemCallback<ReviewVO>() {
+    override fun areItemsTheSame(oldItem: ReviewVO, newItem: ReviewVO): Boolean {
         return oldItem == newItem
     }
 
-    override fun areContentsTheSame(oldItem: Director, newItem: Director): Boolean {
+    override fun areContentsTheSame(oldItem: ReviewVO, newItem: ReviewVO): Boolean {
         return oldItem == newItem
     }
 

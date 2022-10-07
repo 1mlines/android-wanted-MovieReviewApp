@@ -2,6 +2,7 @@ package com.preonboarding.moviereview.presentation.detailmovie
 
 import android.util.Log
 import android.widget.ImageView
+import android.widget.RatingBar
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
@@ -9,6 +10,8 @@ import com.bumptech.glide.request.RequestOptions
 import com.preonboarding.moviereview.R
 import com.preonboarding.moviereview.data.network.model.kobis.Audit
 import com.preonboarding.moviereview.data.network.model.kobis.Genre
+import com.preonboarding.moviereview.domain.model.ReviewVO
+import com.preonboarding.moviereview.domain.model.Reviews
 
 object BindingAdapter {
     @BindingAdapter("setPoster")
@@ -98,6 +101,18 @@ object BindingAdapter {
             } else {
                 textView.text = "${prdtYear}년 제작"
             }
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("setRatingText")
+    fun setRatingText(textView: TextView, reviews: Reviews?) {
+        if (reviews != null) {
+            var rating = 0f
+            for (review in reviews.reviews) {
+                rating += review.star
+            }
+            textView.text = String.format("%.1f", (rating / reviews.reviews.size))
         }
     }
 }

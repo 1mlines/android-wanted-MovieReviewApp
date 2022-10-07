@@ -10,4 +10,5 @@
     <color name="gray500">#FFAAAAAA</color>
     <color name="gray700">#FF666666</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="orange700">#FFFF6600</color>
 </resources>

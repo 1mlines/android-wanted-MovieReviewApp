@@ -11,6 +11,8 @@ import androidx.lifecycle.Observer
 import com.preonboarding.moviereview.R
 import com.preonboarding.moviereview.databinding.ActivityDetailmovieBinding
 import com.preonboarding.moviereview.domain.model.BoxOffice
+import com.preonboarding.moviereview.domain.model.ReviewVO
+import com.preonboarding.moviereview.domain.model.Reviews
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
@@ -46,12 +48,58 @@ class DetailMovieActivity : AppCompatActivity() {
             adapter = DirectorsAdapter()
         }
 
+        binding.recyclerviewDetailmovieReviews.apply {
+            adapter = ReviewsAdapter()
+            val tempData = listOf(
+                ReviewVO(
+                    "리뷰 내용입니다.",
+                    "",
+                    "0",
+                    "한**",
+                    "password",
+                    star = 1.0f
+                ),
+                ReviewVO(
+                    "리뷰 내용입니다.",
+                    "",
+                    "0",
+                    "한**",
+                    "password",
+                    star = 3.5f
+                ),
+                ReviewVO(
+                    "리뷰 내용입니다.",
+                    "",
+                    "0",
+                    "한**",
+                    "password",
+                    star = 4.0f
+                ),
+                ReviewVO(
+                    "리뷰 내용입니다.",
+                    "",
+                    "0",
+                    "한**",
+                    "password",
+                    star = 2.5f
+                )
+            )
+            val reviews = Reviews(tempData)
+            binding.reviews = reviews
+            (adapter as ReviewsAdapter).submitList(tempData)
+        }
+
         viewModel.getMovieInfo(boxOffice.movieCd, getString(R.string.kobis_api_key))
         viewModel.movieInfo.observe(this, Observer {
             binding.movieInfo = it
             (binding.recyclerviewDetailmovieActors.adapter as ActorsAdapter).submitList(it.actors)
             (binding.recyclerviewDetailmovieDirectors.adapter as DirectorsAdapter).submitList(it.directors)
         })
+    }
+
+    fun goReviewActivity() {
+//        val intent = Intent(applicationContext, ReviewActivity::class.java)
+//        startActivity(intent)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
