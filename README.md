@@ -799,7 +799,18 @@ https://user-images.githubusercontent.com/51078673/194398262-33ad7e2e-2635-4287-
 - 어플리케이션이 복잡해 질수록 View와 Presenter 사이 의존성이 강해진다.
 - Controller와 같이 코드가 집중되면 성능이 저하되고 유지보수가 어려워진다.
 #### 2. StateFlow & SharedFlow vs LiveData
-* ㅁㅁㅁㅁㅁ
+* 클린아키텍쳐 구조에서의 레이어 간 의존성은 단방향으로 이루어져야 한다.
+  * 예를들어, Presentatino Layer는 Domain Layer에 대한 의존성을 갖지만 Domain Layer는 Presentation Layer에 대한 의존성을 가지면 안된다.
+* Domain Layer는 안드로이드 라이브러리에 대한 의존성을 갖지 않고 순수 Java, Kotlin 코드로 구성되어야 한다.
+  * 그렇기 때문에 Domain Layer에서 LiveData를 사용하는 것 자체가 문제점이 될 수 있다.
+  * LiveData는 UI와 밀접한 연관을 갖기 때문에 비동기 방식으로 데이터를 처리하는데 한계를 갖는다.
+* StateFlow는 LiveData와 동일하게 현재 상태와 새로운 상태 변경을 알리는 Observable한 flow이다.
+  * StateFlow나 SharedFlow를 사용했을 때의 이점은 LiveData와 달리 순수 Kotlin 라이브러리에 포함되기 떄문에 Domain Layer에 사용할 수 있다.
+  * 코루틴을 통해 Worker Thread에서도 비용이 많이 드는 비동기 데이터 스트림을 처리할 수 있기 때문에 Data Layer에서도 LiveData를 대체할 수 있다.
+  * 다양한 중간 연산자 API를 지원하기 때문에 LiveData보다 더 다양하게 활용할 수 있다.
+  
+<br>
+
 #### 3. Hilt vs Dagger & Koin
 - 의존성 주입(di)?
 
