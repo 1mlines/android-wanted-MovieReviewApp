@@ -2,7 +2,9 @@ package com.preonboarding.moviereview.domain.mapper
 
 import com.preonboarding.moviereview.data.remote.model.MovieInfoResponse
 import com.preonboarding.moviereview.data.remote.model.MovieListResponse
+import com.preonboarding.moviereview.data.remote.model.MoviePosterResponse
 import com.preonboarding.moviereview.domain.model.MovieInfo
+import com.preonboarding.moviereview.domain.model.MoviePoster
 import com.preonboarding.moviereview.domain.model.MovieSearchInfo
 
 fun MovieListResponse.mapToMovieSearchInfo(): List<MovieSearchInfo> {
@@ -49,5 +51,12 @@ fun MovieInfoResponse.mapToMovieInfo(): MovieInfo {
             )
         } ?: emptyList(),
         audits = this.movieInfoResult.movieInfo.audits[0].watchGradeNm
+    )
+}
+
+fun MoviePosterResponse.mapToMoviePoster(): MoviePoster {
+    return MoviePoster(
+        movieTitle = this.title,
+        movieImageUrl = this.poster
     )
 }

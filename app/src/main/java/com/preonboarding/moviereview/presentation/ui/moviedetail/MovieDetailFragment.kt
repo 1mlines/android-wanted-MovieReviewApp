@@ -33,7 +33,8 @@ class MovieDetailFragment :
         viewModel.getMovieInfoByMovieCode(args.movie.movieCode)
 
         bindViews()
-        observeUiStateFlow()
+        observeMovieInfoUiStateFlow()
+        observeMoviePosterUiStateFlow()
     }
 
     private fun bindViews() {
@@ -45,26 +46,51 @@ class MovieDetailFragment :
         binding.rvActor.adapter = actorAdapter
     }
 
-    private fun observeUiStateFlow() {
+    private fun observeMovieInfoUiStateFlow() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.uiState.collect { state ->
-                    when (state) {
+                viewModel.movieInfoUiState.collect { uiState ->
+                    when (uiState) {
                         is MovieDetailUiState.Loading -> {
 
                         }
                         is MovieDetailUiState.Success -> {
-                            Timber.e("${state.data}")
-                            binding.movieInfo = state.data
+                            Timber.e("${uiState.data}")
+                            viewModel.getMoviePosterByMovieName(uiState.data.movieEnName)
+
+                            binding.movieInfo = uiState.data
 
                             binding.executePendingBindings()
-                            directorAdapter.submitList(state.data.directors)
-                            actorAdapter.submitList(state.data.actors)
+                            directorAdapter.submitList(uiState.data.directors)
+                            actorAdapter.submitList(uiState.data.actors)
 
                         }
                     }
                 }
             }
         }
+    }
+
+
+    private fun observeMoviePosterUiStateFlow() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.moviePosterUiState.collect { uiState ->
+                    when (uiState) {
+                        is MovieDetailUiState.Loading -> {
+
+                        }
+                        is MovieDetailUiState.Success -> {
+                            Timber.e("${uiState.data}")
+
+                            binding.moviePoster = uiState.data.movieImageUrl
+                            binding.executePendingBindings()
+
+                        }
+                    }
+                }
+            }
+        }
+
     }
 }

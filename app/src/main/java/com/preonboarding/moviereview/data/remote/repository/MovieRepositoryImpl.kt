@@ -8,7 +8,9 @@ import com.preonboarding.moviereview.data.remote.source.MovieDataSource
 import com.preonboarding.moviereview.di.DefaultDispatcher
 import com.preonboarding.moviereview.di.IoDispatcher
 import com.preonboarding.moviereview.domain.mapper.mapToMovieInfo
+import com.preonboarding.moviereview.domain.mapper.mapToMoviePoster
 import com.preonboarding.moviereview.domain.model.MovieInfo
+import com.preonboarding.moviereview.domain.model.MoviePoster
 import com.preonboarding.moviereview.domain.repository.remote.MovieRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
@@ -34,6 +36,11 @@ class MovieRepositoryImpl @Inject constructor(
     override fun getMovieInfoByCode(movieCode: String): Flow<NetworkState<MovieInfo>> = flow {
         val movieInfo = dataSource.getMovieInfoByCode(movieCode).mapToMovieInfo()
         emit(NetworkState.Success(movieInfo))
+    }.flowOn(ioDispatcher)
+
+    override fun getMoviePosterByMovieName(movieName: String): Flow<NetworkState<MoviePoster>> = flow<NetworkState<MoviePoster>> {
+        val moviePosterResult = dataSource.getMoviePosterByMovieName(movieName).mapToMoviePoster()
+        emit(NetworkState.Success(moviePosterResult))
     }.flowOn(ioDispatcher)
 
     companion object {

@@ -4,6 +4,7 @@ package com.preonboarding.moviereview.domain.model
 data class MovieInfo(
     val movieCode: String,
     val movieKrName: String,
+    val moviePosterImage: String = "",
     val movieEnName: String,
     val movieRunTime: String,
     val productionYear: String,
