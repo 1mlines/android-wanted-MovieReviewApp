@@ -1,14 +1,14 @@
 package com.preonboarding.moviereview.presentation.ui.detail
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import com.google.firebase.database.*
-import com.google.android.material.tabs.TabLayoutMediator
-import androidx.navigation.NavArgs
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.tabs.TabLayoutMediator
+import com.google.firebase.database.*
 import com.preonboarding.moviereview.R
 import com.preonboarding.moviereview.databinding.FragmentDetailBinding
 import com.preonboarding.moviereview.presentation.common.base.BaseFragment
@@ -16,10 +16,11 @@ import com.preonboarding.moviereview.presentation.common.const.FIRE_BASE_URL
 import com.preonboarding.moviereview.presentation.common.extension.navigate
 import com.preonboarding.moviereview.presentation.common.extension.navigateUp
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
-class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_detail) {
+class DetailFragment: BaseFragment<FragmentDetailBinding>(R.layout.fragment_detail) {
     private val detailViewModel : DetailViewModel by viewModels()
     private lateinit var database: DatabaseReference
     val args by navArgs<DetailFragmentArgs>()
@@ -29,8 +30,26 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
 
         initListener()
         setUpViewPager()
-        //checkMovieCd()
+        getMovieDetail()
+        observeUI()
+    }
 
+    private fun observeUI() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                detailViewModel.moviePoster.collect { state ->
+                    when(state) {
+                        is MoviePosterStatus.Loading -> {
+                        }
+                        is MoviePosterStatus.Failure -> {}
+                        is MoviePosterStatus.Success -> {
+                            binding.moviePoster = state.data
+                        }
+                        is MoviePosterStatus.Initial -> {}
+                    }
+                }
+            }
+        }
     }
 
     private fun initListener() {
@@ -81,16 +100,17 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_det
             "Details",
             "Reviews",
         )
-        val adapter = ViewPagerAdapter(requireActivity())
+        val adapter = ViewPagerAdapter(this)
         binding.viewPager.adapter = adapter
         TabLayoutMediator(binding.tbIndicator, binding.viewPager) { tab, position ->
             tab.text = tabTitleArray[position]
         }.attach()
     }
 
-    private fun checkMovieCd(){
-        binding.tvTest.text = args.homeData.movieCd
-
+    private fun getMovieDetail(){
+        detailViewModel.fetchMovieDetail(args.homeData.movieCd)
+        detailViewModel.setBasicMovieInfo(args.homeData)
+        binding.dailyMovie = args.homeData
     }
 
     companion object {

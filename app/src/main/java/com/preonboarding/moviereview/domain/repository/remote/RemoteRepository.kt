@@ -1,6 +1,5 @@
 package com.preonboarding.moviereview.domain.repository.remote
 
-import android.icu.text.CaseMap
 import com.preonboarding.moviereview.data.remote.model.DailyBoxOfficeResponse
 import com.preonboarding.moviereview.data.remote.model.MovieInfoResponse
 import com.preonboarding.moviereview.data.remote.model.MoviePosterResponse

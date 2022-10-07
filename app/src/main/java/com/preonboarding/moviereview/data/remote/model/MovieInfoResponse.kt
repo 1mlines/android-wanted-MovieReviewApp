@@ -31,8 +31,7 @@ data class MovieInfo(
     val showTypes: List<ShowTypes>,
     val companys: List<Companys>,
     val audits: List<Audits>,
-    val staffs: List<Staffs>,
-    val source: String
+    val staffs: List<Staffs>
 )
 
 @Serializable

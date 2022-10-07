@@ -39,8 +39,10 @@ class RemoteRepositoryImpl @Inject constructor(
         movieCd: String?,
     ): Flow<MovieInfoResponse> =
         flow {
-            emit(kobisMovieApi.searchMovieInfo(key = key, movieCd = movieCd))
-        }
+            emit(
+                kobisMovieApi.searchMovieInfo(key = key, movieCd = movieCd)
+            )
+        }.flowOn(Dispatchers.IO)
 
     override suspend fun searchReviewInfo(
         movieId: Int,

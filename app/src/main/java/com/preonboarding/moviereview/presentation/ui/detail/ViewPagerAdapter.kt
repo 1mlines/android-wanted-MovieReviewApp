@@ -1,15 +1,12 @@
 package com.preonboarding.moviereview.presentation.ui.detail
 
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.preonboarding.moviereview.presentation.ui.detail.TabDetailFragment
-import com.preonboarding.moviereview.presentation.ui.detail.TabReviewFragment
 
 private const val NUM_TABS = 2
 
-class ViewPagerAdapter(fragmentActivity: FragmentActivity) :
-    FragmentStateAdapter(fragmentActivity) {
+class ViewPagerAdapter(fragmentFragment: Fragment) :
+    FragmentStateAdapter(fragmentFragment) {
 
     override fun getItemCount(): Int {
         return NUM_TABS

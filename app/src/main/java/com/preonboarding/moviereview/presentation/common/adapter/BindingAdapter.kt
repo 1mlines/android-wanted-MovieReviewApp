@@ -42,11 +42,11 @@ fun ImageView.bindReviewImage(imgUrl: Uri?) {
 }
 
 @BindingAdapter("posterImage")
-fun loadPosterImage(view: ImageView, imageUrl: String?) {
+fun ImageView.loadPosterImage(imageUrl: String?) {
     imageUrl?.let {
-        Glide.with(view)
+        Glide.with(this)
             .load(imageUrl)
             .centerCrop()
-            .into(view)
+            .into(this)
     }
 }
