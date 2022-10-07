@@ -87,20 +87,19 @@
 
 ### HTTP 통신 라이브러리 (OkHttp3 vs Retrofit vs Volley)
 - **Volley**
-	- 장점
+	- 특징
 		- 이미지 캐시
 		- 요청에 우선순위 부여 
-	- 단점
 		- 역/직렬화를 직접 세팅해줘야함
 
 - **OkHttp3**
-	- 단점
+	- 특징
 		- 반환받은 Json 객체 → 데이터 클래스 변환 불가
 			- 별도의 과정을 통해 직접 변환
 		- 네트워크 호출은 백그라운드에서 수행이 되지만, 응답값도 백그라운드에 있기 때문에 응답값으로 UI 업데이트가 이루어져야한다면 메인 스레드로 보내주는 작업 필요 
 
 - **Retrofit**
-	- 장점
+	- 특징
 		- type-safe한 HTTP 클라이언트 라이브러리
 			- type safe? 
 				- 네트워크로부터 전달된 데이터를 프로그램에서 필요한 형태의 객체로 받을 수 있다는 의미 
@@ -115,25 +114,25 @@
 
 -----  
 
-### HTTP 통신 시 역/직렬화 라이브러리 (Gson vs Moshi vs Kotlin Serialization)
+### HTTP 통신 시 역/직렬화 라이브러리 (Gson vs Moshi vs Kotlinx Serialization)
 - **Gson**
 	* not null한 변수에 null 값이 들어갈 수 있음 → 런타임 오류 발생 가능성
 	* default value를 무시하고 0 또는 null로 역/직렬화하는 문제점
 	* reflection 방식 사용하여 Json string을 역/직렬화
 - **Moshi**
 	* default value를 무시하고 0 또는 null로 역/직렬화하는 문제점
-- **Kotlin Serialization**
+- **Kotlinx Serialization**
 	* 잘못 작성된 코드는 컴파일 에러로 잡힘 → 컴파일 안전을 보장
 	* reflection을 사용하지 않아 성능적인 장점 존재
 
 	<img width="694" alt="스크린샷 2022-10-06 오후 10 34 51" src="https://user-images.githubusercontent.com/31344894/194361493-5f99a744-8e55-4c52-9ad9-7177a065eb83.png">  
 
-	- Kotlin Serialization 사용할 시 속도 향상 정도 
+	- Kotlinx Serialization 사용할 시 속도 향상 정도 
 
 ### HTTP 통신 시 역/직렬화 라이브러리 => Gson 선택
 <img width="682" alt="스크린샷 2022-10-07 오전 12 47 13" src="https://user-images.githubusercontent.com/31344894/194359067-be0b6e13-36bc-419f-a4e3-b692fa269a42.png">  
 
-- Gson 보다는 Kotlin Serialization의 성능이 더 좋았으나, 익숙함을 사유로 Gson을 선택
+- Gson 보다는 Kotlinx Serialization의 성능이 더 좋았으나, 익숙함을 사유로 Gson을 선택
 
 -----  
 
@@ -291,6 +290,12 @@ private fun getBoxOfficeList(key: String, date: String, code: String) {
 // In LazyColumn == RecyclerView
 stickyHeader {}
 if (data.isNotEmpty()) {
+ 	itemsIndexed(
+           items = data,
+           key = { _, boxOffice ->
+                    boxOffice.ranking
+           }
+) { index, boxOffice ->
     when (index) {
         data.lastIndex -> {
          //BoxOfficeItem Composable
@@ -382,6 +387,156 @@ Box(
 
 또한 영화가 새롭게 진입한 영화라면, New Text가 보여지도록 구현하였습니다.
 
+## 한혜원
+- 담당한 일
+	- 두번째 페이지 구현
+- 기여한 점
+	- 영화 상세 정보
+	- 리뷰 목록 
+	- 영화 상세 정보 공유
+- 남은 일
+	- 리뷰 목록 구현
+	- ui에 motionlayout 적용해보기
+- 실행영상
+
+https://user-images.githubusercontent.com/35549958/194384816-9052d7da-ad72-48af-ac88-157f393171cd.mp4
+
+
+## Firebase 리뷰 Screen - 박인아
+
+- 담당한 일
+	- 세번째 페이지 구현
+- 기여한 점
+	- Firebase FireStore 연동
+	- 리뷰 목록 
+	- 리뷰 작성 페이지 구현
+- 남은 일
+	- Hilt 적용
+	- Coroutine 적용
+	- FirebaseFirestore 싱글톤 구현
+	- viewBinding 을 DataBinding으로 변경
+	- 사진 업로드 구현
+	
+
+## Realtime Database vs Cloud Firestore
+
+<div align="center">
+  <table style="font-weight : bold">
+      <tr>
+          <td align="center">Realtime Database</td>
+          <td align="center">Cloud Firestore</td>
+      </tr>
+      <tr>
+          <td align="center"><img src="https://user-images.githubusercontent.com/95750706/194424517-d32bb3c5-7b9b-4824-b221-0437bec0fcf5.png" width="400"  /></td>
+          <td align="center"><img src="https://user-images.githubusercontent.com/95750706/194425932-2372939c-8ad7-4d55-806a-1041775e4033.png" width="400"  /></td>
+      </tr>
+  </table>
+</div>
+
+
+- Realtime Database
+	- 데이터를 하나의 큰 JSON 트리로 저장함.
+	- 쿼리시, 정렬과 필터링만 가능하며, 기본적으로 해당 depth의 데이터 반환시 그 이하의 모든 depth가 반환됨. -> 성능저하 발생 가능
+- Cloud Firestore
+	- 데이터가 문서와 컬렉션으로 이루어짐.
+	- 쿼리시, 정렬과 필터링 조건문을 동시 사용 가능하며, 쿼리가 얕아서 특정 컬렉션이나 컬렉션의 문서만 반환 됨. -> 성능저하 발생 가능성 낮음
+	- Realtime Databas의 여러 단점들 보완 및 성능 개선되어 출시됨.
+	
+<p>
+구조화된 데이터 구성을 원하여 Cloud Firestore 를 선택.
+</p>
+
+
+## Android MVVM 패턴
+
+<img src="https://user-images.githubusercontent.com/95750706/194421297-dfcbbf74-045f-497e-811f-d3d29ef2d890.JPG" width="400"  />
+
+## Firebase의 Android MVVM 패턴
+<img src="https://user-images.githubusercontent.com/95750706/194420307-2840a55f-7c2a-46c9-9e0c-34371be39641.JPG" width="400"  />
+
+<p>
+FireStore는 자체적으로 로컬 캐시를 적용하므로, 기존의 MVVM 패턴에서 쓰이는 모델과 원격 데이터 소스를 제거한 단일 레포지토리 클래스로 결합함.
+</p>
+
+ - 데이터 구성
+![miri1](https://user-images.githubusercontent.com/95750706/194430597-3bfa5401-34c6-476b-b081-a04becca9301.png)
+
+
+ - Model
+ ```kotlin
+data class ReviewVO(
+    val contents:String = "",
+    val imageUrl:String = "",
+    val movie_id:String = "",
+    val name:String = "",
+    val password:String = "",
+    val time: Timestamp  = Timestamp.now(),
+    val star: Int = 404
+)
+
+```
+ - Repository
+ 	- FireStore 데이터베이스에서 리뷰 저장, 가져오기에 대한 액세스 권한을 만듬.
+ 	- 데이터 저장시, 커스텀 클래스(ReviewVO)를 사용하여 문서를 작성.
+ 
+ ```kotlin
+
+    fun saveReviewItem(review: ReviewVO): Task<Void> {
+        //var
+        var documentReference = firestoreDB.collection("reviews").document(review.movie_id)
+            .collection(review.movie_id).document()
+        return documentReference.set(review)
+    }
+
+    fun getSavedReview(movieCd: String): CollectionReference = firestoreDB.collection("reviews").document(movieCd).collection(movieCd)
+
+
+```
+
+ - ViewModel
+ 	- 리뷰 데이터를 관리함.
+ 	- 여러 사용자들의 리뷰가 달리므로, 데이터가 변경되는 순간 데이터를 받아와 UI를 업데이트 하기위해, Push Driven 방식으로 firebase의 리뷰들을 가져옴.
+ 	- 
+ 
+ ```kotlin
+ class ReviewViewModel() : ViewModel() {
+    val TAG = "FIRESTORE_VIEW_MODEL"
+    var firebaseRepository = FirestoreRepository()
+    var savedReviews : MutableLiveData<List<ReviewVO>> = MutableLiveData()
+ 	
+
+    // save review to firebase
+    fun saveReviewToFirebase(review: ReviewVO){
+        firebaseRepository.saveReviewItem(review).addOnFailureListener {
+            Log.i(TAG,"Failed to save Address!")
+        }
+    }
+    
+    fun getReviews(){
+	firebaseRepository.getSavedReview("20112207").addSnapshotListener(EventListener<QuerySnapshot>{ value, e ->
+            if (e != null) {
+                return@EventListener
+            }
+            var savedReviewList : MutableList<ReviewVO> = mutableListOf()
+            for (doc in value!!) {
+                var reviewItem = doc.toObject(ReviewVO::class.java)
+                savedReviewList.add(reviewItem)
+
+            }
+            reviews = savedReviewList
+        })
+        binding.recycler.adapter!!.notifyDataSetChanged()
+	}
+     }
+
+```
+
+ - View
+  
+ <img src="https://user-images.githubusercontent.com/95750706/194432866-a0fcd087-367e-4e23-8d11-32aab0beb44b.jpg" width="300"  /> <img src="https://user-images.githubusercontent.com/95750706/194432874-60af44df-1a33-4f7d-b43f-22623206d304.jpg" width="300"  />
+
+
+
 ## Convention
 
 ### Branch Convention
@@ -416,3 +571,9 @@ Box(
 
 - e.g) ``` [Issue-#7] Timer 추가 ``` 
 
+-----
+### 출처 
+- https://mashup-android.vercel.app/mashup-12th/jieun/kotlinx-serialization/
+- https://gun0912.tistory.com/19
+- http://instructure.github.io/blog/2013/12/09/volley-vs-retrofit/
+- https://blog.banksalad.com/tech/migrate-from-koin-to-hilt/
