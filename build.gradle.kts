@@ -4,6 +4,7 @@ buildscript {
         classpath("com.google.dagger:hilt-android-gradle-plugin:${Versions.HILT}")
         classpath("com.google.gms:google-services:4.3.14")
         classpath ("androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.NAVIGATION}")
+        classpath ("org.jetbrains.kotlin:kotlin-serialization:${Versions.KOTLIN_VERSION}")
     }
 }
 plugins {

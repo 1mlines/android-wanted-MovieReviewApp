@@ -10,7 +10,6 @@ import com.preonboarding.presentation.databinding.FragmentListBinding
 import com.preonboarding.presentation.view.adapter.MovieAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
-
 @AndroidEntryPoint
 class ListFragment : BaseFragment<FragmentListBinding>(R.layout.fragment_list) {
 
@@ -26,6 +25,16 @@ class ListFragment : BaseFragment<FragmentListBinding>(R.layout.fragment_list) {
 
         viewModel.movies.observe(viewLifecycleOwner) {
             adapter.submitList(it)
+        }
+
+        viewModel.isLoading.observe(viewLifecycleOwner) {
+            if (it) {
+                binding.rcvMovie.visibility = View.GONE
+                binding.progressBar.visibility = View.VISIBLE
+            } else {
+                binding.rcvMovie.visibility = View.VISIBLE
+                binding.progressBar.visibility = View.GONE
+            }
         }
     }
 

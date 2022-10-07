@@ -1,6 +1,7 @@
 package com.preonboarding.di
 
 import androidx.databinding.ktx.BuildConfig
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.preonboarding.data.common.constant.BASE_URL_KOBIS
 import com.preonboarding.data.common.constant.BASE_URL_OMDB
 import com.preonboarding.data.remote.api.BoxOfficeService
@@ -10,9 +11,12 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
+import kotlinx.serialization.json.Json
+import retrofit2.Converter
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Qualifier
@@ -21,6 +25,12 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
+
+    private val json = Json {
+        isLenient = true
+        ignoreUnknownKeys = true
+        coerceInputValues = true
+    }
 
     /*
     * Retrofit
@@ -39,12 +49,12 @@ object NetworkModule {
     @KobisRetrofit
     fun provideKobisRetrofit(
         okHttpClient: OkHttpClient,
-        gsonConverterFactory: GsonConverterFactory,
+        converterFactory: Converter.Factory,
     ): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BASE_URL_KOBIS)
             .client(okHttpClient)
-            .addConverterFactory(gsonConverterFactory)
+            .addConverterFactory(converterFactory)
             .build()
     }
 
@@ -53,12 +63,12 @@ object NetworkModule {
     @OMDBRetrofit
     fun provideOMDBRetrofit(
         okHttpClient: OkHttpClient,
-        gsonConverterFactory: GsonConverterFactory,
+        converterFactory: Converter.Factory,
     ): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BASE_URL_OMDB)
             .client(okHttpClient)
-            .addConverterFactory(gsonConverterFactory)
+            .addConverterFactory(converterFactory)
             .build()
     }
 
@@ -113,10 +123,8 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    //gson 의존성 주입 (아래 retrofit 의존성 주입에 사용)
-    fun provideConverterFactory(): GsonConverterFactory {
-        return GsonConverterFactory.create()
-    }
+    fun providesConverterFactory() =
+        json.asConverterFactory("application/json".toMediaType())
 
     /*
     * Interceptor

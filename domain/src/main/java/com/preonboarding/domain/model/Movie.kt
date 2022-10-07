@@ -20,26 +20,43 @@ import java.io.Serializable
  * @property watchGradeNm : 관람등급 명칭
  * @property posterUrl : 포스터 URL
  * @property plot : 영화 줄거리
- *
- *
- *
  */
 
 data class Movie(
-    val rank: Int,
-    val rankInten: Int,
-    val rankOldAndNew: String,
-    val name: String,
-    val enName: String,
-    val openDt: String,
-    val audiAcc: String,
-    val prdtYear: String,
-    val showTm: String,
-    val genreNm: List<String>,
-    val directorNm: List<String>,
-    val peopleNm: List<String>,
-    val watchGradeNm: List<String>,
-    val casts : List<String>,
-    val posterUrl: String,
-    val plot: String
-) : Serializable
+    var rank: Int,
+    var rankInten: Int,
+    var rankOldAndNew: String,
+    var name: String,
+    var enName: String,
+    var openDt: String,
+    var audiAcc: String,
+    var prdtYear: String,
+    var showTm: String,
+    var genreNm: List<String>,
+    var directorNm: List<String>,
+    var peopleNm: List<String>,
+    var watchGradeNm: List<String>,
+    var posterUrl: String,
+    var plot: String
+) : Serializable {
+
+    companion object {
+        val EMPTY = Movie(
+            rank = 0,
+            rankInten = 0,
+            rankOldAndNew = "",
+            name = "",
+            enName = "",
+            openDt = "",
+            audiAcc = "",
+            prdtYear = "",
+            showTm = "",
+            genreNm = emptyList(),
+            directorNm = emptyList(),
+            peopleNm = emptyList(),
+            watchGradeNm = emptyList(),
+            posterUrl = "",
+            plot = ""
+        )
+    }
+}

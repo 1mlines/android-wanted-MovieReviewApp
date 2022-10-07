@@ -42,8 +42,8 @@ class MovieRemoteDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun getPoster(movieNmEn: String): Result<PosterResponse> {
-        val response = posterService.getPoster(movieNmEn)
+    override suspend fun getPoster(movieNmEn: String, year: String): Result<PosterResponse> {
+        val response = posterService.getPoster(movieNmEn, year)
         return try {
             if (response.isSuccessful) {
                 Result.Success(response.body()!!)
