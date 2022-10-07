@@ -31,6 +31,11 @@
     <string name="review_null_snack_bar_text">모든 값을 채워주세요</string>
     <string name="review_password_snack_bar_text">비밀번호가 다릅니다.</string>
     <string name="review_sucess_snack_bar_text">리뷰가 작성되었습니다.</string>
+    <string name="run_time">상영 시간</string>
+    <string name="watch_grade">심의 정보</string>
+    <string name="audience_count">관객 수</string>
+    <string name="director">감독</string>
+    <string name="actor">출연 배우</string>
 
 
 </resources>
