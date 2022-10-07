@@ -6,11 +6,13 @@ import com.preonboarding.moviereview.domain.model.ReviewVo
 import com.preonboarding.moviereview.domain.usecase.ReviewListUseCase
 import javax.inject.Inject
 
-class ReviewListUseCaseImpl @Inject constructor(
-    private val firebaseRepository: FirebaseRepository
-) : ReviewListUseCase{
-    override suspend fun getReviews( movieCd : String): CollectionReference {
-        return firebaseRepository.getSavedReview(movieCd)
-    }
+class ReviewListUseCaseImpl
+// @Inject constructor(
+//    private val firebaseRepository: FirebaseRepository
+//) : ReviewListUseCase
+    {
+//    override suspend fun getReviews( movieCd : String): CollectionReference {
+//        return firebaseRepository.getSavedReview(movieCd)
+//    }
 
 }

@@ -17,10 +17,8 @@ import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
 
-@HiltViewModel
-class ReviewViewModel @Inject constructor(
-    private val reviewListUseCase: ReviewListUseCase
-): ViewModel(){
+
+class ReviewViewModel : ViewModel(){
 
     private val TAG = "FIRESTORE_VIEW_MODEL"
     private val firebaseRepository = FirebaseRepository()
@@ -41,7 +39,8 @@ class ReviewViewModel @Inject constructor(
 
     fun getReviewList(movieCd : String){
         viewModelScope.launch {
-            var reviewList : CollectionReference = reviewListUseCase.getReviews(movieCd)
+            var reviewList : CollectionReference = firebaseRepository.getSavedReview(movieCd)
+
             reviewList.addSnapshotListener(EventListener<QuerySnapshot>{ value, error ->
                 if(error != null){
                     Log.i(TAG, "Listen failed  error :  .$error")
