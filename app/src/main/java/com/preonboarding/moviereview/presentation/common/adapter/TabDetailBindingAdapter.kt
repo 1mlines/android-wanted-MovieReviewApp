@@ -14,7 +14,7 @@ fun TextView.bindGenreText(genres: List<Genres>?) {
     val sb = StringBuilder()
     genres?.forEach {
         sb.append(it.genreNm)
-        sb.append("\n")
+        sb.append(" ")
     }
     this.text = sb.toString()
 }
