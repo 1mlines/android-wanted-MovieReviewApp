@@ -12,7 +12,6 @@
         <variable
             name="dailyMovie"
             type="com.preonboarding.moviereview.data.remote.model.BoxOfficeMovie" />
-
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -105,7 +104,7 @@
                     style="@style/Body14"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{movieInfo.genres.toString()}"
+                    genreText="@{movieInfo.genres}"
                     app:layout_constraintStart_toStartOf="@id/tv_genre_label"
                     app:layout_constraintTop_toTopOf="@id/tv_show_time"
                     tools:text="사극, 드라마" />
@@ -126,7 +125,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text="@{movieInfo.audits.get(1).toString()}"
+                    auditText="@{movieInfo.audits}"
                     app:layout_constraintStart_toStartOf="@id/tv_watch_grade_label"
                     app:layout_constraintTop_toBottomOf="@id/tv_watch_grade_label"
                     tools:text="15세 이상 관람가" />
@@ -160,11 +159,13 @@
                     app:layout_constraintStart_toStartOf="@id/tv_watch_grade"
                     app:layout_constraintTop_toBottomOf="@id/tv_watch_grade" />
 
-                <androidx.recyclerview.widget.RecyclerView
+                <TextView
                     android:id="@+id/rv_director_list"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
+                    style="@style/Body14"
+                    directorsText="@{movieInfo.directors}"
                     app:layout_constraintStart_toStartOf="@id/tv_director_label"
                     app:layout_constraintTop_toBottomOf="@id/tv_director_label"
                     tools:listitem="@layout/item_director_actor" />
@@ -179,11 +180,13 @@
                     app:layout_constraintStart_toStartOf="@id/rv_director_list"
                     app:layout_constraintTop_toBottomOf="@id/rv_director_list" />
 
-                <androidx.recyclerview.widget.RecyclerView
+                <TextView
                     android:id="@+id/rv_actor_list"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
+                    style="@style/Body14"
+                    actorsText="@{movieInfo.actors}"
                     app:layout_constraintStart_toStartOf="@id/tv_actor_label"
                     app:layout_constraintTop_toBottomOf="@id/tv_actor_label" />
 

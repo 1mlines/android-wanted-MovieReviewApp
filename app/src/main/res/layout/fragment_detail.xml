@@ -6,12 +6,12 @@
     <data>
 
         <variable
-            name="dailMovie"
+            name="dailyMovie"
             type="com.preonboarding.moviereview.data.remote.model.BoxOfficeMovie" />
 
         <variable
             name="moviePoster"
-            type="com.preonboarding.moviereview.data.remote.model.MoviePosterResponse" />
+            type="java.lang.String" />
 
     </data>
 
@@ -36,7 +36,7 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/iv_poster_background"
-                    posterImage="@{moviePoster.poster}"
+                    posterImage="@{moviePoster}"
                     android:layout_width="0dp"
                     android:layout_height="262dp"
                     android:scaleType="centerCrop"
@@ -47,7 +47,7 @@
 
                 <ImageView
                     android:id="@+id/iv_poster"
-                    posterImage="@{moviePoster.poster}"
+                    posterImage="@{moviePoster}"
                     android:layout_width="164dp"
                     android:layout_height="250dp"
                     android:layout_marginTop="120dp"
@@ -64,48 +64,45 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:gravity="center"
-                    android:text="@{dailMovie.movieNm}"
+                    android:text="@{dailyMovie.movieNm}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/iv_poster"
                     tools:text="John Wick" />
 
                 <TextView
-                    android:id="@+id/tv_rank"
-                    style="@style/Body18"
+                    android:id="@+id/tv_ranking"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:gravity="center"
-                    android:text="@{dailMovie.rank}"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    style="@style/Headline24"
+                    android:text="@{dailyMovie.rank}"
+                    tools:text="1"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_title"
-                    tools:text="1위" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_title" />
 
                 <TextView
                     android:id="@+id/tv_rankOldAndNew"
-                    style="@style/Body14"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@{dailMovie.rankOldAndNew}"
-                    app:layout_constraintBottom_toBottomOf="@id/tv_rank"
-                    app:layout_constraintStart_toEndOf="@id/tv_rank"
-                    app:layout_constraintTop_toTopOf="@id/tv_rank"
-                    tools:text="New" />
+                    android:text="@{dailyMovie.rankOldAndNew}"
+                    style="@style/Body14.Grey"
+                    android:textColor="@color/red"
+                    app:layout_constraintTop_toBottomOf="@id/tv_ranking"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:text="New"/>
 
                 <TextView
                     android:id="@+id/tv_rankInten"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@{dailMovie.rankInten}"
-                    android:layout_marginTop="16dp"
-                    app:layout_constraintTop_toBottomOf="@id/tv_rank"
+                    android:text="@{dailyMovie.rankInten}"
+                    style="@style/Body11.Grey"
+                    app:layout_constraintTop_toBottomOf="@id/tv_rankOldAndNew"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    tools:text="-"/>
+                    tools:text="순위증감"/>
 
                 <com.google.android.material.tabs.TabLayout
                     android:id="@+id/tb_indicator"
@@ -152,17 +149,5 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
-
-
-        <TextView
-            android:id="@+id/tv_test"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="cd확인 테스트 "
-            android:textColor="@color/white"
-            android:textSize="10sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
