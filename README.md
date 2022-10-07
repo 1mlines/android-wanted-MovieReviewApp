@@ -557,12 +557,12 @@ fun SearchView.getQueryTextChangeStateFlow(): StateFlow<String> {
 // SearchFragment.kt
 private fun observeSearchStateFlow() {
     viewLifecycleOwner.lifecycleScope.launch {
-         viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+        viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
             binding.svSearch.getQueryTextChangeStateFlow()
                 .debounce(300)
                 .filter { query ->
-                    if (query.isEmpty()) {
-                        viewModel.searchMovie("")
+                    if (query.isBlank()) {
+                        binding.tvEmptyQuery.visibility = View.VISIBLE
                         return@filter false
                     } else {
                         return@filter true
@@ -573,6 +573,7 @@ private fun observeSearchStateFlow() {
                     viewModel.searchMovie(query)
                 }
                 .collectLatest {
+                    binding.tvEmptyQuery.visibility = View.GONE
                     pagingAdapter.submitData(it)
                 }
         }
@@ -673,11 +674,17 @@ class MovieSearchResultPagingSource(
 // domain/MovieRepository.kt
 interface MovieRepository {
     fun getMovieListByMovieName(movieName: String): Flow<PagingData<MovieSearchInfo>>
+
+    fun getMovieInfoByCode(movieCode: String): Flow<NetworkState<MovieInfo>>
+
+    fun getMoviePosterByMovieName(movieName: String): Flow<NetworkState<MoviePoster>>
 }
 
 // data/MovieRepositoryImpl.kt
 class MovieRepositoryImpl @Inject constructor(
-    private val dataSource: MovieListDataSource
+    private val dataSource: MovieDataSource,
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
+    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher
 ) : MovieRepository {
 
     override fun getMovieListByMovieName(movieName: String) = Pager(
@@ -687,8 +694,17 @@ class MovieRepositoryImpl @Inject constructor(
             initialLoadSize = ITEM_PER_PAGE
         ),
         pagingSourceFactory = { MovieSearchResultPagingSource(dataSource, movieName) }
-    ).flow
+    ).flow.flowOn(defaultDispatcher)
 
+    override fun getMovieInfoByCode(movieCode: String): Flow<NetworkState<MovieInfo>> = flow {
+        val movieInfo = dataSource.getMovieInfoByCode(movieCode).mapToMovieInfo()
+        emit(NetworkState.Success(movieInfo))
+    }.flowOn(ioDispatcher)
+
+    override fun getMoviePosterByMovieName(movieName: String): Flow<NetworkState<MoviePoster>> = flow<NetworkState<MoviePoster>> {
+        val moviePosterResult = dataSource.getMoviePosterByMovieName(movieName).mapToMoviePoster()
+        emit(NetworkState.Success(moviePosterResult))
+    }.flowOn(ioDispatcher)
 
     companion object {
         private const val ITEM_PER_PAGE = 10
