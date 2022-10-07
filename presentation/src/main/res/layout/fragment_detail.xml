@@ -55,7 +55,7 @@
                         android:focusable="true"
                         android:src="@drawable/ic_baseline_share_24"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="@id/rating_bar" />
 
 
                     <TextView
@@ -72,7 +72,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.appcompat.widget.AppCompatRatingBar
-                        android:id="@+id/tv_rating"
+                        android:id="@+id/rating_bar"
                         style="@style/Widget.AppCompat.RatingBar.Indicator"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -95,7 +95,7 @@
                         android:textSize="16sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tv_rating" />
+                        app:layout_constraintTop_toBottomOf="@id/rating_bar" />
 
                     <TextView
                         android:id="@+id/tv_ranks"

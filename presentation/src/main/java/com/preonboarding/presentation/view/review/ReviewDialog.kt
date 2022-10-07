@@ -102,7 +102,11 @@ class ReviewDialog :
                         etReviewPassword.text.toString(),
                         ratingBar.rating,
                         etReviewContent.text.toString(),
-                        photoUri.toString(), //TODO 사진을 안넣으면 오류가 발생합니다!
+                        if (photoUri.toString().isEmpty()){
+                            ""
+                        } else {
+                            photoUri.toString()
+                        },
                         nowDate
                     )
                     reviewViewModel.uploadReview(reviewViewModel.title)
