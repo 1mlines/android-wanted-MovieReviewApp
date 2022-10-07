@@ -72,37 +72,37 @@
 
                 <TextView
                     android:id="@+id/tv_ranking"
+                    style="@style/Headline24"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/Headline24"
                     android:text="@{dailyMovie.rank}"
-                    tools:text="1"
-                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_title" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_title"
+                    tools:text="1" />
 
                 <TextView
                     android:id="@+id/tv_rankOldAndNew"
+                    style="@style/Body14.Grey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@{dailyMovie.rankOldAndNew}"
-                    style="@style/Body14.Grey"
                     android:textColor="@color/red"
-                    app:layout_constraintTop_toBottomOf="@id/tv_ranking"
-                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    tools:text="New"/>
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_ranking"
+                    tools:text="New" />
 
                 <TextView
                     android:id="@+id/tv_rankInten"
+                    style="@style/Body11.Grey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@{dailyMovie.rankInten}"
-                    style="@style/Body11.Grey"
-                    app:layout_constraintTop_toBottomOf="@id/tv_rankOldAndNew"
-                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    tools:text="순위증감"/>
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_rankOldAndNew"
+                    tools:text="순위증감" />
 
                 <com.google.android.material.tabs.TabLayout
                     android:id="@+id/tb_indicator"
@@ -121,7 +121,7 @@
                     app:tabIndicatorColor="@color/red"
                     app:tabIndicatorGravity="stretch"
                     app:tabMode="fixed"
-                    app:tabSelectedTextColor="@color/white"/>
+                    app:tabSelectedTextColor="@color/white" />
 
                 <androidx.viewpager2.widget.ViewPager2
                     android:id="@+id/view_pager"

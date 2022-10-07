@@ -1,5 +1,6 @@
 package com.preonboarding.moviereview.presentation.ui.detail
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
@@ -23,7 +24,7 @@ import kotlinx.coroutines.launch
 class DetailFragment: BaseFragment<FragmentDetailBinding>(R.layout.fragment_detail) {
     private val detailViewModel : DetailViewModel by viewModels()
     private lateinit var database: DatabaseReference
-    val args by navArgs<DetailFragmentArgs>()
+    private val args by navArgs<DetailFragmentArgs>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -58,9 +59,18 @@ class DetailFragment: BaseFragment<FragmentDetailBinding>(R.layout.fragment_deta
         }
 
         findReview()//
-
         binding.layoutHeaderDetail.tbHeader.setNavigationOnClickListener {
             navigateUp()
+        }
+
+        binding.layoutHeaderDetail.tbHeader.setOnMenuItemClickListener {
+            when(it.itemId) {
+                R.id.menu_share -> {
+                    shareByMessage()
+                    true
+                }
+                else -> false
+            }
         }
     }
 
@@ -111,6 +121,22 @@ class DetailFragment: BaseFragment<FragmentDetailBinding>(R.layout.fragment_deta
         detailViewModel.fetchMovieDetail(args.homeData.movieCd)
         detailViewModel.setBasicMovieInfo(args.homeData)
         binding.dailyMovie = args.homeData
+    }
+
+    private fun shareByMessage() {
+        val sendIntent: Intent = Intent().apply {
+            val title = args.homeData.movieNm
+            val rank = args.homeData.rank
+            val openDate = args.homeData.openDt
+
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT,
+                String.format("제목 : %s\n순위 : %s\n개봉일 : %s", title, rank, openDate))
+            type = "text/plain"
+        }
+
+        val shareIntent = Intent.createChooser(sendIntent, null)
+        startActivity(shareIntent)
     }
 
     companion object {
