@@ -11,6 +11,10 @@
     <color name="white">#FFFFFF</color>
     <color name="grey">#A0A0A0</color>
 
+    <!-- alpha -->
+    <color name="white_alpha40">#4DFFFFFF</color>
+    <color name="black_alpha40">#4D000000</color>
+
     <!-- dark background -->
     <color name="navy700">#0F1B2B</color>
     <color name="navy200">#2B3543</color>

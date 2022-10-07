@@ -16,7 +16,6 @@ buildscript {
         coroutine_version = "1.6.4"
         timber_version = "5.0.1"
         lifecycle_version = "2.5.1"
-        moshi_version = "1.14.0"
         serialization_version = "1.4.0"
         okhttp_version = "4.10.0"
         retrofit_version = "2.9.0"

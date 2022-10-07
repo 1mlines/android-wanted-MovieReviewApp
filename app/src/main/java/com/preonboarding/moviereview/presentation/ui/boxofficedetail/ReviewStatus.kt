@@ -1,4 +1,4 @@
-package com.preonboarding.moviereview.presentation.ui.detail
+package com.preonboarding.moviereview.presentation.ui.boxofficedetail
 
 import com.preonboarding.moviereview.data.remote.model.BoxOfficeMovie
 import com.preonboarding.moviereview.data.remote.model.MovieInfoResponse

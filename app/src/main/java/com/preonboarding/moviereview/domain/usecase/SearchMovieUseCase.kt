@@ -9,5 +9,5 @@ class SearchMovieUseCase @Inject constructor(
     private val movieRepository: MovieRepository
 ) {
     operator fun invoke(movieName: String) =
-        movieRepository.getMovieListByMovieName(movieName).flowOn(Dispatchers.Default)
+        movieRepository.getMovieListByMovieName(movieName)
 }

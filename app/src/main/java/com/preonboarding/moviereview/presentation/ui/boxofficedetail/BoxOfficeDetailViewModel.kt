@@ -1,4 +1,4 @@
-package com.preonboarding.moviereview.presentation.ui.detail
+package com.preonboarding.moviereview.presentation.ui.boxofficedetail
 
 import androidx.lifecycle.viewModelScope
 import com.preonboarding.moviereview.data.remote.model.BoxOfficeMovie
@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class DetailViewModel @Inject constructor(
+class BoxOfficeDetailViewModel @Inject constructor(
     private val remoteRepository: RemoteRepository,
 ) : BaseViewModel() {
 

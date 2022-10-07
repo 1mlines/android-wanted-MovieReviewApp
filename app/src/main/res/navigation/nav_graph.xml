@@ -21,9 +21,9 @@
 
     <fragment
         android:id="@+id/detailFragment"
-        android:name="com.preonboarding.moviereview.presentation.ui.detail.DetailFragment"
+        android:name="com.preonboarding.moviereview.presentation.ui.boxofficedetail.BoxOfficeDetailFragment"
         android:label="DetailFragment"
-        tools:layout="@layout/fragment_detail">
+        tools:layout="@layout/fragment_box_office_detail">
         <argument
             android:name="homeData"
             app:argType="com.preonboarding.moviereview.data.remote.model.BoxOfficeMovie"
