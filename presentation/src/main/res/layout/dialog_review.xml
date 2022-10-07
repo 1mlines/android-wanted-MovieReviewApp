@@ -43,6 +43,7 @@
                 android:paddingHorizontal="10dp"
                 android:paddingVertical="5dp"
                 android:text="@string/check"
+                android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -96,11 +97,16 @@
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="5dp"
                         android:hint="@string/nickname"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/gray"
                         app:layout_constraintEnd_toStartOf="@id/et_review_password"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/rating_bar" />
 
                     <EditText
+                        android:inputType="numberPassword"
+                        android:lines="1"
+                        android:textSize="12sp"
                         android:id="@+id/et_review_password"
                         bindEditableMode="@{viewModel.editState}"
                         bindString="@{viewModel.selectedReview.password}"
@@ -111,6 +117,9 @@
                         android:layout_marginEnd="15dp"
                         android:hint="@string/password"
                         android:maxLength="6"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/gray"
+                        app:layout_constraintBottom_toBottomOf="@id/et_review_nickname"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/et_review_nickname"
                         app:layout_constraintTop_toBottomOf="@id/rating_bar" />
@@ -126,6 +135,8 @@
                         android:layout_marginEnd="15dp"
                         android:gravity="start"
                         android:hint="@string/review_content"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/gray"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"

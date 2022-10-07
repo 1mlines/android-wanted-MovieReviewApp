@@ -20,6 +20,9 @@ import java.io.Serializable
  * @property watchGradeNm : 관람등급 명칭
  * @property posterUrl : 포스터 URL
  * @property plot : 영화 줄거리
+ *
+ *
+ *
  */
 
 data class Movie(
@@ -36,6 +39,7 @@ data class Movie(
     val directorNm: List<String>,
     val peopleNm: List<String>,
     val watchGradeNm: List<String>,
+    val casts : List<String>,
     val posterUrl: String,
     val plot: String
 ) : Serializable

@@ -12,12 +12,14 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flowOn
+import timber.log.Timber
 import javax.inject.Inject
 
 class FirebaseRepositoryImpl @Inject constructor(
     private val fbRDB: FirebaseDatabase,
     @DispatcherModule.DispatcherIO private val dispatcherIO: CoroutineDispatcher
 ) : FirebaseRepository {
+
     override suspend fun uploadReview(title: String, review: Review) {
         val reviewContent = review.toMapContent()
         fbRDB.getReference(title)
@@ -28,11 +30,20 @@ class FirebaseRepositoryImpl @Inject constructor(
             }
     }
 
+    override suspend fun updateReview(title: String, review: Review) {
+        val reviewContent = review.toMapContent()
+        fbRDB.getReference(title).child(review.nickname)
+            .updateChildren(reviewContent).addOnFailureListener {
+                throw it
+            }
+    }
+
     override fun getReviewList(title: String) = callbackFlow<List<Review>> {
         fbRDB.getReference(title)
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     trySend(snapshot.children.map {
+                        Timber.d("getREVIEW")
                         Review(
                             it.key.toString(),
                             it.child("password").getValue().toString(),
@@ -52,6 +63,7 @@ class FirebaseRepositoryImpl @Inject constructor(
     }.flowOn(dispatcherIO)
 
     override suspend fun deleteReview(title: String, review: Review) {
+
         fbRDB.getReference(title).child(review.nickname).removeValue()
             .addOnFailureListener {
                 throw it

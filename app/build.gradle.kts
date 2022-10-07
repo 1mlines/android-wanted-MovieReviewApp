@@ -4,9 +4,11 @@ plugins {
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
     id("com.google.gms.google-services")
+
 }
 
 android {
+
     namespace = "com.preonboarding.moviereview"
 
     compileSdk = Versions.COMPILE_SDK
@@ -47,6 +49,7 @@ dependencies {
     implementation(Ktx.CORE)
     implementation(AndroidX.APP_COMPAT)
     implementation(Google.MATERIAL)
+    implementation("com.google.firebase:firebase-database-ktx:20.0.6")
     testImplementation(Test.JUNIT)
     androidTestImplementation(AndroidTest.EXT_JUNIT)
     androidTestImplementation(AndroidTest.ESPRESSO_CORE)
@@ -72,4 +75,5 @@ dependencies {
     //Firebase
     implementation(platform(Firebase.FIREBASE_BOM))
     implementation(Firebase.FIREBASE_DATABASE_KTX)
+
 }
