@@ -1,20 +1,20 @@
 {
   "project_info": {
-    "project_number": "445862946981",
-    "project_id": "moviereviewapp-fe079",
-    "storage_bucket": "moviereviewapp-fe079.appspot.com"
+    "project_number": "237447895901",
+    "project_id": "moviereview-f5519",
+    "storage_bucket": "moviereview-f5519.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:445862946981:android:0d8fbd84bb8ac0a504c54c",
+        "mobilesdk_app_id": "1:237447895901:android:52ff468acf3da6c417a6b4",
         "android_client_info": {
           "package_name": "com.preonboarding.moviereview"
         }
       },
       "oauth_client": [
         {
-          "client_id": "445862946981-do1giiqhs20injvfggle238cv5s4htmr.apps.googleusercontent.com",
+          "client_id": "237447895901-k1us6s0h80pephd6jcnhsg5146p6seae.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.preonboarding.moviereview",
@@ -22,20 +22,20 @@
           }
         },
         {
-          "client_id": "445862946981-sr76rnb9i5kai6jovpiqrc5gmllq93fi.apps.googleusercontent.com",
+          "client_id": "237447895901-l677jucl1uf2e7vrke45qq1a9unibj3i.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBj6etqjTgSTIq-30Ujk00WBllIcTFNn5U"
+          "current_key": "AIzaSyDfK4MKLSwHX4R1_Xc5zpvDpU3iMfysF40"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "445862946981-sr76rnb9i5kai6jovpiqrc5gmllq93fi.apps.googleusercontent.com",
+              "client_id": "237447895901-l677jucl1uf2e7vrke45qq1a9unibj3i.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
