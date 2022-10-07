@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="reviewVM"
+            type="com.preonboarding.moviereview.presentation.review.ReviewViewModel" />
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="16dp"
+        android:orientation="vertical"
+        tools:context=".presentation.main.ReviewActivity">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="영화 이름"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_title"
+            android:layout_margin="11dp"
+            android:text="별명"
+            android:textSize="20dp" />
+
+        <EditText
+            android:id="@+id/et_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_title"
+            android:layout_toRightOf="@id/tv_pw"
+            android:textSize="20dp"
+
+            />
+
+        <TextView
+            android:id="@+id/tv_pw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/et_name"
+            android:layout_margin="11dp"
+            android:text="비밀번호"
+            android:textSize="20dp" />
+
+        <EditText
+            android:id="@+id/et_pw"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/et_name"
+            android:layout_toRightOf="@id/tv_pw"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/tv_star"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_pw"
+            android:layout_margin="11dp"
+            android:text="평점"
+            android:textSize="20dp" />
+
+        <RatingBar
+            android:id="@+id/ratingbar_review"
+            style="@style/Widget.AppCompat.RatingBar.Indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_pw"
+            android:layout_margin="10dp"
+            android:layout_toRightOf="@id/tv_pw"
+            android:isIndicator="false"
+            android:progressTint="@color/orange700"
+            android:stepSize="0.5" />
+
+        <EditText
+            android:id="@+id/et_contects"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_below="@id/tv_star"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:hint="내용"
+            android:inputType="text"
+            android:textSize="20dp" />
+
+        <Button
+            android:id="@+id/btn_submit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/et_contects"
+            android:text="submit" />
+
+    </RelativeLayout>
+</layout>

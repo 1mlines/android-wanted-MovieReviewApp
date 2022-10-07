@@ -25,4 +25,3 @@ data class DailyBoxOffice(
     val audiCnt: String,
     val audiAcc: String
 )
-

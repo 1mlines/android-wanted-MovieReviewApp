@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="activity"
+            type="com.preonboarding.moviereview.presentation.detailmovie.DetailMovieActivity" />
+
+        <variable
+            name="boxOffice"
+            type="com.preonboarding.moviereview.domain.model.BoxOffice" />
+
+        <variable
+            name="movieInfo"
+            type="com.preonboarding.moviereview.data.network.model.kobis.MovieInfo" />
+
+        <variable
+            name="reviews"
+            type="com.preonboarding.moviereview.domain.model.Reviews" />
+    </data>
+
+    <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:context=".presentation.detailmovie.DetailMovieActivity">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar_detailmovie"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/gray700"
+                app:layout_constraintTop_toTopOf="parent"
+                app:menu="@menu/menu_deatilmovie">
+
+            </androidx.appcompat.widget.Toolbar>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintlayout_detailmovie"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:descendantFocusability="blocksDescendants"
+                android:padding="10dp"
+                app:layout_constraintTop_toBottomOf="@+id/toolbar_detailmovie">
+
+                <ImageView
+                    android:id="@+id/imageview_detailmovie_poster"
+                    android:layout_width="wrap_content"
+                    android:layout_height="150dp"
+                    android:src="@drawable/ic_launcher_foreground"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:setPoster="@{boxOffice.moviePoster}" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraintlayout_detailmovie_boxoffice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:background="@drawable/background_detailmovie_gray700"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    app:layout_constraintBottom_toTopOf="@+id/textview_detailmovie_movienm"
+                    app:layout_constraintStart_toEndOf="@+id/imageview_detailmovie_poster"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/textview_detailmovie_rank"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{boxOffice.ranking + `위`}"
+                        android:textColor="@color/white"
+                        android:textSize="12dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="1위" />
+
+                    <TextView
+                        android:id="@+id/textview_detailmovie_rankInten"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:textSize="12dp"
+                        app:layout_constraintStart_toEndOf="@+id/textview_detailmovie_rank"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:setRankInten="@{boxOffice.rankInten}"
+                        tools:text="(↑3)" />
+
+                    <TextView
+                        android:id="@+id/textview_detailmovie_rankoldandnew"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:textColor="@color/gray500"
+                        android:textSize="10dp"
+                        app:layout_constraintStart_toEndOf="@+id/textview_detailmovie_rankInten"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:setRankOldAndNew="@{boxOffice.rankType}"
+                        tools:text="NEW" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:id="@+id/textview_detailmovie_movienm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="@{movieInfo.movieNm}"
+                    android:textColor="@color/black"
+                    android:textSize="18dp"
+                    app:layout_constraintBottom_toTopOf="@+id/textview_detailmovie_genreandtime"
+                    app:layout_constraintStart_toEndOf="@+id/imageview_detailmovie_poster"
+                    app:layout_constraintTop_toBottomOf="@+id/constraintlayout_detailmovie_boxoffice"
+                    tools:text="인생은 아름다워" />
+
+                <ImageView
+                    android:id="@+id/imageview_detailmovie_watchgradenm"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginStart="5dp"
+                    app:layout_constraintBottom_toTopOf="@+id/textview_detailmovie_genreandtime"
+                    app:layout_constraintStart_toEndOf="@+id/textview_detailmovie_movienm"
+                    app:layout_constraintTop_toBottomOf="@id/constraintlayout_detailmovie_boxoffice"
+                    app:layout_constraintVertical_bias="0.5"
+                    app:setGrade="@{movieInfo.audits}"
+                    tools:src="@drawable/ic_detailmovie_all" />
+
+                <TextView
+                    android:id="@+id/textview_detailmovie_genreandtime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    app:genres="@{movieInfo.genres}"
+                    app:layout_constraintBottom_toTopOf="@+id/textview_detailmovie_dates"
+                    app:layout_constraintStart_toEndOf="@+id/imageview_detailmovie_poster"
+                    app:layout_constraintTop_toBottomOf="@+id/textview_detailmovie_movienm"
+                    app:showTm="@{movieInfo.showTm}"
+                    tools:text="액션/스릴러 | 125분" />
+
+                <TextView
+                    android:id="@+id/textview_detailmovie_dates"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    app:layout_constraintBottom_toTopOf="@+id/ratingbar_detailmovie"
+                    app:layout_constraintStart_toEndOf="@+id/imageview_detailmovie_poster"
+                    app:layout_constraintTop_toBottomOf="@+id/textview_detailmovie_genreandtime"
+                    app:openDt="@{movieInfo.openDt}"
+                    app:prdtYear="@{movieInfo.prdtYear}"
+                    tools:text="2022년 제작 | 2022.10.05 개봉" />
+
+                <TextView
+                    android:id="@+id/textview_detailmovie_ratingbar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="평점"
+                    app:layout_constraintBottom_toTopOf="@+id/view_detailmovie_hr1"
+                    app:layout_constraintEnd_toStartOf="@+id/ratingbar_detailmovie"
+                    app:layout_constraintStart_toEndOf="@+id/imageview_detailmovie_poster"
+                    app:layout_constraintTop_toBottomOf="@+id/textview_detailmovie_dates" />
+
+                <RatingBar
+                    android:id="@+id/ratingbar_detailmovie"
+                    style="@style/Widget.AppCompat.RatingBar.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:numStars="1"
+                    android:progressTint="@color/orange700"
+                    android:rating="1"
+                    app:layout_constraintBottom_toTopOf="@+id/view_detailmovie_hr1"
+                    app:layout_constraintEnd_toStartOf="@+id/textview_detailmovie_rating"
+                    app:layout_constraintStart_toEndOf="@+id/textview_detailmovie_ratingbar"
+                    app:layout_constraintTop_toBottomOf="@+id/textview_detailmovie_dates" />
+
+                <TextView
+                    android:id="@+id/textview_detailmovie_rating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toTopOf="@+id/view_detailmovie_hr1"
+                    app:layout_constraintEnd_toStartOf="@+id/textview_detailmovie_audicnt"
+                    app:layout_constraintStart_toEndOf="@+id/ratingbar_detailmovie"
+                    app:layout_constraintTop_toBottomOf="@+id/textview_detailmovie_dates"
+                    app:setRatingText="@{reviews}"
+                    tools:text="4.0" />
+
+                <TextView
+                    android:id="@+id/textview_detailmovie_audicnt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="@{`누적관객수 ` + boxOffice.audiAcc + `명`}"
+                    app:layout_constraintBottom_toTopOf="@+id/view_detailmovie_hr1"
+                    app:layout_constraintStart_toEndOf="@+id/textview_detailmovie_rating"
+                    app:layout_constraintTop_toBottomOf="@+id/textview_detailmovie_dates"
+                    tools:text="관객수 500,000명" />
+
+                <View
+                    android:id="@+id/view_detailmovie_hr1"
+                    android:layout_width="match_parent"
+                    android:layout_height="6dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/gray200"
+                    app:layout_constraintTop_toBottomOf="@+id/imageview_detailmovie_poster" />
+
+                <TextView
+                    android:id="@+id/textview_detailmovie_directors"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="감독진"
+                    android:textColor="@color/gray700"
+                    android:textSize="18dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view_detailmovie_hr1" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerview_detailmovie_directors"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintTop_toBottomOf="@+id/textview_detailmovie_directors"
+                    tools:listitem="@layout/item_detailmovie_directors" />
+
+                <TextView
+                    android:id="@+id/textview_detailmovie_actors"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="출연진"
+                    android:textColor="@color/gray700"
+                    android:textSize="18dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/recyclerview_detailmovie_directors" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerview_detailmovie_actors"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintTop_toBottomOf="@+id/textview_detailmovie_actors"
+                    tools:listitem="@layout/item_detailmovie_actors" />
+
+                <View
+                    android:id="@+id/view_detailmovie_hr2"
+                    android:layout_width="match_parent"
+                    android:layout_height="6dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/gray200"
+                    app:layout_constraintTop_toBottomOf="@+id/recyclerview_detailmovie_actors" />
+
+                <TextView
+                    android:id="@+id/textview_detailmovie_reviews"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="리뷰"
+                    android:textColor="@color/gray700"
+                    android:textSize="18dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view_detailmovie_hr2" />
+
+                <TextView
+                    android:id="@+id/textview_detailmovie_writebutton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:onClick="@{() -> activity.goReviewActivity()}"
+                    android:text="작성하기"
+                    android:textColor="@color/orange700"
+                    android:textSize="18dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view_detailmovie_hr2" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerview_detailmovie_reviews"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:nestedScrollingEnabled="false"
+                    android:orientation="vertical"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintTop_toBottomOf="@+id/textview_detailmovie_reviews"
+                    tools:listitem="@layout/item_detailmovie_review" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</layout>
