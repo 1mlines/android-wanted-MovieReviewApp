@@ -55,7 +55,6 @@ dependencies {
     // lifecycle
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-reactivestreams-ktx:$lifecycle_version"
 
     // navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$navigation_version"
@@ -83,11 +82,6 @@ dependencies {
     // okhttp
     implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
     implementation "com.squareup.okhttp3:logging-interceptor:$okhttp_version"
-
-    // moshi
-    implementation "com.squareup.moshi:moshi:$moshi_version"
-    implementation "com.squareup.moshi:moshi-kotlin:$moshi_version"
-    kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshi_version"
 
     // serialization
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:$serialization_version"
