@@ -29,9 +29,9 @@ abstract class UseCaseModule {
     @ViewModelScoped
     abstract fun bindPosterInfoUseCase(posterInfoUseCase: PosterInfoUseCaseImpl): PosterInfoUseCase
 
-    @Binds
-    @ViewModelScoped
-    abstract fun bindReviewsUseCase(reviewsUseCase: ReviewListUseCaseImpl): ReviewListUseCase
+//    @Binds
+//    @ViewModelScoped
+//    abstract fun bindReviewsUseCase(reviewsUseCase: ReviewListUseCaseImpl): ReviewListUseCase
 
 
 }

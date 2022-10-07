@@ -43,6 +43,9 @@ class DetailMovieActivity : AppCompatActivity() {
             }
         }
 
+        reviewViewModel = ViewModelProvider(this)[ReviewViewModel::class.java]
+        reviewViewModel.getReviewList(boxOffice.movieCd)
+
         binding.recyclerviewDetailmovieActors.apply {
             adapter = ActorsAdapter()
         }
