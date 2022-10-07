@@ -115,25 +115,25 @@
 
 -----  
 
-### HTTP 통신 시 역/직렬화 라이브러리 (Gson vs Moshi vs Kotlin Serialization)
+### HTTP 통신 시 역/직렬화 라이브러리 (Gson vs Moshi vs Kotlinx Serialization)
 - **Gson**
 	* not null한 변수에 null 값이 들어갈 수 있음 → 런타임 오류 발생 가능성
 	* default value를 무시하고 0 또는 null로 역/직렬화하는 문제점
 	* reflection 방식 사용하여 Json string을 역/직렬화
 - **Moshi**
 	* default value를 무시하고 0 또는 null로 역/직렬화하는 문제점
-- **Kotlin Serialization**
+- **Kotlinx Serialization**
 	* 잘못 작성된 코드는 컴파일 에러로 잡힘 → 컴파일 안전을 보장
 	* reflection을 사용하지 않아 성능적인 장점 존재
 
 	<img width="694" alt="스크린샷 2022-10-06 오후 10 34 51" src="https://user-images.githubusercontent.com/31344894/194361493-5f99a744-8e55-4c52-9ad9-7177a065eb83.png">  
 
-	- Kotlin Serialization 사용할 시 속도 향상 정도 
+	- Kotlinx Serialization 사용할 시 속도 향상 정도 
 
 ### HTTP 통신 시 역/직렬화 라이브러리 => Gson 선택
 <img width="682" alt="스크린샷 2022-10-07 오전 12 47 13" src="https://user-images.githubusercontent.com/31344894/194359067-be0b6e13-36bc-419f-a4e3-b692fa269a42.png">  
 
-- Gson 보다는 Kotlin Serialization의 성능이 더 좋았으나, 익숙함을 사유로 Gson을 선택
+- Gson 보다는 Kotlinx Serialization의 성능이 더 좋았으나, 익숙함을 사유로 Gson을 선택
 
 -----  
 
