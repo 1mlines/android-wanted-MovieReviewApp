@@ -51,5 +51,16 @@
             app:layout_constraintTop_toBottomOf="@id/abl_search"
             tools:listitem="@layout/item_search_result" />
 
+        <TextView
+            android:id="@+id/tv_empty_query"
+            style="@style/Body18.Grey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="영화 제목을 입력하세요."
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/abl_search" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
