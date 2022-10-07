@@ -2,7 +2,7 @@ package com.preonboarding.moviereview.presentation.ui.moviedetail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.preonboarding.moviereview.data.remote.model.NetworkResult
+import com.preonboarding.moviereview.data.remote.model.NetworkState
 import com.preonboarding.moviereview.domain.usecase.GetMovieInfoUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,7 +23,7 @@ class MovieDetailViewModel @Inject constructor(
         viewModelScope.launch {
             getMovieInfoUseCase.invoke(movieCode).collect { networkResult ->
                 when (networkResult) {
-                    is NetworkResult.Success -> {
+                    is NetworkState.Success -> {
                         _uiState.value = MovieDetailUiState.Success(networkResult.data)
                     }
                 }

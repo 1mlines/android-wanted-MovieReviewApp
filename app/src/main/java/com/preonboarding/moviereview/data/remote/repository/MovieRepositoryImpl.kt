@@ -3,7 +3,7 @@ package com.preonboarding.moviereview.data.remote.repository
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import com.preonboarding.moviereview.data.paging.MovieSearchResultPagingSource
-import com.preonboarding.moviereview.data.remote.model.NetworkResult
+import com.preonboarding.moviereview.data.remote.model.NetworkState
 import com.preonboarding.moviereview.data.remote.source.MovieDataSource
 import com.preonboarding.moviereview.di.DefaultDispatcher
 import com.preonboarding.moviereview.di.IoDispatcher
@@ -31,9 +31,9 @@ class MovieRepositoryImpl @Inject constructor(
         pagingSourceFactory = { MovieSearchResultPagingSource(dataSource, movieName) }
     ).flow.flowOn(defaultDispatcher)
 
-    override fun getMovieInfoByCode(movieCode: String): Flow<NetworkResult<MovieInfo>> = flow {
+    override fun getMovieInfoByCode(movieCode: String): Flow<NetworkState<MovieInfo>> = flow {
         val movieInfo = dataSource.getMovieInfoByCode(movieCode).mapToMovieInfo()
-        emit(NetworkResult.Success(movieInfo))
+        emit(NetworkState.Success(movieInfo))
     }.flowOn(ioDispatcher)
 
     companion object {
