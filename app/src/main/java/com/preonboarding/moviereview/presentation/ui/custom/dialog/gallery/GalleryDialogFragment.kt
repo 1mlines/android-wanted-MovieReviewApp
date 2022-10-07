@@ -5,7 +5,6 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ContentValues
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
@@ -16,8 +15,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
@@ -27,6 +24,7 @@ import com.preonboarding.moviereview.R
 import com.preonboarding.moviereview.databinding.FragmentGalleryDialogBinding
 import com.preonboarding.moviereview.domain.model.GalleryImage
 import com.preonboarding.moviereview.domain.model.ItemType
+import com.preonboarding.moviereview.presentation.common.util.image.saveFile
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.FileOutputStream
 
@@ -35,10 +33,10 @@ class GalleryDialogFragment : DialogFragment() {
     private lateinit var binding: FragmentGalleryDialogBinding
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
-
-    private val galleryViewModel: GalleryDialogViewModel by viewModels()
     private lateinit var galleryPagingAdapter: GalleryPagingAdapter
     private lateinit var mImageClickListener: MyImageClickListener
+
+    private val galleryViewModel: GalleryDialogViewModel by viewModels()
 
     interface MyImageClickListener {
         fun onImageClick(image: GalleryImage)
@@ -53,39 +51,6 @@ class GalleryDialogFragment : DialogFragment() {
         isCancelable = false
         setStyle(STYLE_NO_TITLE, R.style.GalleryDialogTheme)
         initLauncher()
-    }
-
-    private fun initLauncher() {
-        resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            if (it.resultCode == Activity.RESULT_OK) {
-                val bitmap = it.data?.extras?.get("data") as Bitmap
-                val uri = saveFile(bitmap)
-                galleryViewModel.setCameraImage(uri = uri)
-            }
-        }
-
-        requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
-            when(it) {
-                true -> {
-                    openCamera()
-                    lifecycleScope.launchWhenResumed {
-                        galleryViewModel.cameraImage.collect { image ->
-                            if(image.imgUri != Uri.EMPTY) {
-                                mImageClickListener.onImageClick(galleryViewModel.cameraImage.value)
-                                dialog?.dismiss()
-                            }
-                        }
-                    }
-                }
-                false -> {
-                    Snackbar.make(
-                        binding.root,
-                        "카메라 접근 권한 거부됨",
-                        Snackbar.LENGTH_SHORT
-                    ).show()
-                }
-            }
-        }
     }
 
     override fun onCreateView(
@@ -140,44 +105,42 @@ class GalleryDialogFragment : DialogFragment() {
         }
     }
 
-    @SuppressLint("Recycle")
-    fun saveFile(bitmap: Bitmap): Uri {
-        val cv = ContentValues()
-        cv.put(MediaStore.Images.Media.DISPLAY_NAME, "Movie-${System.currentTimeMillis()}")
-        cv.put(MediaStore.Images.Media.MIME_TYPE, "image/jpg")
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            cv.put(MediaStore.Images.Media.IS_PENDING, 1)
-        }
-
-        val uri = requireContext().contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, cv)
-
-        if (uri != null) {
-            val scriptor = requireContext().contentResolver.openFileDescriptor(uri, "w")
-
-            if (scriptor != null) {
-                val fos = FileOutputStream(scriptor.fileDescriptor)
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos)
-                fos.close()
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                    cv.clear()
-                    cv.put(MediaStore.Images.Media.IS_PENDING, 0)
-                    requireContext().contentResolver.update(uri, cv, null, null)
-                }
+    private fun initLauncher() {
+        resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == Activity.RESULT_OK) {
+                val bitmap = it.data?.extras?.get("data") as Bitmap
+                val uri = saveFile(context = requireContext(), bitmap = bitmap)
+                galleryViewModel.setCameraImage(uri = uri)
             }
         }
 
-        return uri ?: Uri.EMPTY
+        requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+            when(it) {
+                true -> {
+                    openCamera()
+                    lifecycleScope.launchWhenResumed {
+                        galleryViewModel.cameraImage.collect { image ->
+                            if(image.imgUri != Uri.EMPTY) {
+                                mImageClickListener.onImageClick(galleryViewModel.cameraImage.value)
+                                dialog?.dismiss()
+                            }
+                        }
+                    }
+                }
+                false -> {
+                    Snackbar.make(
+                        binding.root,
+                        "카메라 접근 권한 거부됨",
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
     }
-
 
     private companion object {
         private const val TAG = "GalleryDialog"
-        private const val PERMISSIONS_CAMERA_CODE = 101
-        private const val FLAG_CAMERA_CODE = 98
         private const val REQUIRED_PERMISSIONS = Manifest.permission.CAMERA
-
     }
 
 }
