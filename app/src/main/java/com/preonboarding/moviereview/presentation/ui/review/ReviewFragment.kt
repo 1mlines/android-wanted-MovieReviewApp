@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
@@ -30,7 +31,7 @@ class ReviewFragment : BaseFragment<FragmentReviewBinding>(R.layout.fragment_rev
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<Array<String>>
     private lateinit var database: DatabaseReference
     private lateinit var fbStorage: FirebaseStorage
-    private var selectedUri: Uri? = null
+
     private val args by navArgs<ReviewFragmentArgs>()
 
     private val reviewViewModel: ReviewViewModel by viewModels()
@@ -93,16 +94,16 @@ class ReviewFragment : BaseFragment<FragmentReviewBinding>(R.layout.fragment_rev
                         .show()
                 } else {
                     // imageUri를 뷰모델에서 관리중이니 String으로 변환해서 저장해주세요.
-                    selectedUri = reviewViewModel.reviewImageUri.value
+                    var selectedUri = reviewViewModel.reviewImageUri.value
                     showProgress()
                     if (selectedUri != Uri.EMPTY) {
                         val photoUri = selectedUri ?: return@setOnClickListener
                         uploadPhoto(photoUri,
                             successHandler = { uri ->
                                 uploadArticle(nickname, content, password.toInt(), uri, rate)
+                                hideProgress()
                             },
                             errorHandler = {
-                                hideProgress()
                             })
                     } else {
                         // 이미지가 없는 경우 이미지 제외하고 등록
@@ -170,13 +171,12 @@ class ReviewFragment : BaseFragment<FragmentReviewBinding>(R.layout.fragment_rev
     }
 
     private fun showProgress() {
-        //requireActivity().window.addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+        requireActivity().window.addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
         binding.progressReview.isVisible = true
     }
 
     private fun hideProgress() {
-        //requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
-        //계속 클릭할때 문제가 생길지도?
+        requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
         binding.progressReview.isVisible = false
     }
 
