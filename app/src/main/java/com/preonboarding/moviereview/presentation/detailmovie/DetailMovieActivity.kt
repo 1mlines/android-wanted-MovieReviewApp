@@ -7,7 +7,10 @@ import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.preonboarding.moviereview.R
 import com.preonboarding.moviereview.databinding.ActivityDetailmovieBinding
 import com.preonboarding.moviereview.domain.model.BoxOffice
@@ -24,6 +27,10 @@ class DetailMovieActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailmovieBinding
     private lateinit var boxOffice: BoxOffice
 
+    private lateinit var recyclerAdapter: ReviewListAdapter
+    private lateinit var reviewViewModel : ReviewViewModel
+    var savedReviews : MutableLiveData<List<ReviewVo>> ?= null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_detailmovie)
@@ -39,6 +46,9 @@ class DetailMovieActivity : AppCompatActivity() {
                 binding.boxOffice = boxOffice
             }
         }
+
+        reviewViewModel = ViewModelProvider(this).get(ReviewViewModel::class.java)
+        reviewViewModel.getReviewList(boxOffice.movieCd)
 
         binding.recyclerviewDetailmovieActors.apply {
             adapter = ActorsAdapter()
