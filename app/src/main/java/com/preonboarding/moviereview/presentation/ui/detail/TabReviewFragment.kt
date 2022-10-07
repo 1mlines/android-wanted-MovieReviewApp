@@ -2,6 +2,7 @@ package com.preonboarding.moviereview.presentation.ui.detail
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.viewModels
 import com.preonboarding.moviereview.R
 import com.preonboarding.moviereview.databinding.FragmentDetailBinding
 import com.preonboarding.moviereview.databinding.FragmentTabReviewBinding
@@ -11,7 +12,19 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class TabReviewFragment : BaseFragment<FragmentTabReviewBinding>(R.layout.fragment_tab_review) {
 
+    private val detailViewModel : DetailViewModel by viewModels()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        //setListAdapter()
     }
+
+//    private fun setListAdapter() {
+//        val tabReviewAdapter = TabReviewAdapter()
+//        binding.rvReviewList.adapter = tabReviewAdapter
+//        detailViewModel.searchReviewMovieList(1) { review ->
+//            tabReviewAdapter.submitList(review)
+//        }
+//    }
 }

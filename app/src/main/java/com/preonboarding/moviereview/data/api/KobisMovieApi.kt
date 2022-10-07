@@ -20,7 +20,7 @@ interface KobisMovieApi {
     @GET("movie/searchMovieInfo.json")
     suspend fun searchMovieInfo(
         @Query("key") key: String,
-        @Query("targetDt") movieCd: String
+        @Query("movieCd") movieCd: String?
     ): MovieInfoResponse
 
     // 영화목록

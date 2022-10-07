@@ -5,6 +5,7 @@ import com.preonboarding.moviereview.data.api.KobisMovieApi
 import com.preonboarding.moviereview.data.api.OmdbMovieApi
 import com.preonboarding.moviereview.data.remote.model.DailyBoxOfficeResponse
 import com.preonboarding.moviereview.data.remote.model.MovieInfoResponse
+import com.preonboarding.moviereview.data.remote.model.MoviePosterResponse
 import com.preonboarding.moviereview.data.remote.model.Review
 import com.preonboarding.moviereview.di.RetrofitFireBase
 import com.preonboarding.moviereview.di.RetrofitKobis
@@ -32,18 +33,29 @@ class RemoteRepositoryImpl @Inject constructor(
             emit(kobisMovieApi.searchDailyBoxOfficeList(key = key, targetDt = targetDt))
         }.flowOn(Dispatchers.IO)
 
+
     override suspend fun searchMovieInfo(
         key: String,
-        movieCd: String,
+        movieCd: String?,
     ): Flow<MovieInfoResponse> =
         flow {
-            emit(kobisMovieApi.searchMovieInfo(key = key, movieCd = movieCd))
-        }
+            emit(
+                kobisMovieApi.searchMovieInfo(key = key, movieCd = movieCd)
+            )
+        }.flowOn(Dispatchers.IO)
 
     override suspend fun searchReviewInfo(
         movieId: Int,
     ): Flow<Map<String, Review>> =
         flow {
             emit(fireBaseApi.searchReviewInfo(movieId))
+        }
+
+    override suspend fun getMoviePoster(
+        key: String,
+        title: String,
+    ): Flow<MoviePosterResponse> =
+        flow {
+            emit(omdbMovieApi.getMoviePoster(apikey = key, title = title))
         }
 }
