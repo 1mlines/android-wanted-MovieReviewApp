@@ -978,9 +978,51 @@ Entity(
 
 
 #### 5. Navigation vs FragmentManager Transaction
-* ㅁㅁㅁㅁㅁ
 
----
+- Navigation 라이브러리를 사용한 이유는 크게 2가지가 있다
+
+#### 1)ui 전환
+- FragmentManager
+  - 트렌젝션에 대한 호출, 프래그먼트 추가, 삭제, 교체 등 직접 결정해야 되는 부분이 많다
+  - 스택관리를 제대로 해주지 않을 경우 메모리 누수가 발생할 수 있다
+
+```kotliln
+//트렌젝션 호출 및 백스택 설정
+supportFragmentManager.commit {
+   replace<ExampleFragment>(R.id.fragment_container)
+   setReorderingAllowed(true)
+   addToBackStack("name")
+}
+```
+- Navigation
+  - fragmentManager 역할을 함으로써 개발자가 신경 써야할 부분이 줄어든다
+  - navigation graph를 사용하여 Fragment 흐름을 한 눈에 파악할 수 있다
+  - 여러 백스택을 지원해준다
+```kotliln
+//navigation graph에서 fragment action 설정
+<action
+    android:id="@+id/action_home_to_detail"
+    app:destination="@id/detailFragment">
+</action>
+```
+
+#### 2)Fragment간의 데이터 전달
+- FragmentManager
+  - Bundle을 이용한 데이터 전달로 key-value를 지정해야 한다
+  - 타입 불일치 시 에러가 생긴다
+
+- SafeArgs
+  - 타입을 지정함으로써 타입 안정성을 보장한다
+```kotliln
+//발신
+<argument
+  android:name="news"
+  app:argType="com.test.news.app.model.Detail" />
+
+//수신
+private val args: DetailsFragmentArgs by navArgs()
+binding.tvDetails.text = args.detail
+```
 
 ## ****6. Convention****
 
