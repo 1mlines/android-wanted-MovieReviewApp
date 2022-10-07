@@ -4,6 +4,7 @@
 
     <data>
 
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,9 +18,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
+            android:clickable="true"
+            android:focusable="true"
             android:text="닉네임"
             android:textColor="@color/black"
-            android:textSize="15sp"
+            android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -77,8 +80,8 @@
 
         <ImageView
             android:id="@+id/iv_delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:clickable="true"
             android:focusable="true"
             android:src="@drawable/ic_baseline_delete_forever_24"
@@ -87,8 +90,8 @@
 
         <ImageView
             android:id="@+id/iv_edit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:src="@drawable/ic_baseline_edit_24"
             app:layout_constraintEnd_toStartOf="@id/iv_delete"
             app:layout_constraintTop_toTopOf="parent" />

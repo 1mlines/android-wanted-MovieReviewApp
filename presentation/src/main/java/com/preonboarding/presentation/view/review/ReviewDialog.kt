@@ -98,7 +98,6 @@ class ReviewDialog :
                     val nowDate =
                         SimpleDateFormat("yyyy-MM-dd").format(System.currentTimeMillis()).toString()
 
-
                     reviewViewModel.reviewBuffer = Review(
                         etReviewNickname.text.toString(),
                         etReviewPassword.text.toString(),
@@ -116,6 +115,8 @@ class ReviewDialog :
                     ).show()
                 }
             }
+
+
             ivMovieThumb.setOnClickListener {
                 filterActivityLauncher.launch(
                     Intent(Intent.ACTION_GET_CONTENT).setType("image/*")

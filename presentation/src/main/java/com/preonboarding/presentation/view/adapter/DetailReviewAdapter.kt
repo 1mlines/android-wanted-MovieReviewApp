@@ -14,7 +14,7 @@ import com.preonboarding.presentation.databinding.ItemReviewBinding
 //리뷰 아이템
 
 
-class DetailReviewAdapter : ListAdapter<Review, DetailReviewAdapter.ReviewViewHolder>(diffUtil) {
+class DetailReviewAdapter() : ListAdapter<Review, DetailReviewAdapter.ReviewViewHolder>(diffUtil) {
 
     interface DeleteItemClick {
         fun onClick(view: View, position: Int)
@@ -23,19 +23,16 @@ class DetailReviewAdapter : ListAdapter<Review, DetailReviewAdapter.ReviewViewHo
     interface EditItemClick {
         fun onClick(view: View, position: Int)
     }
-    interface NickNameClick{
-        fun onClick(view: View, position: Int)
-    }
 
     var deleteItemClick: DeleteItemClick? = null
     var editItemClick: EditItemClick? = null
-    var nickNameClick:NickNameClick? =null
+
 
 
     inner class ReviewViewHolder(private val binding: ItemReviewBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(items: Review) {
-
+            binding.ivReviewImg
             binding.tvNickName.text = items.nickname
             binding.tvContent.text = items.content
             binding.rating.rating = items.rating
@@ -43,9 +40,15 @@ class DetailReviewAdapter : ListAdapter<Review, DetailReviewAdapter.ReviewViewHo
                 .into(binding.ivReviewImg)
             binding.tvReviewDate.text = items.date
 
+            binding.ivEdit.setOnClickListener {
+                editItemClick?.onClick(it,adapterPosition)
+            }
+            binding.ivDelete.setOnClickListener {
+                deleteItemClick?.onClick(it,adapterPosition)
+            }
+
         }
     }
-
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReviewViewHolder {
@@ -60,6 +63,7 @@ class DetailReviewAdapter : ListAdapter<Review, DetailReviewAdapter.ReviewViewHo
 
     override fun onBindViewHolder(holder: ReviewViewHolder, position: Int) {
         holder.bind(currentList[position])
+
     }
 
     companion object {
