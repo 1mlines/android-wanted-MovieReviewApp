@@ -12,6 +12,6 @@ data class ReviewVo(
     val movieCd: String = "",
     val name: String = "",
     val password: String = "",
-    val time: Timestamp? = null,
-    val star: Float
+    val time: Timestamp = Timestamp.now(),
+    val star: Float = 0f
 )

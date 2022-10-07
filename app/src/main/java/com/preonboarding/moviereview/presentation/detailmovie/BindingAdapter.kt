@@ -9,7 +9,9 @@ import com.bumptech.glide.request.RequestOptions
 import com.preonboarding.moviereview.R
 import com.preonboarding.moviereview.data.network.model.kobis.Audit
 import com.preonboarding.moviereview.data.network.model.kobis.Genre
+import com.preonboarding.moviereview.domain.model.ReviewVo
 import com.preonboarding.moviereview.domain.model.Reviews
+import java.text.SimpleDateFormat
 
 object BindingAdapter {
     @BindingAdapter("setPoster")
@@ -111,6 +113,18 @@ object BindingAdapter {
                 rating += review.star
             }
             textView.text = String.format("%.1f", (rating / reviews.reviews.size).toFloat())
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("setTime")
+    fun setTime(textView: TextView, review: ReviewVo?) {
+        if (review != null) {
+            val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+            var time = review.time.toDate()
+            textView.text = dateFormat.format(time)
+        } else {
+            textView.text = ""
         }
     }
 }

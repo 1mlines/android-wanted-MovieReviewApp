@@ -3,12 +3,4 @@
     <string name="kobis_api_key">d78dfcf081301ea1719d6d8d36756527</string>
     <string name="omdb_api_key">fa8d1585</string>
     <string name="seoul_wide_area_code">0105001</string>
-
-    <string-array name="spinner_star">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
-    </string-array>
 </resources>

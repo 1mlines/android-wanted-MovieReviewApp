@@ -13,6 +13,7 @@ import com.preonboarding.moviereview.R
 import com.preonboarding.moviereview.databinding.ActivityDetailmovieBinding
 import com.preonboarding.moviereview.domain.model.BoxOffice
 import com.preonboarding.moviereview.domain.model.Reviews
+import com.preonboarding.moviereview.presentation.review.ReviewActivity
 import com.preonboarding.moviereview.presentation.review.ReviewViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.serialization.decodeFromString
@@ -31,6 +32,7 @@ class DetailMovieActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_detailmovie)
         binding.lifecycleOwner = this
+        binding.activity = this
         setSupportActionBar(binding.toolbarDetailmovie)
         supportActionBar?.setDisplayShowTitleEnabled(false)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -42,9 +44,6 @@ class DetailMovieActivity : AppCompatActivity() {
                 binding.boxOffice = boxOffice
             }
         }
-
-        reviewViewModel = ViewModelProvider(this)[ReviewViewModel::class.java]
-        reviewViewModel.getReviewList(boxOffice.movieCd)
 
         binding.recyclerviewDetailmovieActors.apply {
             adapter = ActorsAdapter()
@@ -65,8 +64,7 @@ class DetailMovieActivity : AppCompatActivity() {
             (binding.recyclerviewDetailmovieDirectors.adapter as DirectorsAdapter).submitList(it.directors)
         })
 
-
-        reviewViewModel = ViewModelProvider(this).get(ReviewViewModel::class.java)
+        reviewViewModel = ViewModelProvider(this)[ReviewViewModel::class.java]
         reviewViewModel.getReviewList(boxOffice.movieCd)
         reviewViewModel.savedReviews.observe(this, Observer {
             val reviews = Reviews(it)
@@ -76,8 +74,9 @@ class DetailMovieActivity : AppCompatActivity() {
     }
 
     fun goReviewActivity() {
-//        val intent = Intent(applicationContext, ReviewActivity::class.java)
-//        startActivity(intent)
+        val intent = Intent(applicationContext, ReviewActivity::class.java)
+        intent.putExtra("movieCd", boxOffice.movieCd)
+        startActivity(intent)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

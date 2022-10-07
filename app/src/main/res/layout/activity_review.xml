@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="reviewVM"
             type="com.preonboarding.moviereview.presentation.review.ReviewViewModel" />
@@ -13,20 +13,19 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="16dp"
         android:orientation="vertical"
-        tools:context=".presentation.main.ReviewActivity"
-        android:layout_margin="16dp">
+        tools:context=".presentation.main.ReviewActivity">
 
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="영화 이름"
-            android:gravity="center"
-            android:textSize="20dp"
-            android:textStyle="bold"
             android:layout_marginTop="20dp"
-            />
+            android:gravity="center"
+            android:text="영화 이름"
+            android:textSize="20dp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tv_name"
@@ -46,6 +45,7 @@
             android:textSize="20dp"
 
             />
+
         <TextView
             android:id="@+id/tv_pw"
             android:layout_width="wrap_content"
@@ -62,6 +62,7 @@
             android:layout_below="@id/et_name"
             android:layout_toRightOf="@id/tv_pw"
             android:textSize="20dp" />
+
         <TextView
             android:id="@+id/tv_star"
             android:layout_width="wrap_content"
@@ -71,16 +72,17 @@
             android:text="평점"
             android:textSize="20dp" />
 
-        <Spinner
-            android:id="@+id/spinner"
-            android:layout_width="match_parent"
+        <RatingBar
+            android:id="@+id/ratingbar_review"
+            style="@style/Widget.AppCompat.RatingBar.Indicator"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_pw"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="12dp"
-            android:layout_marginBottom="12dp"
-            android:layout_toRightOf="@id/tv_pw" />
+            android:layout_margin="10dp"
+            android:layout_toRightOf="@id/tv_pw"
+            android:isIndicator="false"
+            android:progressTint="@color/orange700"
+            android:stepSize="0.5" />
 
         <EditText
             android:id="@+id/et_contects"
@@ -93,33 +95,12 @@
             android:inputType="text"
             android:textSize="20dp" />
 
-<!--        <Button-->
-<!--            android:id="@+id/btn_select_img"-->
-<!--            android:layout_width="180dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_below="@id/et_contects"-->
-<!--            android:text="select img"-->
-<!--            android:layout_alignParentEnd="true"/>-->
-
-<!--        <ImageView-->
-<!--            android:id="@+id/iv"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="200dp"-->
-<!--            android:layout_below="@id/btn_select_img"-->
-<!--            android:layout_marginStart="4dp"-->
-<!--            android:layout_marginTop="4dp"-->
-<!--            android:layout_marginEnd="4dp"-->
-<!--            android:layout_marginBottom="4dp"-->
-<!--            android:src="@drawable/ic_baseline_image_search_24" />-->
-
         <Button
+            android:id="@+id/btn_submit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="submit"
             android:layout_below="@id/et_contects"
-            android:id="@+id/btn_submit"/>
+            android:text="submit" />
 
     </RelativeLayout>
-
-
 </layout>
