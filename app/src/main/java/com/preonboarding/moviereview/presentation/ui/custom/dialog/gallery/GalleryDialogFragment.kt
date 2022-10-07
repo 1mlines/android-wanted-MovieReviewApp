@@ -1,12 +1,13 @@
 package com.preonboarding.moviereview.presentation.ui.custom.dialog.gallery
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.Context
+import android.content.ContentValues
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.LayoutInflater
@@ -14,29 +15,28 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.paging.PagingData
 import com.google.android.material.snackbar.Snackbar
 import com.preonboarding.moviereview.R
 import com.preonboarding.moviereview.databinding.FragmentGalleryDialogBinding
 import com.preonboarding.moviereview.domain.model.GalleryImage
 import com.preonboarding.moviereview.domain.model.ItemType
+import com.preonboarding.moviereview.presentation.common.util.image.saveFile
 import dagger.hilt.android.AndroidEntryPoint
-import java.io.ByteArrayOutputStream
+import java.io.FileOutputStream
 
 @AndroidEntryPoint
 class GalleryDialogFragment : DialogFragment() {
     private lateinit var binding: FragmentGalleryDialogBinding
-    private lateinit var getResult: ActivityResultLauncher<Intent>
-
-    private val galleryViewModel: GalleryDialogViewModel by viewModels()
+    private lateinit var resultLauncher: ActivityResultLauncher<Intent>
+    private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
     private lateinit var galleryPagingAdapter: GalleryPagingAdapter
     private lateinit var mImageClickListener: MyImageClickListener
+
+    private val galleryViewModel: GalleryDialogViewModel by viewModels()
 
     interface MyImageClickListener {
         fun onImageClick(image: GalleryImage)
@@ -50,22 +50,7 @@ class GalleryDialogFragment : DialogFragment() {
         super.onCreate(savedInstanceState)
         isCancelable = false
         setStyle(STYLE_NO_TITLE, R.style.GalleryDialogTheme)
-
-        getResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            if (it.resultCode == Activity.RESULT_OK) {
-                val data = it.data?.extras?.get("data")
-
-                if (data != null) {
-                    val uri = getImageUri(
-                        requireContext(),
-                        data as Bitmap
-                    )
-
-                    galleryViewModel.setCameraImage(uri = uri)
-                }
-            }
-        }
-
+        initLauncher()
     }
 
     override fun onCreateView(
@@ -94,7 +79,7 @@ class GalleryDialogFragment : DialogFragment() {
         galleryPagingAdapter = GalleryPagingAdapter( onClick = { chooseGalleryImage(image = it) } )
         binding.rvGallery.adapter = galleryPagingAdapter
 
-        lifecycleScope.launchWhenStarted {
+        lifecycleScope.launchWhenResumed {
             galleryViewModel.getAllImages().collect {
                 galleryPagingAdapter.submitData(it)
             }
@@ -102,28 +87,15 @@ class GalleryDialogFragment : DialogFragment() {
     }
 
     private fun openCamera() {
-        val intent: Intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        getResult.launch(intent)
+         val intent: Intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+         resultLauncher.launch(intent)
     }
 
     private fun chooseGalleryImage(image: GalleryImage) {
         when(image.type) {
 
             ItemType.CAMERA -> {
-                if (requestCameraPermission()) {
-                    openCamera()
-                    if (galleryViewModel.cameraImage.value.imgUri != Uri.EMPTY) {
-                        mImageClickListener.onImageClick(galleryViewModel.cameraImage.value)
-                        dialog?.dismiss()
-                    }
-                }
-                else {
-                    Snackbar.make(
-                        requireActivity().findViewById(android.R.id.content),
-                        "카메라 접근 권한 거부됨",
-                        Snackbar.LENGTH_SHORT
-                    ).show()
-                }
+                requestPermissionLauncher.launch(REQUIRED_PERMISSIONS)
             }
 
             ItemType.IMAGE -> {
@@ -133,80 +105,42 @@ class GalleryDialogFragment : DialogFragment() {
         }
     }
 
-    private fun requestCameraPermission(): Boolean {
-        for (permission in REQUIRED_PERMISSIONS) {
-            if (ContextCompat.checkSelfPermission(requireContext(), permission)
-                != PackageManager.PERMISSION_GRANTED
-            ) {
-                if (ActivityCompat.shouldShowRequestPermissionRationale(
-                        requireActivity(),
-                        permission)) {
-
-                    //설명 필요 (사용자가 요청을 거부한 적이 있음)
-                    ActivityCompat.requestPermissions(
-                        requireActivity(),
-                        REQUIRED_PERMISSIONS,
-                        PERMISSIONS_CAMERA_CODE,
-                    )
-                }
-                else {
-                    //설명 필요하지 않음
-                    ActivityCompat.requestPermissions(
-                        requireActivity(),
-                        REQUIRED_PERMISSIONS,
-                        PERMISSIONS_CAMERA_CODE,
-                    )
-                }
-                return false
+    private fun initLauncher() {
+        resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == Activity.RESULT_OK) {
+                val bitmap = it.data?.extras?.get("data") as Bitmap
+                val uri = saveFile(context = requireContext(), bitmap = bitmap)
+                galleryViewModel.setCameraImage(uri = uri)
             }
         }
-        return true
-    }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        when(requestCode){
-            PERMISSIONS_CAMERA_CODE ->{
-                for(grant in grantResults){
-                    if(grant != PackageManager.PERMISSION_GRANTED){
-                        Snackbar.make(
-                            requireActivity().findViewById(android.R.id.content),
-                            "카메라 접근 권한 거부됨",
-                            Snackbar.LENGTH_SHORT
-                        ).show()
-                        return
+        requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+            when(it) {
+                true -> {
+                    openCamera()
+                    lifecycleScope.launchWhenResumed {
+                        galleryViewModel.cameraImage.collect { image ->
+                            if(image.imgUri != Uri.EMPTY) {
+                                mImageClickListener.onImageClick(galleryViewModel.cameraImage.value)
+                                dialog?.dismiss()
+                            }
+                        }
                     }
                 }
-
-                //카메라 호출 메소드
-                openCamera()
+                false -> {
+                    Snackbar.make(
+                        binding.root,
+                        "카메라 접근 권한 거부됨",
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                }
             }
         }
-    }
-
-    private fun getImageUri(context: Context, inImage: Bitmap): Uri? {
-        val bytes = ByteArrayOutputStream()
-        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
-        val path = MediaStore.Images.Media.insertImage(
-            context.contentResolver,
-            inImage,
-            "Movie-${System.currentTimeMillis()}",
-            null
-        )
-        return Uri.parse(path)
     }
 
     private companion object {
         private const val TAG = "GalleryDialog"
-        private const val PERMISSIONS_CAMERA_CODE = 101
-        private const val FLAG_CAMERA_CODE = 98
-        private val REQUIRED_PERMISSIONS = arrayOf<String>(
-            Manifest.permission.CAMERA,
-        )
+        private const val REQUIRED_PERMISSIONS = Manifest.permission.CAMERA
     }
 
 }

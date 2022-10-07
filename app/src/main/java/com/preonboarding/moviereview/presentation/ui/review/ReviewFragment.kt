@@ -5,6 +5,8 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -25,11 +27,13 @@ import com.preonboarding.moviereview.presentation.common.extension.navigateUp
 import com.preonboarding.moviereview.presentation.ui.custom.dialog.gallery.GalleryDialogFragment
 
 class ReviewFragment : BaseFragment<FragmentReviewBinding>(R.layout.fragment_review) {
-    private val reviewViewModel: ReviewViewModel by viewModels()
+    private lateinit var requestPermissionLauncher: ActivityResultLauncher<Array<String>>
     private lateinit var database: DatabaseReference
     private lateinit var fbStorage: FirebaseStorage
     private var selectedUri: Uri? = null
     private val args by navArgs<ReviewFragmentArgs>()
+
+    private val reviewViewModel: ReviewViewModel by viewModels()
 
     private fun showGalleryDialog() {
         val galleryDialogFragment = GalleryDialogFragment()
@@ -43,6 +47,11 @@ class ReviewFragment : BaseFragment<FragmentReviewBinding>(R.layout.fragment_rev
                 reviewViewModel.reviewImageUri.value = image.imgUri
             }
         })
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        initLauncher()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -72,13 +81,13 @@ class ReviewFragment : BaseFragment<FragmentReviewBinding>(R.layout.fragment_rev
 
                 if (nickname == "" || content == "" || password == "") {
                     Snackbar.make(
-                        requireActivity().findViewById(android.R.id.content),
+                        binding.root,
                         getString(R.string.review_null_snack_bar_text),
                         Snackbar.LENGTH_SHORT)
                         .show()
                 } else if (password != check) {
                     Snackbar.make(
-                        requireActivity().findViewById(android.R.id.content),
+                        binding.root,
                         getString(R.string.review_password_snack_bar_text),
                         Snackbar.LENGTH_SHORT)
                         .show()
@@ -104,15 +113,7 @@ class ReviewFragment : BaseFragment<FragmentReviewBinding>(R.layout.fragment_rev
             }
         }
         binding.ivReviewImage.setOnClickListener {
-            if (requestGalleryPermission()) {
-                showGalleryDialog()
-            } else {
-                Snackbar.make(
-                    requireActivity().findViewById(android.R.id.content),
-                    "갤러리 접근 권한 거부됨",
-                    Snackbar.LENGTH_SHORT
-                ).show()
-            }
+            requestPermissionLauncher.launch(REQUIRED_PERMISSIONS)
         }
     }
 
@@ -190,63 +191,26 @@ class ReviewFragment : BaseFragment<FragmentReviewBinding>(R.layout.fragment_rev
         }
     }
 
-    private fun requestGalleryPermission(): Boolean {
-        for (permission in REQUIRED_PERMISSIONS) {
-            if (ContextCompat.checkSelfPermission(requireContext(), permission)
-                != PackageManager.PERMISSION_GRANTED
-            ) {
-                if (ActivityCompat.shouldShowRequestPermissionRationale(
-                        requireActivity(),
-                        permission)
-                ) {
-
-                    //설명 필요 (사용자가 요청을 거부한 적이 있음)
-                    ActivityCompat.requestPermissions(requireActivity(),
-                        REQUIRED_PERMISSIONS,
-                        PERMISSIONS_GALLERY_CODE
-                    )
-                } else {
-                    //설명 필요하지 않음
-                    ActivityCompat.requestPermissions(requireActivity(),
-                        REQUIRED_PERMISSIONS,
-                        PERMISSIONS_GALLERY_CODE
-                    )
+    private fun initLauncher() {
+        requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
+            var flag = true
+            for (entry in it.entries) {
+                if (!entry.value) {
+                    Snackbar.make(
+                        binding.root,
+                        "갤러리 접근 권한 거부됨",
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                    flag = false
                 }
-                return false
             }
-        }
 
-        return true
-    }
-
-    // 사용자가 권한 요청 시 호출되는 메소드
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray,
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        when (requestCode) {
-            PERMISSIONS_GALLERY_CODE -> {
-                for (grant in grantResults) {
-                    if (grant != PackageManager.PERMISSION_GRANTED) {
-                        Snackbar.make(
-                            requireActivity().findViewById(android.R.id.content),
-                            "갤러리 접근 권한 거부됨",
-                            Snackbar.LENGTH_SHORT
-                        ).show()
-                        return
-                    }
-                }
-
-                showGalleryDialog()
-            }
+            if (flag) showGalleryDialog()
         }
     }
 
     companion object {
         private const val TAG = "ReviewFragment"
-        private const val PERMISSIONS_GALLERY_CODE = 100
         private val REQUIRED_PERMISSIONS = arrayOf<String>(
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
