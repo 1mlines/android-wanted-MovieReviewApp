@@ -10,11 +10,14 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.database.*
 import com.preonboarding.moviereview.R
+import com.preonboarding.moviereview.data.remote.model.ReviewInfo
 import com.preonboarding.moviereview.databinding.FragmentDetailBinding
 import com.preonboarding.moviereview.presentation.common.base.BaseFragment
 import com.preonboarding.moviereview.presentation.common.const.FIRE_BASE_URL
 import com.preonboarding.moviereview.presentation.common.extension.navigate
 import com.preonboarding.moviereview.presentation.common.extension.navigateUp
+import com.preonboarding.moviereview.presentation.common.extension.navigateWithArgs
+import com.preonboarding.moviereview.presentation.ui.home.HomeFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -24,6 +27,8 @@ class DetailFragment: BaseFragment<FragmentDetailBinding>(R.layout.fragment_deta
     private val detailViewModel : DetailViewModel by viewModels()
     private lateinit var database: DatabaseReference
     val args by navArgs<DetailFragmentArgs>()
+    lateinit var postUrl : String
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -44,6 +49,7 @@ class DetailFragment: BaseFragment<FragmentDetailBinding>(R.layout.fragment_deta
                         is MoviePosterStatus.Failure -> {}
                         is MoviePosterStatus.Success -> {
                             binding.moviePoster = state.data
+                            postUrl=state.data
                         }
                         is MoviePosterStatus.Initial -> {}
                     }
@@ -69,14 +75,14 @@ class DetailFragment: BaseFragment<FragmentDetailBinding>(R.layout.fragment_deta
         val ref = database.database.getReferenceFromUrl(FIRE_BASE_URL)
         // child 안에 무비 id 가져와야한다.
 
-        ref.child("1").addValueEventListener(
+        ref.child(args.homeData.movieCd).addValueEventListener(
             object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     if(dataSnapshot.value==null){//리뷰가 없을때
 
                     }
                     else{                        //리뷰가 있을때
-                        val review = detailViewModel.searchReviewMovieList(1)//리뷰 가져오기
+                        val review = detailViewModel.searchReviewMovieList(args.homeData.movieCd.toInt())//리뷰 가져오기
                         //TODO: 가져오는 객체가 map이므로 iterator로 뽑아서 -> List에 넣고 -> RecyclerView
 //                        HashMap<String, String>().forEach {
 //                        }
@@ -92,7 +98,16 @@ class DetailFragment: BaseFragment<FragmentDetailBinding>(R.layout.fragment_deta
     }
 
     private fun goToReview() {
-        navigate(action = R.id.action_detail_to_review)
+        val reviewArgs = ReviewInfo(
+            movieCd = args.homeData.movieCd,
+            movieNm = args.homeData.movieNm,
+            postUrl = postUrl,
+            rank = args.homeData.rank,
+            rankInten = args.homeData.rankInten,
+            rankOldAndNew = args.homeData.rankOldAndNew
+        )
+        navigateWithArgs(DetailFragmentDirections.actionDetailToReview(reviewArgs))
+        //navigate(action = R.id.action_detail_to_review)
     }
 
     private fun setUpViewPager() {
