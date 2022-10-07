@@ -97,7 +97,6 @@ class ReviewDialog :
                 if ((binding.etReviewNickname.text.isNotBlank()) and (binding.etReviewPassword.text.length == 6)) {
                     val nowDate =
                         SimpleDateFormat("yyyy-MM-dd").format(System.currentTimeMillis()).toString()
-
                     reviewViewModel.reviewBuffer = Review(
                         etReviewNickname.text.toString(),
                         etReviewPassword.text.toString(),

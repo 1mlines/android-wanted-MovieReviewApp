@@ -104,6 +104,7 @@
                         app:layout_constraintTop_toBottomOf="@id/rating_bar" />
 
                     <EditText
+                        android:inputType="numberPassword"
                         android:lines="1"
                         android:textSize="12sp"
                         android:id="@+id/et_review_password"

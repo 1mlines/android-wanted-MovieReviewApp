@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide
 import com.preonboarding.domain.model.Review
 import com.preonboarding.presentation.R
 import com.preonboarding.presentation.databinding.ItemReviewBinding
+import timber.log.Timber
 
 //리뷰 아이템
 
@@ -17,11 +18,11 @@ import com.preonboarding.presentation.databinding.ItemReviewBinding
 class DetailReviewAdapter() : ListAdapter<Review, DetailReviewAdapter.ReviewViewHolder>(diffUtil) {
 
     interface DeleteItemClick {
-        fun onClick(view: View, position: Int)
+        fun onClick(view: View, position: Int,pw:String)
     }
 
     interface EditItemClick {
-        fun onClick(view: View, position: Int)
+        fun onClick(view: View, position: Int,nickname:String,pw:String)
     }
 
     var deleteItemClick: DeleteItemClick? = null
@@ -32,20 +33,27 @@ class DetailReviewAdapter() : ListAdapter<Review, DetailReviewAdapter.ReviewView
     inner class ReviewViewHolder(private val binding: ItemReviewBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(items: Review) {
-            binding.ivReviewImg
             binding.tvNickName.text = items.nickname
             binding.tvContent.text = items.content
             binding.rating.rating = items.rating
-            Glide.with(binding.ivEdit.context).load(items.imageUri).error(R.drawable.no_img)
+            Glide.with(binding.ivReviewImg.context).load(items.imageUri).error(R.drawable.no_img)
                 .into(binding.ivReviewImg)
             binding.tvReviewDate.text = items.date
 
             binding.ivEdit.setOnClickListener {
-                editItemClick?.onClick(it,adapterPosition)
+                var nickname = items.nickname
+                var pw = items.password
+                editItemClick?.onClick(it,adapterPosition,nickname,pw)
             }
             binding.ivDelete.setOnClickListener {
-                deleteItemClick?.onClick(it,adapterPosition)
+                var pw = items.password
+                deleteItemClick?.onClick(it,adapterPosition,pw)
+
             }
+
+            //TODO 수정시 validation 확인
+            binding.ivEdit.invalidate()
+            binding.ivEdit.visibility = View.INVISIBLE
 
         }
     }

@@ -25,6 +25,7 @@ import com.preonboarding.presentation.view.adapter.DetailReviewAdapter
 import com.preonboarding.presentation.view.review.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @AndroidEntryPoint
 class DetailFragment :
@@ -125,18 +126,20 @@ class DetailFragment :
             val actors = "출연 배우 : " + movieData.peopleNm.joinToString(",")
             tvActors.text = actors
 
-            //리뷰 수정
+            //리뷰 수정시 validation
             reviewAdapter.editItemClick = object : DetailReviewAdapter.EditItemClick {
-                override fun onClick(view: View, position: Int) {
+                override fun onClick(view: View, position: Int,nickname: String,pw:String) {
                     detailViewModel.editState = EditState(true, true)
                     showValidationDialog(MODE.MODIFY)
+
                 }
             }
             //리뷰 삭제
-            //TODO 리뷰 삭제시 pw 설정을 해주어야합니다.
             reviewAdapter.deleteItemClick = object : DetailReviewAdapter.DeleteItemClick {
-                override fun onClick(view: View, position: Int) {
-                    showValidationDialog(MODE.DELETE)
+                override fun onClick(view: View, position: Int,pw:String) {
+                    detailViewModel.passwd = pw
+                    Timber.e(pw)
+                        showValidationDialog(MODE.DELETE)
                 }
             }
             //리뷰 추가

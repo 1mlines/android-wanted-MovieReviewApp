@@ -63,6 +63,7 @@ class FirebaseRepositoryImpl @Inject constructor(
     }.flowOn(dispatcherIO)
 
     override suspend fun deleteReview(title: String, review: Review) {
+
         fbRDB.getReference(title).child(review.nickname).removeValue()
             .addOnFailureListener {
                 throw it
