@@ -291,6 +291,12 @@ private fun getBoxOfficeList(key: String, date: String, code: String) {
 // In LazyColumn == RecyclerView
 stickyHeader {}
 if (data.isNotEmpty()) {
+ 	itemsIndexed(
+           items = data,
+           key = { _, boxOffice ->
+                    boxOffice.ranking
+           }
+) { index, boxOffice ->
     when (index) {
         data.lastIndex -> {
          //BoxOfficeItem Composable
