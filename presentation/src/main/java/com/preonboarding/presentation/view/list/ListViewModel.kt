@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.preonboarding.domain.model.Movie
-import com.preonboarding.domain.model.Result
 import com.preonboarding.domain.usecase.GetBoxOfficeListUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -17,24 +16,17 @@ class ListViewModel @Inject constructor(
     private val getBoxOfficeListUseCase: GetBoxOfficeListUseCase
 ) : ViewModel() {
 
+    private val _isLoading: MutableLiveData<Boolean> = MutableLiveData()
+    val isLoading: LiveData<Boolean> get() = _isLoading
+
     private val _movies: MutableLiveData<List<Movie>> = MutableLiveData()
     val movies: LiveData<List<Movie>> get() = _movies
 
     fun fetchMovieList() {
+        _isLoading.postValue(true)
         viewModelScope.launch {
-            when (val result = getBoxOfficeListUseCase.invoke()) {
-                is Result.Success -> {
-                    val list = result.data
-
-                    Timber.w("ViewModel Success!")
-                    Timber.w("$list")
-
-                    _movies.postValue(list)
-                }
-                is Result.Error -> {
-                    Timber.w("Error")
-                }
-            }
+            _movies.postValue(getBoxOfficeListUseCase.invoke())
+            _isLoading.postValue(false)
         }
     }
 }
