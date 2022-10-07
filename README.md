@@ -529,13 +529,9 @@ push()를 통해 시간에 따른 임이의 string값을 인덱스로 준다.
 ### 5. 영화 검색, 피그마 UI 디자인 - 이재성
 * 영화 제목 query에 대한 Instant Search를 위해 Flow debounce API 활용
 * 검색 결과 페이징을 통한 무한 스크롤 구현
+* 영화 검색 결과 상세정보 연동 작업 (순위를 띄울 수 없기 때문에 별도 상세 페이지 추가)
 
 <br>
-
-* TODO
-  * 검색 결과 UiState 처리 
-  * 영화 검색 결과 상세정보 연동 작업 (순위를 띄울 수 없기 때문에 별도 상세 페이지 추가 예정)
-  * UI 수정 작업
   
 #### Instant Search
 ``` kotlin
@@ -732,6 +728,7 @@ class SearchViewModel @Inject constructor(
 
 https://user-images.githubusercontent.com/51078673/194398262-33ad7e2e-2635-4287-8a7f-b451a24fd510.mov
 
+https://user-images.githubusercontent.com/51078673/194581214-61dc1744-35f8-4114-9688-f0b1edac9859.mov
 
 ---
 
