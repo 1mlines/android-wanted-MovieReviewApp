@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="actor"
+            type="com.preonboarding.moviereview.domain.model.MovieInfo.Actors" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="8dp">
+
+        <TextView
+            android:id="@+id/tv_actor_name"
+            style="@style/Body14"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{actor.actor}"
+            app:layout_constraintEnd_toStartOf="@id/tv_actor_role"
+            app:layout_constraintHorizontal_weight="2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="ㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹ" />
+
+        <TextView
+            android:id="@+id/tv_actor_role"
+            style="@style/Body14.Grey"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{actor.castRole}"
+            app:layout_constraintBottom_toBottomOf="@id/tv_actor_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/tv_actor_name"
+            app:layout_constraintTop_toTopOf="@id/tv_actor_name"
+            tools:text="asdfasdafsd" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
