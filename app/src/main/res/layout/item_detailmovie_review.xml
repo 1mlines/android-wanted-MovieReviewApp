@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="review"
+            type="com.preonboarding.moviereview.domain.model.ReviewVo" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/background_detailmovie_gray700"
+        android:paddingStart="10dp"
+        android:paddingTop="5dp"
+        android:paddingEnd="10dp"
+        android:paddingBottom="5dp">
+
+        <TextView
+            android:id="@+id/textview_review_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{review.name}"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="한**" />
+
+        <TextView
+            android:id="@+id/textview_review_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toTopOf="@+id/textview_review_content"
+            app:layout_constraintEnd_toStartOf="@+id/ratingbar_review"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textview_review_name"
+            app:setTime="@{review}"
+            tools:text="2022-10-10" />
+
+        <RatingBar
+            android:id="@+id/ratingbar_review"
+            style="@style/Widget.AppCompat.RatingBar.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:max="5"
+            android:progressBackgroundTint="@color/white"
+            android:progressTint="@color/orange700"
+            android:rating="@{review.star}"
+            app:layout_constraintBottom_toTopOf="@+id/textview_review_content"
+            app:layout_constraintStart_toEndOf="@+id/textview_review_date"
+            app:layout_constraintTop_toBottomOf="@+id/textview_review_name"
+            tools:rating="4" />
+
+        <TextView
+            android:id="@+id/textview_review_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="@{review.contents}"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ratingbar_review"
+            tools:text="리뷰 내용 입니다." />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

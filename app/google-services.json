@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "237447895901",
+    "project_id": "moviereview-f5519",
+    "storage_bucket": "moviereview-f5519.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:237447895901:android:52ff468acf3da6c417a6b4",
+        "android_client_info": {
+          "package_name": "com.preonboarding.moviereview"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "237447895901-k1us6s0h80pephd6jcnhsg5146p6seae.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.preonboarding.moviereview",
+            "certificate_hash": "f3312529142001e155b0b3d1ed1e6080cb479cf2"
+          }
+        },
+        {
+          "client_id": "237447895901-l677jucl1uf2e7vrke45qq1a9unibj3i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDfK4MKLSwHX4R1_Xc5zpvDpU3iMfysF40"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "237447895901-l677jucl1uf2e7vrke45qq1a9unibj3i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
