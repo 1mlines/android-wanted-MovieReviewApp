@@ -1,8 +1,10 @@
 package com.preonboarding.moviereview.presentation.ui.home
 
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -18,6 +20,8 @@ import com.preonboarding.moviereview.presentation.common.extension.navigateWithA
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 
 @AndroidEntryPoint
@@ -33,16 +37,25 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         )
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         initListener()
         initRecyclerView()
         observeGetMovieList()
+        getDailyMovie()
+
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun getDailyMovie() {
+        val date: LocalDate = LocalDate.now().minusDays(1)
+        val dateFormat = date.format(DateTimeFormatter.ofPattern("yyyyMMdd"))
 
         homeViewModel.getDailyMovie(
             key = KOBIS_API_KEY,
-            targetDt = "20210714"
+            targetDt = dateFormat
         )
     }
 
