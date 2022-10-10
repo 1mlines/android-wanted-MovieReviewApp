@@ -50,13 +50,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun getDailyMovie() {
-        var date: LocalDate = LocalDate.now().minusDays(1)
-        var Strnow = date.format(DateTimeFormatter.ofPattern("yyyyMMdd"))
+        val date: LocalDate = LocalDate.now().minusDays(1)
+        val dateFormat = date.format(DateTimeFormatter.ofPattern("yyyyMMdd"))
 
         homeViewModel.getDailyMovie(
             key = KOBIS_API_KEY,
-            targetDt = Strnow
-            //"20221009"
+            targetDt = dateFormat
         )
     }
 
