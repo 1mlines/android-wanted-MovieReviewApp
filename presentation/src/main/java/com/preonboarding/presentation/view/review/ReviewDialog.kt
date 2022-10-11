@@ -26,7 +26,7 @@ import java.text.SimpleDateFormat
 class ReviewDialog :
     BaseDialogFragment<DialogReviewBinding>(R.layout.dialog_review) {
 
-    private lateinit var photoUri: Uri
+    private var photoUri: Uri = Uri.parse("")
     private val reviewViewModel: DetailViewModel by activityViewModels()
     private val filterActivityLauncher: ActivityResultLauncher<Intent> =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
@@ -102,7 +102,7 @@ class ReviewDialog :
                         etReviewPassword.text.toString(),
                         ratingBar.rating,
                         etReviewContent.text.toString(),
-                        if (photoUri.toString().isEmpty()){
+                        if (photoUri.toString().isEmpty()) {
                             ""
                         } else {
                             photoUri.toString()

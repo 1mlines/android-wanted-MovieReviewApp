@@ -17,7 +17,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
-import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.protocol.HTTP
+import com.google.android.material.snackbar.Snackbar
 import com.preonboarding.domain.model.Movie
 import com.preonboarding.domain.model.Review
 import com.preonboarding.presentation.R
@@ -34,7 +34,7 @@ class DetailFragment :
     private lateinit var phoneUri: Uri
     val resultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            if (it.data != null){
+            if (it.data != null) {
                 phoneUri = it.data?.data!!
                 tomessage(phoneUri)
             }
@@ -60,6 +60,7 @@ class DetailFragment :
         detailViewModel.title = currentMovieName
         actors = movieData.peopleNm
         reviewAdapter = DetailReviewAdapter()
+
 
         requestPermission()
         initView()
@@ -110,10 +111,9 @@ class DetailFragment :
     private fun initView() {
 
         binding.apply {
-            val posterUrl =
-                "https://m.media-amazon.com/images/M/MV5BODRmZDVmNzUtZDA4ZC00NjhkLWI2M2UtN2M0ZDIzNDcxYThjL2ltYWdlXkEyXkFqcGdeQXVyNTk0MzMzODA@._V1_SX300.jpg"
-            //TODO 포스터 이미지 수정
-
+            if (movieData.posterUrl.isEmpty()){
+                Snackbar.make(binding.root,"포스터 이미지가 없습니다",Snackbar.LENGTH_SHORT).show()
+            }
             Glide.with(ivPoster.context).load(movieData.posterUrl.toUri()).error(R.drawable.no_img)
                 .into(ivPoster)
             tvTitle.text = movieData.name
@@ -133,9 +133,9 @@ class DetailFragment :
                 override fun onClick(view: View, position: Int, nickname: String, pw: String) {
                     detailViewModel.editState = EditState(true, true)
                     showValidationDialog(MODE.MODIFY)
-
                 }
             }
+
             //리뷰 삭제
             reviewAdapter.deleteItemClick = object : DetailReviewAdapter.DeleteItemClick {
                 override fun onClick(view: View, position: Int, pw: String) {
@@ -144,6 +144,17 @@ class DetailFragment :
                     showValidationDialog(MODE.DELETE)
                 }
             }
+
+            //리뷰 자세히 보기
+            reviewAdapter.itemClick = object : DetailReviewAdapter.ItemClick {
+                override fun onClick(view: View, position: Int, review: Review) {
+                    detailViewModel.getSelectedReviewData(review)
+                    detailViewModel.editState = EditState(false, false)
+                    detailViewModel.changeUiState(ReviewUiState.Reading)
+                }
+            }
+
+
             //리뷰 추가
             btnAddReview.setOnClickListener {
                 detailViewModel.editState = EditState(true, false)
