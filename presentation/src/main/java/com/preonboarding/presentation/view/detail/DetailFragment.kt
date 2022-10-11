@@ -17,7 +17,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
-import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.protocol.HTTP
 import com.preonboarding.domain.model.Movie
 import com.preonboarding.domain.model.Review
 import com.preonboarding.presentation.R
@@ -34,7 +33,7 @@ class DetailFragment :
     private lateinit var phoneUri: Uri
     val resultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            if (it.data != null){
+            if (it.data != null) {
                 phoneUri = it.data?.data!!
                 tomessage(phoneUri)
             }
