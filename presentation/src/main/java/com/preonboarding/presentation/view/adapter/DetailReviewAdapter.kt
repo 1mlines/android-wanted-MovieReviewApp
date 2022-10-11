@@ -24,8 +24,13 @@ class DetailReviewAdapter() : ListAdapter<Review, DetailReviewAdapter.ReviewView
         fun onClick(view: View, position: Int, nickname: String, pw: String)
     }
 
+    interface ItemClick {
+        fun onClick(view: View, position: Int, review: Review)
+    }
+
     var deleteItemClick: DeleteItemClick? = null
     var editItemClick: EditItemClick? = null
+    var itemClick: ItemClick? = null
 
 
     inner class ReviewViewHolder(private val binding: ItemReviewBinding) :
@@ -39,14 +44,18 @@ class DetailReviewAdapter() : ListAdapter<Review, DetailReviewAdapter.ReviewView
             binding.tvReviewDate.text = items.date
 
             binding.ivEdit.setOnClickListener {
-                var nickname = items.nickname
-                var pw = items.password
+                val nickname = items.nickname
+                val pw = items.password
                 editItemClick?.onClick(it, adapterPosition, nickname, pw)
             }
             binding.ivDelete.setOnClickListener {
-                var pw = items.password
+                val pw = items.password
                 deleteItemClick?.onClick(it, adapterPosition, pw)
 
+            }
+            binding.tvNickName.setOnClickListener {
+                val review = items
+                itemClick?.onClick(it, adapterPosition, items)
             }
 
             //TODO 수정시 validation 확인

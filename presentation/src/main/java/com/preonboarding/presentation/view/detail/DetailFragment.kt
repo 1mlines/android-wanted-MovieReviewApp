@@ -60,6 +60,7 @@ class DetailFragment :
         actors = movieData.peopleNm
         reviewAdapter = DetailReviewAdapter()
 
+
         requestPermission()
         initView()
         collectFlow()
@@ -109,10 +110,6 @@ class DetailFragment :
     private fun initView() {
 
         binding.apply {
-            val posterUrl =
-                "https://m.media-amazon.com/images/M/MV5BODRmZDVmNzUtZDA4ZC00NjhkLWI2M2UtN2M0ZDIzNDcxYThjL2ltYWdlXkEyXkFqcGdeQXVyNTk0MzMzODA@._V1_SX300.jpg"
-            //TODO 포스터 이미지 수정
-
             Glide.with(ivPoster.context).load(movieData.posterUrl.toUri()).error(R.drawable.no_img)
                 .into(ivPoster)
             tvTitle.text = movieData.name
@@ -132,9 +129,9 @@ class DetailFragment :
                 override fun onClick(view: View, position: Int, nickname: String, pw: String) {
                     detailViewModel.editState = EditState(true, true)
                     showValidationDialog(MODE.MODIFY)
-
                 }
             }
+
             //리뷰 삭제
             reviewAdapter.deleteItemClick = object : DetailReviewAdapter.DeleteItemClick {
                 override fun onClick(view: View, position: Int, pw: String) {
@@ -143,6 +140,17 @@ class DetailFragment :
                     showValidationDialog(MODE.DELETE)
                 }
             }
+
+            //리뷰 자세히 보기
+            reviewAdapter.itemClick = object : DetailReviewAdapter.ItemClick {
+                override fun onClick(view: View, position: Int, review: Review) {
+                    detailViewModel.getSelectedReviewData(review)
+                    detailViewModel.editState = EditState(false, false)
+                    detailViewModel.changeUiState(ReviewUiState.Reading)
+                }
+            }
+
+
             //리뷰 추가
             btnAddReview.setOnClickListener {
                 detailViewModel.editState = EditState(true, false)

@@ -9,6 +9,7 @@ import com.preonboarding.presentation.common.base.BaseFragment
 import com.preonboarding.presentation.databinding.FragmentListBinding
 import com.preonboarding.presentation.view.adapter.MovieAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class ListFragment : BaseFragment<FragmentListBinding>(R.layout.fragment_list) {

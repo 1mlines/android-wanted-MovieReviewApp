@@ -104,9 +104,6 @@
                         app:layout_constraintTop_toBottomOf="@id/rating_bar" />
 
                     <EditText
-                        android:inputType="numberPassword"
-                        android:lines="1"
-                        android:textSize="12sp"
                         android:id="@+id/et_review_password"
                         bindEditableMode="@{viewModel.editState}"
                         bindString="@{viewModel.selectedReview.password}"
@@ -116,9 +113,12 @@
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="15dp"
                         android:hint="@string/password"
+                        android:inputType="numberPassword"
+                        android:lines="1"
                         android:maxLength="6"
                         android:textColor="@color/black"
                         android:textColorHint="@color/gray"
+                        android:textSize="12sp"
                         app:layout_constraintBottom_toBottomOf="@id/et_review_nickname"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/et_review_nickname"

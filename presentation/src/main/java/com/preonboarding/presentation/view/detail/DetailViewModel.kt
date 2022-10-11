@@ -16,7 +16,6 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-//TODO 영화제목 받아와야함
 @HiltViewModel
 class DetailViewModel @Inject constructor(
     private val uploadReviewUseCase: UploadReviewUseCase,
@@ -55,6 +54,12 @@ class DetailViewModel @Inject constructor(
             }.onFailure {
                 _reviewUiState.emit(ReviewUiState.Failure(MODE.REVIEW))
             }
+        }
+    }
+
+    fun getSelectedReviewData(review: Review){
+        viewModelScope.launch {
+            _selectedReview.emit(review)
         }
     }
 
