@@ -5,6 +5,7 @@ import com.google.firebase.Timestamp
 data class Reviews(
     val reviews: List<ReviewVo>
 )
+
 data class ReviewVo(
     val contents: String = "",
     val imageUrl: String = "",
