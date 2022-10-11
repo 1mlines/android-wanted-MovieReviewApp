@@ -17,6 +17,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
 import com.preonboarding.domain.model.Movie
 import com.preonboarding.domain.model.Review
 import com.preonboarding.presentation.R
@@ -110,6 +111,9 @@ class DetailFragment :
     private fun initView() {
 
         binding.apply {
+            if (movieData.posterUrl.isEmpty()){
+                Snackbar.make(binding.root,"포스터 이미지가 없습니다",Snackbar.LENGTH_SHORT).show()
+            }
             Glide.with(ivPoster.context).load(movieData.posterUrl.toUri()).error(R.drawable.no_img)
                 .into(ivPoster)
             tvTitle.text = movieData.name
