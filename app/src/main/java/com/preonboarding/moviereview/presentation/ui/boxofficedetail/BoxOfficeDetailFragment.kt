@@ -94,27 +94,23 @@ class BoxOfficeDetailFragment :
 
                     }
                     else{                        //리뷰가 있을때
-                        viewLifecycleOwner.lifecycleScope.launch {
-                            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                                boxOfficeDetailViewModel.reviewList.collectLatest { state ->
-                                    when (state) {
-                                        is ReviewStatus.Loading -> {
-
-                                        }
-                                        is ReviewStatus.Failure -> {
-
-                                        }
-                                        is ReviewStatus.Success -> {
-                                            val data = state.data//
-
-                                        }
-                                        is ReviewStatus.Initial -> {
-
-                                        }
-                                    }
-                                }
-                            }
-                        }
+//                        viewLifecycleOwner.lifecycleScope.launch {
+//                            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+//                                boxOfficeDetailViewModel.reviewList.collectLatest { state ->
+//                                    when (state) {
+//                                        is ReviewStatus.Loading -> {
+//                                        }
+//                                        is ReviewStatus.Failure -> {
+//                                        }
+//                                        is ReviewStatus.Success -> {
+//                                            val data = state.data//
+//                                        }
+//                                        is ReviewStatus.Initial -> {
+//                                        }
+//                                    }
+//                                }
+//                            }
+//                        }
 
 
                     }
