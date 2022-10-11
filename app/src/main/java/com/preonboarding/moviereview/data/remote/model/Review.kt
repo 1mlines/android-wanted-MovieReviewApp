@@ -3,6 +3,7 @@ package com.preonboarding.moviereview.data.remote.model
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
+import javax.annotation.Nullable
 
 @Serializable
 data class Review(
@@ -19,6 +20,6 @@ data class ReviewInfo(
     val movieNm: String,
     val rank: String,
     val rankOldAndNew: String,
-    val postUrl: String,
+    @Nullable val postUrl: String?,
     val rankInten: String,
 ) : Parcelable
