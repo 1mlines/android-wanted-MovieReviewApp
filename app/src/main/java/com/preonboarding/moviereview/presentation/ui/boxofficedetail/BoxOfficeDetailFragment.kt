@@ -2,7 +2,6 @@ package com.preonboarding.moviereview.presentation.ui.boxofficedetail
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -19,7 +18,6 @@ import com.preonboarding.moviereview.presentation.common.const.FIRE_BASE_URL
 import com.preonboarding.moviereview.presentation.common.extension.navigateUp
 import com.preonboarding.moviereview.presentation.common.extension.navigateWithArgs
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 
@@ -30,7 +28,7 @@ class BoxOfficeDetailFragment :
     private lateinit var database: DatabaseReference
 
     private val args by navArgs<BoxOfficeDetailFragmentArgs>()
-    lateinit var postUrl: String
+    var postUrl: String? = null
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
