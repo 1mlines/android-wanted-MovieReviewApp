@@ -94,8 +94,9 @@ class ReviewFragment : BaseFragment<FragmentReviewBinding>(R.layout.fragment_rev
                         .show()
                 } else {
                     // imageUri를 뷰모델에서 관리중이니 String으로 변환해서 저장해주세요.
-                    var selectedUri = reviewViewModel.reviewImageUri.value
                     showProgress()
+                    val selectedUri = reviewViewModel.reviewImageUri.value
+
                     if (selectedUri != Uri.EMPTY) {
                         val photoUri = selectedUri ?: return@setOnClickListener
                         uploadPhoto(photoUri,
@@ -108,6 +109,7 @@ class ReviewFragment : BaseFragment<FragmentReviewBinding>(R.layout.fragment_rev
                     } else {
                         // 이미지가 없는 경우 이미지 제외하고 등록
                         uploadArticle(nickname, content, password.toInt(), "", rate)
+                        hideProgress()
                     }
 
                 }
