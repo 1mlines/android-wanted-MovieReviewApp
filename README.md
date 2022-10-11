@@ -977,11 +977,11 @@ Entity(
   data=Data(id=12918943, list=null)
 )
 
-// Serialization
+// Moshi
 com.squareup.moshi.JsonDataException:
 Non-null value 'list' was null at $.data.list
 
-// Gson
+// Serialization
 Entity(
   status="success",
   data=Data(id=12918943, list=[])

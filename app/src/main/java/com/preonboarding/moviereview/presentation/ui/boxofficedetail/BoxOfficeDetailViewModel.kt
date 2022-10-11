@@ -12,7 +12,6 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -35,6 +34,12 @@ class BoxOfficeDetailViewModel @Inject constructor(
     val moviePoster: StateFlow<MoviePosterStatus>
         get() = _moviePoster
 
+    private val _reviewList: MutableStateFlow<ReviewStatus> =
+        MutableStateFlow(ReviewStatus.Initial)
+    val reviewList: StateFlow<ReviewStatus>
+        get() = _reviewList
+
+
 
     fun setBasicMovieInfo(movie: BoxOfficeMovie) {
         _basicInfo.value = MovieBasicStatus.Main(movie)
@@ -43,12 +48,14 @@ class BoxOfficeDetailViewModel @Inject constructor(
 
     fun searchReviewMovieList(movieId: Int) {
         viewModelScope.launch {
+            _reviewList.value = ReviewStatus.Loading
             remoteRepository.searchReviewInfo(
                 movieId = movieId
-            )
-                .collect {
-                    Timber.tag("ReviewModel").e(it.toString())
-                }
+            ).catch { e ->
+                _reviewList.value = ReviewStatus.Failure(e)
+            }.collect {
+                _reviewList.value = ReviewStatus.Success(it.values.toList())
+            }
         }
     }
 

@@ -94,6 +94,29 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 tools:text="New"/>
 
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="3dp"
+                android:src="@drawable/ic_polygon_green_12"
+                android:visibility="@{ReviewMovieInfo.rankInten.length == 1  ? View.VISIBLE : View.INVISIBLE}"
+                app:layout_constraintEnd_toStartOf="@id/tv_rankInten_review"
+                app:layout_constraintTop_toTopOf="@id/tv_rankInten_review"
+                />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="3dp"
+                android:src="@drawable/ic_polygon_red_12"
+                android:visibility="@{ReviewMovieInfo.rankInten.length > 1  ? View.VISIBLE : View.INVISIBLE}"
+                app:layout_constraintEnd_toStartOf="@id/tv_rankInten_review"
+                app:layout_constraintTop_toTopOf="@id/tv_rankInten_review"
+                />
+
             <TextView
                 android:id="@+id/tv_rankInten_review"
                 android:layout_width="wrap_content"
