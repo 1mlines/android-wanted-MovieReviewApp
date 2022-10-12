@@ -28,7 +28,7 @@ class BoxOfficeDetailFragment :
     private lateinit var database: DatabaseReference
 
     private val args by navArgs<BoxOfficeDetailFragmentArgs>()
-    lateinit var postUrl: String
+    var postUrl: String? = null
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -90,12 +90,26 @@ class BoxOfficeDetailFragment :
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     if (dataSnapshot.value == null) {//리뷰가 없을때
 
-                    } else {                        //리뷰가 있을때
-                        val review =
-                            boxOfficeDetailViewModel.searchReviewMovieList(args.homeData.movieCd.toInt())//리뷰 가져오기
-                        //TODO: 가져오는 객체가 map이므로 iterator로 뽑아서 -> List에 넣고 -> RecyclerView
-//                        HashMap<String, String>().forEach {
+                    }
+                    else{                        //리뷰가 있을때
+//                        viewLifecycleOwner.lifecycleScope.launch {
+//                            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+//                                boxOfficeDetailViewModel.reviewList.collectLatest { state ->
+//                                    when (state) {
+//                                        is ReviewStatus.Loading -> {
+//                                        }
+//                                        is ReviewStatus.Failure -> {
+//                                        }
+//                                        is ReviewStatus.Success -> {
+//                                            val data = state.data//
+//                                        }
+//                                        is ReviewStatus.Initial -> {
+//                                        }
+//                                    }
+//                                }
+//                            }
 //                        }
+
 
                     }
                 }
@@ -132,9 +146,10 @@ class BoxOfficeDetailFragment :
         }.attach()
     }
 
-    private fun getMovieDetail() {
+    private fun getMovieDetail(){
         boxOfficeDetailViewModel.fetchMovieDetail(args.homeData.movieCd)
         boxOfficeDetailViewModel.setBasicMovieInfo(args.homeData)
+        boxOfficeDetailViewModel.searchReviewMovieList(args.homeData.movieCd.toInt())
         binding.dailyMovie = args.homeData
     }
 
